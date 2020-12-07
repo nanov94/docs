@@ -33,10 +33,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Install YFM
-        run: |
-          npm install -g @doc-tools/docs
-          yfm --version
+      #- name: Install YFM
+      #  run: |
+      #    npm install -g @doc-tools/docs
+      #    yfm --version
   
-      - name: Run YFM
-        run: npx yfm -i C:\docs -o C:\output
+      #- name: Run YFM
+      #  run: npx yfm -i C:\docs -o C:\output
