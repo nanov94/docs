@@ -26,9 +26,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        with:
+          path: './input'
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.2
+        with:
+          node-version: '14'
       
       - name: Install Dependencies
         run: npm install
@@ -37,4 +41,4 @@ jobs:
         run: npm install -g @doc-tools/docs
   
       - name: Run YFM
-        run: npx yfm -i ./ -o ../output
+        run: npx yfm -i ./input -o ../output
