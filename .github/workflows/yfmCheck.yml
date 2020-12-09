@@ -11,9 +11,7 @@ on:
     types: [edited, opened, reopened, ready_for_review, locked, unlocked, review_requested]
   pull_request_review:
     types: [edited, submitted, dismissed]
-    
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
