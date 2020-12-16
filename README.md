@@ -7,7 +7,7 @@ xc
 ## Про документацию
 
 Документация разработана с использованием [GitHub Flavored Markdown](https://github.github.com/gfm/) с некоторыми расширениями. [Подробнее про синтаксис](markdown-and-extensions.md).
-
+rtg
 
 ## Как предложить правки
 
