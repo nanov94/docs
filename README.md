@@ -3,7 +3,7 @@ qwqwadfv
 xc
 Добро пожаловать в репозиторий [документации](https://cloud.yandex.ru/docs) Яндекс.Облака.
 
-
+фывм
 ## Про документацию
 
 Документация разработана с использованием [GitHub Flavored Markdown](https://github.github.com/gfm/) с некоторыми расширениями. [Подробнее про синтаксис](markdown-and-extensions.md).
