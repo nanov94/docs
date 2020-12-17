@@ -1,4 +1,4 @@
-title: "Yandex Virtual Private Cloud"
+title: Yandex Virtual Private Cloud
 href: index.yaml
 items:
   - name: Getting started
@@ -25,10 +25,33 @@ items:
             href: operations/subnet-update.md
       - name: IP address
         items:
-          - name: Getting a static public IP address
+          - name: Reserving a static public IP address
+            href: operations/get-static-ip.md
+          - name: Making a dynamic public IP address static
             href: operations/set-static-ip.md
+          - name: Making a static public IP address dynamic
+            href: operations/set-dynamic-ip.md
           - name: Deleting a static public IP address
             href: operations/address-delete.md
+      - name: Static routes
+        stage: new
+        items:
+          - name: Creating a static route
+            href: operations/static-route-create.md
+          - name: Enabling NAT to the internet
+            href: operations/enable-nat.md
+      - name: Security groups
+        items:
+          - name: Create a security group
+            href: operations/security-group-create.md
+          - name: Update a security group and rules
+            href: operations/security-group-update.md
+          - name: Delete a security group
+            href: operations/security-group-delete.md
+      - name: DDoS Protection
+        items:
+          - name: Enable protection from DDoS attacks
+            href: operations/enable-ddos-protection.md
   - name: Concepts
     items:
       - name: Relationship between service resources
@@ -37,8 +60,18 @@ items:
         href: concepts/network.md
       - name: Cloud resource addresses
         href: concepts/address.md
+      - name: Static routes
+        href: concepts/static-routes.md
+      - name: Security groups
+        href: concepts/security-groups.md
+      - name: MTU and MSS
+        href: concepts/mtu-mss.md
       - name: Quotas and limits
         href: concepts/limits.md
+  - name: DDoS Protection
+    href: ddos-protection/index.md
+  - name: Cloud Interconnect
+    href: interconnect/index.md
   - name: Access management
     href: security/index.md
   - name: Pricing policy
@@ -47,14 +80,115 @@ items:
         href: pricing.md
       - name: Archive
         items:
-          - name: Policy before January 1, 2019
+          - name: 'Policy before January 1, 2019'
             href: pricing-archive/pricing-01012019.md
   - name: API reference
     items:
       - name: Authentication in the API
         href: api-ref/authentication.md
-    include:
-      repo: docs-api
-      path: en/vpc/toc.yaml
+      - name: gRPC
+        items:
+          - name: Overview
+            href: grpc/index.md
+          - name: AddressService
+            href: grpc/address_service.md
+          - name: NetworkService
+            href: grpc/network_service.md
+          - name: RouteTableService
+            href: grpc/route_table_service.md
+          - name: SecurityGroupService
+            href: grpc/security_group_service.md
+          - name: SubnetService
+            href: grpc/subnet_service.md
+          - name: OperationService
+            href: grpc/operation_service.md
+      - name: REST
+        items:
+          - name: Overview
+            href: api-ref/index.md
+          - name: Address
+            items:
+              - name: Overview
+                href: api-ref/Address/index.md
+              - name: create
+                href: api-ref/Address/create.md
+              - name: delete
+                href: api-ref/Address/delete.md
+              - name: get
+                href: api-ref/Address/get.md
+              - name: getByValue
+                href: api-ref/Address/getByValue.md
+              - name: list
+                href: api-ref/Address/list.md
+              - name: listOperations
+                href: api-ref/Address/listOperations.md
+              - name: update
+                href: api-ref/Address/update.md
+          - name: Network
+            items:
+              - name: Overview
+                href: api-ref/Network/index.md
+              - name: create
+                href: api-ref/Network/create.md
+              - name: delete
+                href: api-ref/Network/delete.md
+              - name: get
+                href: api-ref/Network/get.md
+              - name: list
+                href: api-ref/Network/list.md
+              - name: listOperations
+                href: api-ref/Network/listOperations.md
+              - name: listSubnets
+                href: api-ref/Network/listSubnets.md
+              - name: move
+                href: api-ref/Network/move.md
+              - name: update
+                href: api-ref/Network/update.md
+          - name: RouteTable
+            items:
+              - name: Overview
+                href: api-ref/RouteTable/index.md
+              - name: create
+                href: api-ref/RouteTable/create.md
+              - name: delete
+                href: api-ref/RouteTable/delete.md
+              - name: get
+                href: api-ref/RouteTable/get.md
+              - name: list
+                href: api-ref/RouteTable/list.md
+              - name: listOperations
+                href: api-ref/RouteTable/listOperations.md
+              - name: move
+                href: api-ref/RouteTable/move.md
+              - name: update
+                href: api-ref/RouteTable/update.md
+          - name: SecurityGroup
+            items:
+              - name: Overview
+                href: api-ref/SecurityGroup/index.md
+          - name: Subnet
+            items:
+              - name: Overview
+                href: api-ref/Subnet/index.md
+              - name: create
+                href: api-ref/Subnet/create.md
+              - name: delete
+                href: api-ref/Subnet/delete.md
+              - name: get
+                href: api-ref/Subnet/get.md
+              - name: list
+                href: api-ref/Subnet/list.md
+              - name: listOperations
+                href: api-ref/Subnet/listOperations.md
+              - name: move
+                href: api-ref/Subnet/move.md
+              - name: update
+                href: api-ref/Subnet/update.md
+          - name: Operation
+            items:
+              - name: Overview
+                href: api-ref/Operation/index.md
+              - name: get
+                href: api-ref/Operation/get.md
   - name: Questions and answers
     href: qa/index.md

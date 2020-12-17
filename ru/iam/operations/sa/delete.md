@@ -1,48 +1,47 @@
-# Удалить сервисный аккаунт
+# Удаление сервисного аккаунта
 
-> [!IMPORTANT]
->
-> Удаление [сервисного аккаунта](../../concepts/users/service-accounts.md) — неотменяемая операция. Восстановить удаленный сервисный аккаунт невозможно, только [создать его заново](create.md).
+{% note warning %}
 
----
+Удаление [сервисного аккаунта](../../concepts/users/service-accounts.md) — неотменяемая операция. Восстановить удаленный сервисный аккаунт невозможно, только [создать его заново](create.md).
 
-**[!TAB Консоль управления]**
+{% endnote %}
 
-1. Выберите каталог.
-2. Выберите вкладку **Сервисные аккаунты**.
-3. Нажмите значок ![image](../../../_assets/dots.svg) напротив сервисного аккаунта и выберите **Удалить сервисный аккаунт**.
-4. Подтвердите удаление.
+{% list tabs %}
 
-**[!TAB CLI]**
+- Консоль управления
+
+  {% include [delete-sa-via-console](../../../_includes/iam/delete-sa-via-console.md) %}
+
+- CLI
 
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-1. Посмотрите описание команды удаления сервисного аккаунта:
+  1. Посмотрите описание команды удаления сервисного аккаунта:
 
-    ```
-    $ yc iam service-account delete --help
-    ```
+      ```
+      $ yc iam service-account delete --help
+      ```
 
-2. Выберите сервисный аккаунт, например `my-robot`:
+  2. Выберите сервисный аккаунт, например `my-robot`:
 
-    ```
-    $ yc iam service-account list
-    +----------------------+------------------+-------------------------------+
-    |          ID          |       NAME       |          DESCRIPTION          |
-    +----------------------+------------------+-------------------------------+
-    | aje6o61dvog2h6g9a33s | my-robot         |                               |
-    | aje9sda1ufvqcmfksd3f | blabla           | bla bla bla is my description |
-    +----------------------+------------------+-------------------------------+
-    ```
-3. Удалите сервисный аккаунт:
+      ```
+      $ yc iam service-account list
+      +----------------------+------------------+-------------------------------+
+      |          ID          |       NAME       |          DESCRIPTION          |
+      +----------------------+------------------+-------------------------------+
+      | aje6o61dvog2h6g9a33s | my-robot         |                               |
+      | aje9sda1ufvqcmfksd3f | blabla           | bla bla bla is my description |
+      +----------------------+------------------+-------------------------------+
+      ```
+  3. Удалите сервисный аккаунт:
 
-    ```
-    yc iam service-account delete my-robot
-    ```
+      ```
+      yc iam service-account delete my-robot
+      ```
 
-**[!TAB API]**
+- API
 
-Чтобы удалить сервисный аккаунт, воспользуйтесь методом [delete](../../api-ref/ServiceAccount/delete.md) для ресурса [ServiceAccount](../../api-ref/ServiceAccount/index.md).
+  Чтобы удалить сервисный аккаунт, воспользуйтесь методом [delete](../../api-ref/ServiceAccount/delete.md) для ресурса [ServiceAccount](../../api-ref/ServiceAccount/index.md).
 
----
+{% endlist %}

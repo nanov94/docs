@@ -1,6 +1,6 @@
 # yc compute
 
-Manage [!KEYREF compute-full-name] resources.
+Manage {{ compute-full-name }} resources.
 
 #### Usage
 
@@ -35,11 +35,11 @@ Syntax:
 - `yc compute disk-type` — show available disk types.
     - `get` — show information about the specified disk type.
     - `list` — list disk types.
-- `yc compute image` — manage [images](../../../compute/concepts/images.md).
+- `yc compute image` — manage [images](../../../compute/concepts/image.md).
     - `get` — show information about the specified image.
     - `list` — [list images](../../../compute/operations/images-with-pre-installed-software/get-list.md).
     - `get-latest-from-family` — show information about the latest image that is part of an image family.
-    - `create` — [create an image]../../../compute/operations/image-create/upload#2.-sozdajte-obraz-v-compute-cloud.md).
+    - `create` — [create an image](../../../compute/operations/image-create/upload#2.-sozdajte-obraz-v-compute-cloud.md).
     - `update` — update the specified image.
     - `delete` — delete the specified image.
     - `list-operations` — list operations for the specified image.

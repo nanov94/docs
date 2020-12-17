@@ -2,37 +2,38 @@
 
 Вы можете получить информацию, которую виртуальная машина выводит в последовательный порт, и использовать ее, например, для диагностики неполадок.
 
----
+{% list tabs %}
 
-**[!TAB Консоль управления]**
+- Консоль управления
 
-1. Выберите каталог, которому принадлежит виртуальная машина.
-1. Нажмите плитку **Yandex Compute Cloud**.
-1. Нажмите на строку с нужной виртуальной машиной.
-1. Перейдите на вкладку **Последовательный порт**.
+  1. Выберите каталог, которому принадлежит виртуальная машина.
+  1. Выберите сервис **{{ compute-name }}**.
+  1. Нажмите на строку с нужной виртуальной машиной.
+  1. Перейдите на вкладку **Последовательный порт**.
+  1. Чтобы воспользоваться поиском с помощью сочетания клавиш `CTRL+F`, включите переключатель **Исходные данные** в правом верхнем углу.
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-1. Посмотрите описание команды для получения вывода последовательного порта:
+  1. Посмотрите описание команды для получения вывода последовательного порта:
 
-    ```
-    $ yc compute instance get-serial-port-output --help
-    ```
+      ```
+      $ yc compute instance get-serial-port-output --help
+      ```
 
-1. Выберите виртуальную машину, например `first-instance`:
+  1. Выберите виртуальную машину, например `first-instance`:
 
-    [!INCLUDE [compute-instance-list](../../_includes_service/compute-instance-list.md)]
+      {% include [compute-instance-list](../../_includes_service/compute-instance-list.md) %}
 
-1. Получите вывод последовательного порта. Вывод последовательного порта обычно длинный, поэтому его стоит писать в файл:
+  1. Получите вывод последовательного порта. Вывод последовательного порта обычно длинный, поэтому его стоит писать в файл:
 
-    ```
-    $ yc compute instance get-serial-port-output first-instance > output.txt
-    ```
+      ```
+      $ yc compute instance get-serial-port-output first-instance > output.txt
+      ```
 
-**[!TAB API]**
+- API
 
-Чтобы получить вывод последовательного порта, используйте метод [getSerialPortOutput](../../api-ref/Instance/getSerialPortOutput.md) ресурса [Instance](../../api-ref/Instance/index.md).
+  Чтобы получить вывод последовательного порта, используйте метод [getSerialPortOutput](../../api-ref/Instance/getSerialPortOutput.md) ресурса [Instance](../../api-ref/Instance/index.md).
 
----
+{% endlist %}

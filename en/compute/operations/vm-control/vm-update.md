@@ -2,187 +2,147 @@
 
 After you create a VM, you can change its name, description, tags, platform, or metadata.
 
-For more information about how to update a VM's configuration, see the section [[!TITLE]](vm-update-resources.md).
+For more information about how to update a VM configuration, see [{#T}](vm-update-resources.md).
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- Management console
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+   To update a VM:
+   1. Open the folder that the VM belongs to.
+   1. Select **{{ compute-full-name }}**.
+   1. Click on the VM name.
+   1. Click **Edit VM**.
+   1. Change the VM parameters, for example, rename it by editing the **Name** field.
+   1. At the bottom of the page, click **Save changes**.
 
-1. See the description of the CLI's update VM parameter command:
+- CLI
 
-    ```
-    $ yc compute instance update --help
-    ```
+  {% include [cli-install](../../../_includes/cli-install.md) %}
 
-1. Get a list of VMs in the default folder:
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-    [!INCLUDE [compute-instance-list](../../_includes_service/compute-instance-list.md)]
+  1. See the description of the CLI's update VM parameter command:
 
-1. Select the `ID` or `NAME` of the VM you need (for example, `first-instance`).
-1. Change the VM parameters, for example, rename it:
+      ```
+      $ yc compute instance update --help
+      ```
 
-    ```
-    $ yc compute instance update first-instance \
-        --new-name windows-vm
-    ```
+  1. Get a list of VMs in the default folder:
 
-**[!TAB API]**
+      {% include [compute-instance-list](../../_includes_service/compute-instance-list.md) %}
 
-To change the VM, use the [update](../../api-ref/Instance/update.md) method for the [Instance](../../api-ref/Instance/) resource.
+  1. Select the VM `ID` or `NAME` (for example, `first-instance`).
 
----
+  1. Change the VM parameters, for example, rename it:
 
-## Examples
+      ```
+      $ yc compute instance update first-instance \
+          --new-name windows-vm
+      ```
 
-### Viewing a list of configurable parameters
+- API
+
+  To change the VM, use the [update](../../api-ref/Instance/update.md) method for the [Instance](../../api-ref/Instance/) resource.
+
+{% endlist %}
+
+{% note info %}
+
+If you change the VM name, the host name and FQDN are not changed. For more information about generating the FQDN, see [{#T}](../../concepts/network.md#hostname).
+
+{% endnote %}
+
+## Examples {#examples}
+
+### Viewing a list of configurable parameters {#viewing-a-list-of-configurable-parameters}
 
 To view the list of configurable parameters, run the command:
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-```
-$ yc compute instance update --help
-```
+  ```
+  $ yc compute instance update --help
+  ```
 
----
+{% endlist %}
 
-### Changing the name and description
+### Changing the name and description {#changing-the-name-and-description}
 
 To change the name and description of a VM, follow these steps:
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+  {% include [cli-install](../../../_includes/cli-install.md) %}
 
-1. Get a list of VMs in the default folder:
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-    [!INCLUDE [compute-instance-list](../../_includes_service/compute-instance-list.md)]
+  1. Get a list of VMs in the default folder:
 
-1. Select the `ID` or `NAME` of the VM you need (for example, `first-instance`).
-1. Change the VM's name and description:
+      {% include [compute-instance-list](../../_includes_service/compute-instance-list.md) %}
 
-    ```
-    $ yc compute instance update first-instance \
-        --new-name first-vm \
-        --description "changed description vm via CLI"
-    ```
+  1. Select the VM `ID` or `NAME` (for example, `first-instance`).
 
----
+  1. Change the VM's name and description:
 
-### Changing metadata
+      ```
+      $ yc compute instance update first-instance \
+          --new-name first-vm \
+          --description "changed description vm via CLI"
+      ```
+
+{% endlist %}
+
+### Changing metadata {#changing-metadata}
 
 Metadata based on different operating systems may differ. When you change an existing set of metadata, it is completely replaced by the set passed in the command.
 
 To change a VM's metadata, follow these steps:
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+  {% include [cli-install](../../../_includes/cli-install.md) %}
 
-1. Get a list of VMs in the default folder:
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-    [!INCLUDE [compute-instance-list](../../_includes_service/compute-instance-list.md)]
+  1. Get a list of VMs in the default folder:
 
-1. Select the `ID` or `NAME` of the VM you need (for example, `first-instance`).
-1. Get information about the VM with the metadata. All user-defined metadata is specified in the `user-data` key.
+      {% include [compute-instance-list](../../_includes_service/compute-instance-list.md) %}
 
-    ```
-    $ yc compute instance get --full first-instance
-    ```
+  1. Select the VM `ID` or `NAME` (for example, `first-instance`).
 
-1. Change the VM's metadata. You can change the metadata using the flags:
-    - `--metadata` — to change a value from a single string.
-    - `--metadata-from-file` — to change a value from multiple strings.
+  1. Get information about the VM with the metadata. All user-defined metadata is specified in the `user-data` key.
 
-    Example of changing the administrator's password on a Windows-based VM:
+      ```
+      $ yc compute instance get --full first-instance
+      ```
 
-    1. Create a YAML file (for example, `metadata.yaml`) and specify the following:
+  1. Change the VM's metadata. You can change the metadata using the flags:
+      - `--metadata` — to change a value from a single string.
+      - `--metadata-from-file` — to change a value from multiple strings.
 
-        ```yaml
-        #ps1
-        net user administrator "<password>"
-        ```
+      Example of changing the administrator password on a Windows-based VM:
 
-    1. Run the command:
+      1. Create a YAML file (for example, `metadata.yaml`) and specify the following:
 
-        ```
-        $ yc compute instance update first-instance \
-            --metadata-from-file user-data=metadata.yaml
-        ```
+          ```yaml
+          #ps1
+          net user administrator "<password>"
+          ```
 
-    The existing metadata set will be completely overwritten.
+      1. Run the command:
 
----
+          ```
+          $ yc compute instance update first-instance \
+              --metadata-from-file user-data=metadata.yaml
+          ```
 
-### Changing an SSH key
+          The existing metadata set will be completely overwritten.
 
-To change or add an SSH key, follow these steps:
-
----
-
-**[!TAB CLI]**
-
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
-
-1. Get a list of VMs in the default folder:
-
-    [!INCLUDE [compute-instance-list](../../_includes_service/compute-instance-list.md)]
-
-1. Select the `ID` or `NAME` of the VM you need (for example, `first-instance`).
-1. Get information about the VM with the metadata. All user-defined metadata is specified in the `user-data` key.
-
-    ```
-    $ yc compute instance get --full first-instance
-    ```
-
-    Sample response:
-
-    ```
-    ...
-    #cloud-config
-    users:
-    - name: demo
-        groups: sudo
-        shell: /bin/bash
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
-        ssh-authorized-keys:
-            - ssh-rsa AAAAB3Nza......OjbSMRX user@example.com
-    ...
-    ```
-
-1. Create a text file with any name, for example `metadata.txt`.
-1. Copy the received data to the created file and add a new SSH key.
-
-    Example:
-
-    ```
-    #cloud-config
-    users:
-    - name: demo
-        groups: sudo
-        shell: /bin/bash
-        sudo: ['ALL=(ALL) NOPASSWD:ALL']
-        ssh-authorized-keys:
-            - ssh-rsa AAAAB3Nza......OjbSMRX user@example.com
-            - ssh-rsa AAAAB3Nza......Pu00jRN user@example.com
-    ```
-
-1. Change the VM's metadata:
-
-    ```
-    $ yc compute instance update first-instance \
-        --metadata-from-file user-data=metadata.txt
-    ```
-
-    The existing metadata set will be completely overwritten.
-
----
-
+{% endlist %}

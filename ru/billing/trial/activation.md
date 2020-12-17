@@ -1,7 +1,5 @@
 # Пробный период
 
-[!INCLUDE [free-trial-conditions](../../_includes/free-trial-conditions.md)]
+{% include [free-trial-conditions](../../_includes/free-trial-conditions.md) %}
 
-В рамках пробного периода вашему [платежному аккаунту](../concepts/billing-account.md) выдается [стартовый грант](../concepts/bonus-account.md), который вы можете использовать для оплаты ресурсов любых сервисов Яндекс.Облака. 
-
-Подробную информацию об условиях использования и ограничениях смотрите в документе [Пробный период](../../free-trial/).
+{% include [trial-activation](../_includes/trial-activation.md) %}

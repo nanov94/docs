@@ -22,10 +22,7 @@ A target group can include resources that are connected to the same subnet withi
 
 You can create a load balancer without a listener.
 
-Target resources must accept connections on the same port as the listener does.
-
-You cannot attach the same target resource to different load balancers.
-
 Health checks are transmitted from the IP address range `198.18.235.0/24`.
 
-Consider the number of simultaneous connections [limit](../vpc/concepts/limits.md) when attaching a target resource to the load balancer. 
+When connecting resources to the load balancer, keep in mind the [limit](../vpc/concepts/limits.md#limits) on the maximum number of simultaneous TCP/UDP connections per VM.
+

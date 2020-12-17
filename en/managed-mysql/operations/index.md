@@ -1,12 +1,13 @@
-# Step-by-step instructions for [!KEYREF mmy-name]
+# Step-by-step instructions for {{ mmy-name }}<sup>®</sup>
 
-- [[!TITLE]](cluster-list.md)
-- [[!TITLE]](cluster-create.md)
-- [[!TITLE]](cluster-backups.md)
-- [[!TITLE]](cluster-delete.md)
-- [[!TITLE]](hosts.md)
-- [[!TITLE]](databases.md)
-- [[!TITLE]](cluster-users.md)
-- [[!TITLE]](connect.md)
-- [[!TITLE]](update.md)
+- [{#T}](cluster-list.md)
+- [{#T}](cluster-create.md)
+- [{#T}](data-migration.md)
+- [{#T}](connect.md)
+- [{#T}](cluster-backups.md)
+- [{#T}](update.md)
+- [{#T}](hosts.md)
+- [{#T}](databases.md)
+- [{#T}](cluster-users.md)
+- [{#T}](cluster-delete.md)
 

@@ -1,6 +1,5 @@
-title: "Yandex Container Registry"
+title: Yandex Container Registry
 href: index.yaml
-stage: alpha
 items:
   - name: Начало работы
     href: quickstart/index.md
@@ -10,7 +9,7 @@ items:
         href: operations/index.md
       - name: Аутентифицироваться в Container Registry
         href: operations/authentication.md
-      - name: Docker-образ
+      - name: Управление Docker-образом
         items:
           - name: Получить информацию об имеющихся Docker-образах
             href: operations/docker-image/docker-image-list.md
@@ -22,7 +21,7 @@ items:
             href: operations/docker-image/docker-image-pull.md
           - name: Удалить Docker-образ из реестра
             href: operations/docker-image/docker-image-delete.md
-      - name: Реестр
+      - name: Управление реестром
         items:
           - name: Получить информацию об имеющихся реестрах
             href: operations/registry/registry-list.md
@@ -32,26 +31,46 @@ items:
             href: operations/registry/registry-update.md
           - name: Удалить реестр
             href: operations/registry/registry-delete.md
-      - name: Репозиторий
+      - name: Управление репозиторием
         items:
-          - name: Получить список репозиториев в реестре
+          - name: Получить информацию об имеющихся репозиториях
             href: operations/repository/repository-list.md
+      - name: Управление политиками автоматического удаления Docker-образов
+        items:
+          - name: Получить информацию об имеющихся политиках удаления
+            href: operations/lifecycle-policy/lifecycle-policy-list.md
+          - name: Создать политику удаления
+            href: operations/lifecycle-policy/lifecycle-policy-create.md
+          - name: Изменить политику удаления
+            href: operations/lifecycle-policy/lifecycle-policy-update.md
+          - name: Сделать тестовый запуск политики удаления
+            href: operations/lifecycle-policy/lifecycle-policy-dry-run.md
+          - name: Удалить политику удаления
+            href: operations/lifecycle-policy/lifecycle-policy-delete.md
+  - name: Yandex Container Solution
+    href: ../cos/
   - name: Концепции
     items:
-        - name: Обзор
-          href: concepts/index.md
-        - name: Docker-образ
-          href: concepts/docker-image.md
-        - name: Реестр
-          href: concepts/registry.md
-        - name: Репозиторий
-          href: concepts/repository.md
-        - name: Квоты и лимиты
-          href: concepts/limits.md
+      - name: Обзор
+        href: concepts/index.md
+      - name: Docker-образ
+        href: concepts/docker-image.md
+      - name: Реестр
+        href: concepts/registry.md
+      - name: Репозиторий
+        href: concepts/repository.md
+      - name: Политика автоматического удаления Docker-образов
+        href: concepts/lifecycle-policy.md
+      - name: Резервное копирование
+        href: concepts/backup.md
+      - name: Квоты и лимиты
+        href: concepts/limits.md
   - name: Сценарии использования
     items:
+      - name: Все сценарии
+        href: solutions/index.md
       - name: Запуск Docker-образа на виртуальной машине
-        href: scenario/index.md
+        href: solutions/run-docker-on-vm.md
   - name: Управление доступом
     href: security/index.md
   - name: Правила тарификации
@@ -60,8 +79,53 @@ items:
     items:
       - name: Аутентификация в API
         href: api-ref/authentication.md
-    include:
-      repo: docs-api
-      path: ru/container-registry/toc.yaml
-  # - name: Вопросы и ответы
-  #   href: qa/index.md
+      - name: gRPC
+        items:
+          - name: Обзор
+            href: grpc/index.md
+          - name: ImageService
+            href: grpc/image_service.md
+          - name: RegistryService
+            href: grpc/registry_service.md
+          - name: RepositoryService
+            href: grpc/repository_service.md
+          - name: OperationService
+            href: grpc/operation_service.md
+      - name: REST
+        items:
+          - name: Обзор
+            href: api-ref/index.md
+          - name: Image
+            items:
+              - name: Обзор
+                href: api-ref/Image/index.md
+              - name: delete
+                href: api-ref/Image/delete.md
+              - name: get
+                href: api-ref/Image/get.md
+              - name: list
+                href: api-ref/Image/list.md
+          - name: Registry
+            items:
+              - name: Обзор
+                href: api-ref/Registry/index.md
+              - name: create
+                href: api-ref/Registry/create.md
+              - name: delete
+                href: api-ref/Registry/delete.md
+              - name: get
+                href: api-ref/Registry/get.md
+              - name: list
+                href: api-ref/Registry/list.md
+              - name: update
+                href: api-ref/Registry/update.md
+          - name: Repository
+            items:
+              - name: Обзор
+                href: api-ref/Repository/index.md
+              - name: list
+                href: api-ref/Repository/list.md
+  - name: Решение проблем
+    href: error/index.md
+  - name: Вопросы и ответы
+    href: qa/index.md

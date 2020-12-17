@@ -1,173 +1,201 @@
-# How to manage backups
+# Managing backups
 
-You can create backups and restore clusters from existing backups.
+You can create [backups](../concepts/backup.md) and restore clusters from existing backups.
 
 ## Restoring clusters from backups {#restore}
 
-When you restore a cluster from a backup, you create a new cluster with the data from the backup. If the folder has insufficient [resources](../concepts/limits.md) to create such a cluster, you will not be able to restore from the backup.
+When you restore a cluster from a backup, you create a new cluster with the data from the backup. If the folder has insufficient [resources](../concepts/limits.md) to create such a cluster, you will not be able to restore from the backup. The average backup recovery speed is 10 MBps per database core.
 
-For a new cluster, you should set all the parameters that are required at creation, except for the cluster type (a [!KEYREF CH] backup cannot be restored as a [!KEYREF PG] cluster).
+For a new cluster, you should set all the parameters that are required at creation.
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
+  1. Go to the folder page and select **{{ mpg-name }}**.
 
-2. Click on the name of the cluster you need and select the tab **Backup copies**.
+  1. Click on the name of the cluster you need and select the tab **Backup copies**.
 
-3. Click ![image](../../_assets/dots.svg) for the required backup and then click **Restore cluster**.
+  1. Click ![image](../../_assets/dots.svg) for the required backup and then click **Restore cluster**.
 
-**[!TAB CLI]**
+  1. Set up the new cluster. You can select a folder for the new cluster from the **Folder** list.
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  1. Click **Restore cluster**.
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {{ mpg-name }} runs cluster restore from backup.
 
-To restore a cluster from a backup:
+- CLI
 
-1. View the description of the CLI's restore cluster command [!KEYREF PG]:
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-    ```
-    $ [!KEYREF yc-mdb-pg] cluster restore --help
-    ```
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-2. Get a list of available backups for [!KEYREF PG] clusters:
+  To restore a cluster from a backup:
 
-    ```
-    $ [!KEYREF yc-mdb-pg] backup list
-    
-    +--------------------------+----------------------+----------------------+----------------------+
-    |            ID            |      CREATED AT      |  SOURCE CLUSTER ID   |      STARTED AT      |
-    +--------------------------+----------------------+----------------------+----------------------+
-    | c9qlk4v13uq79r9cgcku:... | 2018-11-02T10:08:38Z | c9qlk4v13uq79r9cgcku | 2018-11-02T10:08:37Z |
-    | ...                                                                                           |                          |
-    +--------------------------+----------------------+----------------------+----------------------+
-    ```
+  1. View the description of the CLI's restore cluster command {{ PG }}:
 
-    You can restore a [!KEYREF PG] cluster at any time after creating a backup (time in the `CREATED AT` column).
+      ```
+      $ yc managed-postgresql cluster restore --help
+      ```
 
-3. Request creation of a cluster from a backup:
+  1. Getting a list of available {{ PG }} cluster backups:
 
-    ```bash
-    $ [!KEYREF yc-mdb-pg] cluster restore \
-           --backup-id c9qlk4v13uq79r9cgcku:base_000000010000000000000002 \
-           --time 2018-11-02T10:09:38Z \
-           --name mynewpg \
-           --environment=PRODUCTION \
-           --network-name default-net \
-           --host zone-id=ru-central1-c,subnet-id=b0rcctk2rvtr8efcch63 \
-           --disk-size 20 \
-           --disk-type network-nvme \
-           --resource-preset s1.nano
-    ```
+      ```
+      $ yc managed-postgresql backup list
+      
+      +--------------------------+----------------------+----------------------+----------------------+
+      |            ID            |      CREATED AT      |  SOURCE CLUSTER ID   |      STARTED AT      |
+      +--------------------------+----------------------+----------------------+----------------------+
+      | c9qlk4v13uq79r9cgcku:... | 2018-11-02T10:08:38Z | c9qlk4v13uq79r9cgcku | 2018-11-02T10:08:37Z |
+      | ...                                                                                           |
+      +--------------------------+----------------------+----------------------+----------------------+
+      ```
 
-    This results in a new [!KEYREF PG] cluster with the following characteristics:
+      You can restore a {{ PG }} cluster at any time after creating a backup (time in the `CREATED AT` column).
 
-    * Named `mynewpg`.
+  1. Request creation of a cluster from a backup:
 
-    * In the `PRODUCTION` environment.
+      ```bash
+      $ yc managed-postgresql cluster restore \
+             --backup-id c9qlk4v13uq79r9cgcku:base_000000010000000000000002 \
+             --time 2018-11-02T10:09:38Z \
+             --cluster-name mynewpg \
+             --environment=PRODUCTION \
+             --network-name default \
+             --host zone-id=ru-central1-c,subnet-id=b0rcctk2rvtr8efcch63 \
+             --disk-size 20 \
+             --disk-type network-ssd \
+             --resource-preset s2.micro
+      ```
 
-    * In the `default-net` network.
+      This results in a new {{ PG }} cluster with the following characteristics:
+      - Named `mynewpg`.
+      - In the `PRODUCTION` environment.
+      - In the `{{ network-name }}` network.
+      - With a single `{{ host-class }}` class host in the `b0rcctk2rvtr8efcch63` subnet, in the `{{ zone-id }}` availability zone.
+      - With the databases and users from the backup.
+      - With 20 GB fast network storage (`{{ disk-type-example }}`).
 
-    * With a single host of the `[!KEYREF host-class]` in the `b0rcctk2rvtr8efcch63` subnet and the ` availability zone[!KEYREF zone-id]`.
-
-    * With the databases and users from the backup.
-
-    * With SSD network storage of 20 GB.
-
----
+{% endlist %}
 
 ## Creating backups {#create-backup}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Backup copies**.
+  1. Click **Create a backup**.
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
+- CLI
 
-2. Click on the name of the cluster you need and select the tab **Backup copies**.
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-3. Click **Create a backup**.
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-**[!TAB CLI]**
+  To create a cluster backup:
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  1. View a description of the CLI create {{ PG }} backup command:
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+      ```
+      $ yc managed-postgresql cluster backup --help
+      ```
 
-To create a cluster backup:
+  1. Request creation of a backup specifying the cluster name or ID:
 
-1. See the description of the CLI's create backup command [!KEYREF PG]:
+      ```
+      $ yc managed-postgresql cluster backup my-pg-cluster
+      ```
 
-    ```
-    $ [!KEYREF yc-mdb-pg] cluster backup --help
-    ```
+      The cluster name and ID can be retrieved with the [list of clusters](cluster-list.md#list-clusters).
 
-2. Request creation of a backup specifying the cluster name or ID:
-
-    ```
-    $ [!KEYREF yc-mdb-pg] cluster backup my-pg-cluster
-    ```
-
-    The cluster name and ID can be obtained with a [list of clusters](cluster-list.md#list-clusters).
-
----
+{% endlist %}
 
 ## Getting a list of backups {#list-backups}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Backup copies**.
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
+- CLI
 
-2. Click on the name of the cluster you need and select the tab **Backup copies**.
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-**[!TAB CLI]**
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  To get a list of {{ PG }} cluster backups available in the default folder, run the command:
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  ```
+  $ yc managed-postgresql backup list
+  
+  +----------+----------------------+----------------------+----------------------+
+  |    ID    |      CREATED AT      |  SOURCE CLUSTER ID   |      STARTED AT      |
+  +----------+----------------------+----------------------+----------------------+
+  | c9qv4... | 2018-10-31T22:01:07Z | c9qv4ql6bd4hfo1cgc3o | 2018-10-31T22:01:03Z |
+  | c9qpm... | 2018-10-31T22:01:04Z | c9qpm90p3pcg71jm7tqf | 2018-10-31T22:01:04Z |
+  +----------+----------------------+----------------------+----------------------+
+  ```
 
-To get a list of [!KEYREF PG] cluster backups available in the default folder, run the command:
+{% endlist %}
 
-```
-$ [!KEYREF yc-mdb-pg] backup list
+## Getting information about backups {#get-backup}
 
-+----------+----------------------+----------------------+----------------------+
-|    ID    |      CREATED AT      |  SOURCE CLUSTER ID   |      STARTED AT      |
-+----------+----------------------+----------------------+----------------------+
-| c9qv4... | 2018-10-31T22:01:07Z | c9qv4ql6bd4hfo1cgc3o | 2018-10-31T22:01:03Z |
-| c9qpm... | 2018-10-31T22:01:04Z | c9qpm90p3pcg71jm7tqf | 2018-10-31T22:01:04Z |
-+----------+----------------------+----------------------+----------------------+
-```
+{% list tabs %}
 
----
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Backup copies**.
 
-## Getting information about a backup {#get-backup}
+- CLI
 
----
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-**[!TAB Management console]**
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
+  To get information about a {{ PG }} cluster backup, run the command:
 
-2. Click on the name of the cluster you need and select the tab **Backup copies**.
+  ```
+  $ yc managed-postgresql backup get <backup ID>
+  ```
 
-**[!TAB CLI]**
+  The backup ID can be retrieved with the [list of backups](#list-backups) .
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+{% endlist %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+## Set the backup start time {#set-backup-window}
 
-To get information about a [!KEYREF PG] cluster backup, run the command:
+{% list tabs %}
 
-```
-$ [!KEYREF yc-mdb-pg] backup get <backup ID>
-```
+- Management console
 
-The backup ID can be obtained from a [list of backups](#list-backups).
+  In the management console, you can only set the start time for creating backups by [editing the cluster](update.md).
 
----
+- CLI
+
+  To set the backup start time, use the `-- backup-window-start` flag. Time is given in ``HH:MM:SS`` format.
+
+  ```bash
+  $ yc managed-postgresql cluster create \
+     --cluster-name <cluster name> \
+     --environment <prestable or production> \
+     --network-name <network name> \
+     --host zone-id=<availability zone>,subnet-id=<subnet ID> \
+     --resource-preset <host class> \
+     --user name=<username>,password=<user password> \
+     --database name=<database name>,owner=<database owner name> \
+     --disk-size <storage size in GB> \
+     --backup-window-start 10:00:00
+  ```
+
+  To change the backup start time in an existing cluster, use the  `update` command:
+
+  ```
+  $ yc yc managed-postgresql cluster update \
+     --cluster-name <cluster name> \
+     --backup-window-start 11:25:00
+  ```
+
+{% endlist %}
 

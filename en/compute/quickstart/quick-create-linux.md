@@ -1,16 +1,32 @@
-# Getting started with Linux VMs
+# Creating a Linux VM
 
-[!INCLUDE [before-begin](../../_includes/before-begin.md)]
+Create a Linux [virtual machine](../concepts/vm.md) using {{ compute-name }} from the {{ yandex-cloud }} management console and connect to it.
 
-## Create your first VM
+## Before you start {#before-you-begin}
 
-To create a VM:
+{% include [before-you-begin-linux](../../_includes/compute/before-you-begin-linux.md) %}
 
-[!INCLUDE [create-instance-via-concole-linux](../_includes_service/create-instance-via-concole-linux.md)]
+## Creating VMs {#create-vm}
 
-[!INCLUDE [ip-fqdn-connection](../../_includes/ip-fqdn-connection.md)]
+{% include [create-instance-via-console-linux](../_includes_service/create-instance-via-console-linux.md) %}
 
-## Connect to a Linux VM via SSH
+## Connecting to VMs {#connect-to-vm}
 
-[!INCLUDE [vm-connect-ssh](../../_includes/vm-connect-ssh.md)]
+{% include notitle [vm-connect-ssh](../operations/vm-connect/ssh.md#vm-connect) %}
 
+## Configuring the serial console {#serial-console}
+
+Using the [serial console](../operations/serial-console/index.md), you can connect to a VM regardless of the network or OS state (for example, if there are SSH loading or access issues).
+
+Make sure you configure access to the VM via the serial console in advance.
+
+## Deleting VMs {#delete-vm}
+
+If you no longer plan to use a virtual machine, [delete it](../operations/vm-control/vm-delete.md).
+
+## What's next {#what-is-next}
+
+- Watch [tutorials for creating web services in {{ yandex-cloud }}](../../solutions/web/).
+- Learn [how to use VMs](../operations/).
+- Learn [how to create a VM with a GPU](../operations/vm-create/create-vm-with-gpu.md).
+- Read [answers to frequently asked questions](../qa/general.md).

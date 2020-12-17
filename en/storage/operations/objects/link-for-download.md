@@ -1,17 +1,14 @@
-# Getting the download link
+# Getting a download link
 
-[!KEYREF objstorage-name] allows you to generate a signed object link. Anyone who receives this link can download the object even from a bucket with restricted access.
+If you have a public bucket, its objects are always available. You can get a link by following these instructions or generate one yourself. [Read more about the link format](../../concepts/object.md#object-url).
 
----
+If you have a bucket with restricted access, {{ objstorage-name }} lets you generate a signed object link. Anyone who receives this link can download the object even from a bucket with restricted access.
 
-**[!TAB Management console]**
+{% list tabs %}
 
-1. In the management console, select the appropriate folder.
-1. Click on the **Yandex Object Storage** tile.
-1. Click on the name of the desired bucket.
-1. Click on the object name.
-1. Click **Copy link**.
-The link is valid for one hour.
+- Management console
 
----
+  {% include [storage-get-link-for-download](../../_includes_service/storage-get-link-for-download.md) %}
+
+{% endlist %}
 

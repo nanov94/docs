@@ -1,4 +1,4 @@
-title: "Концепции API Яндекс.Облака"
+title: Концепции API Yandex.Cloud
 href: index.yaml
 editable: false
 items:
@@ -14,6 +14,8 @@ items:
     items:
       - name: Обзор
         href: concepts/about-methods.md
+      - name: Эндпоинты API
+        href: concepts/endpoints.md
       - name: Стандартные методы
         href: concepts/standard-methods.md
       - name: Дополнительные методы

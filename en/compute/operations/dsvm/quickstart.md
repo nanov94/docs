@@ -1,33 +1,22 @@
 # Creating a VM from a public DSVM image
 
-To create a VM:
+Create a DSVM [virtual machine](../../concepts/vm.md) using {{ compute-name }} from the Yandex.Cloud management console and connect to the VM over SSH.
 
-1. Open the folder where the VM will be created.
-1. Click **Create resource**.
-1. Select **Virtual machine**.
-1. In the **Name** field, enter the VM name.
+## Before you start {#before-you-begin}
 
-    [!INCLUDE [name-format](../../../_includes/name-format.md)]
+{% include [before-you-begin-linux](../../../_includes/compute/before-you-begin-linux.md) %}
 
-1. Select the [availability zone](../../../overview/concepts/geo-scope.md) to locate the VM in.
-1. Select a public DSVM [image](../images-with-pre-installed-software/get-list.md).
-1. In the **Computing resources** section:
-    - Choose the [type of virtual machine](../../concepts/vm-types.md) (light or standard).
-    - Specify the required amount of vCPUs and RAM.
-1. In the **Network settings** section, select the subnet to connect the VM to when creating it.
-1. Specify data required for accessing the VM:
-    - Enter the username in the **Login** field.
-    - In the **SSH key** field, paste the contents of the public key file.
-    You need to create a key pair for SSH connection yourself. To generate keys, use third-party tools, such as `ssh-keygen` utilities on Linux and macOS or [PuTTYgen](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) on Windows.
-1. Click **Create VM**.
+## Creating a VM from a public DSVM image {#create-dsvm}
 
-[!INCLUDE [ip-fqdn-connection](../../../_includes/ip-fqdn-connection.md)]
+{% include [create-instance-via-console-dsvm](../../_includes_service/create-instance-via-console-dsvm.md) %}
 
-## Connecting to a DSVM via SSH {#first-login}
+## Connecting to a VM over SSH {#first-login}
 
-[!INCLUDE [vm-connect-ssh](../../../_includes/vm-connect-ssh.md)]
+You can connect to a VM using the SSH protocol when it is running (the VM's status is `RUNNING`). You can use the `ssh` tool in Linux and macOS or [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
 
-In the welcome message, you will see the commands for activating an environment and running [Jupyter Notebook](http://jupyter.org/index.html) and [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/):
+Read more about SSH connections in [Connecting to a VM](../../quickstart/quick-create-linux.md#connect-to-vm).
+
+When connected, you see in the welcome message the commands to activate the environment and run [Jupyter Notebook](http://jupyter.org/index.html) and [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/):
 
 ```
 #####################################################################
@@ -52,7 +41,7 @@ To run public Jupyter notebook execute:
     jupyter notebook --no-browser
 
 Description and help:
-    https://cloud.yandex.ru/docs/compute/operations/dsvm/
+    https://cloud.yandex.com/docs/compute/operations/dsvm/
 
 #####################################################################
 ```

@@ -1,16 +1,29 @@
 # Пошаговые инструкции
 
-## Облачная сеть
+## Облачная сеть {#network}
 
-- [[!TITLE]](network-create.md)
-- [[!TITLE]](network-delete.md)
+- [{#T}](network-create.md)
+- [{#T}](network-delete.md)
 
-## Подсеть
+## Подсеть {#subnet}
 
-- [[!TITLE]](subnet-create.md)
-- [[!TITLE]](subnet-delete.md)
+- [{#T}](subnet-create.md)
+- [{#T}](subnet-delete.md)
 
-## Адреса
+## Адреса {#addresses}
 
-- [[!TITLE]](set-static-ip.md)
-- [[!TITLE]](address-delete.md)
+- [{#T}](get-static-ip.md)
+- [{#T}](set-static-ip.md)
+- [{#T}](address-delete.md)
+- [{#T}](set-dynamic-ip.md)
+
+## Маршрутизация {#static-route}
+
+- [{#T}](static-route-create.md)
+- [{#T}](enable-nat.md)
+
+## Группы безопасности {#security-groups}
+
+- [{#T}](security-group-create.md)
+- [{#T}](security-group-update.md)
+- [{#T}](security-group-delete.md)

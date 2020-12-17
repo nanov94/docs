@@ -10,11 +10,12 @@
 - Регион по умолчанию в файле `.aws/config`:
    ```
    [default]
-               region=us-east-1
+               region=ru-central1
    ```
-   > [!NOTE]
-   >
-   > Для работы с Yandex Object Storage всегда указывайте регион — `us-east-1`. Другие значения региона могут привести к ошибке авторизации.
-   >
+   {% note info %}
 
-Для доступа к [!KEYREF objstorage-name] используйте адрес `[!KEYREF s3-storage-host]`.
+   Некоторые приложения, предназначенные для работы с Amazon S3, не позволяют указывать регион, поэтому {{ objstorage-name }} принимает также значение `us-east-1`.
+
+   {% endnote %}
+
+Для доступа к {{ objstorage-name }} используйте адрес `{{ s3-storage-host }}`.

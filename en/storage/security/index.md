@@ -1,38 +1,37 @@
 # Access management
 
-This section lists the roles required for an account to perform operations with [!KEYREF objstorage-name] resources. The following user categories can be granted access to [!KEYREF objstorage-name]:
+In this section, you'll learn:
 
-- Users with a registered account in Yandex.Passport.
-- [Service accounts](../../iam/concepts/users/service-accounts.md) [!KEYREF iam-full-name].
+* [What resources you can assign roles to](#resources).
+* [What roles exist in the service](#roles-list).
 
-> [!NOTE]
->
-> Resource access rights are inherited from the cloud and folder.
+{% include [about-access-management](../../_includes/iam/about-access-management.md) %}
 
-## Assigning roles
+## What resources you can assign roles to {#resources}
 
-To manage buckets and objects, the user must have the appropriate permissions in the cloud and folders where operations will be performed.
+In the {{ yandex-cloud }} console, you can assign a role for a [cloud](../../resource-manager/concepts/resources-hierarchy.md#cloud) and [folder](../../resource-manager/concepts/resources-hierarchy.md#folder). In YC CLI, you can assign a role for a cloud, folder, or [bucket](../../storage/concepts/bucket.md). These roles also apply to nested resources.
 
-To assign the required roles to the user:
+## What roles exist in the service {#roles-list}
 
-[!INCLUDE [grant-role-console](../../_includes/grant-role-console.md)]
+{% include [roles-intro](../../_includes/roles-intro.md) %}
 
-## Permissions in [!KEYREF objstorage-short-name]
+![service-roles-hierarchy](../../_assets/storage/service-roles-hierarchy.svg)
 
-[!INCLUDE [cloud-roles](../../_includes/cloud-roles.md)]
+### Service roles
 
-#### admin
+| Role | Permissions |
+| ----- | ----- |
+| `resource-manager.clouds.member` | The role required to access resources in the cloud for all users except [cloud owners](../../resource-manager/concepts/resources-hierarchy.md#owner) and [service accounts](../../iam/concepts/users/service-accounts.md). |
+| `resource-manager.clouds.owner` | Grants you full access to a cloud and the resources in it. You can only assign this role for a cloud. |
+| `storage.admin` | Gives the right to manage {{ objstorage-name }}. |
+| `storage.configurer` | Lets you manage the settings of [object lifecycles](../../storage/concepts/lifecycles.md), [static site hosting](../../storage/concepts/hosting.md), and [CORS](../../storage/concepts/cors.md). |
+| `storage.editor` | Permits any operations on buckets and [objects](../../storage/concepts/object.md) in them. |
+| `storage.uploader` | Gives the right to upload objects to buckets. |
+| `storage.viewer` | Gives access to read the list of buckets, their settings, and data in buckets. |
 
-Users with the `admin` role can:
+For more information about service roles, see [{#T}](../../iam/concepts/access-control/roles.md) in the {{ iam-full-name }} documentation.
 
-  - Perform any operations with buckets and objects in the folder: create, delete, and edit them.
-  - Assign roles to other users.
+### Primitive roles
 
-#### editor
-
-Users with the `editor` role can perform any operations with buckets and objects in the folder: create, delete, and edit them.
-
-#### viewer
-
-Users with the `viewer` role can view lists of buckets and objects in the folder.
+{% include [roles-primitive](../../_includes/roles-primitive.md) %}
 

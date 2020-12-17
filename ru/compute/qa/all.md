@@ -1,13 +1,25 @@
-# Вопросы и ответы про Yandex Compute Cloud
+# Вопросы и ответы про {{ compute-name }}
 
 ## Общие вопросы {#general}
 
-[!INCLUDE-NOTITLE [general](general.md)]
+{% include notitle [general](general.md) %}
 
 ## Виртуальные машины {#vm}
 
-[!INCLUDE-NOTITLE [vm](vm.md)]
+{% include notitle [vm](vm.md) %}
 
 ## Диски и снимки {#disks}
 
-[!INCLUDE-NOTITLE [disks](disks.md)]
+{% include notitle [disks](disks.md) %}
+
+## Аварийное восстановление {#disaster-recovery}
+
+{% include notitle [disaster-recovery](disaster-recovery.md) %}
+
+## Группы виртуальных машин {#instance-groups}
+
+{% include notitle [disks](../_includes_service/instance-groups/general.md) %}
+
+## Лицензирование {#licensing}
+
+{% include notitle [licensing](licensing.md) %}

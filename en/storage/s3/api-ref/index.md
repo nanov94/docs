@@ -1,6 +1,6 @@
 # All services and methods
 
-[!KEYREF objstorage-name] The HTTP API provides the following services:
+{{ objstorage-name }} HTTP API provides the following services:
 
 | Service | Description |
 | ------- | --------- |
@@ -8,11 +8,13 @@
 | [Object](object.md) | Performs object management. |
 | [Multipart upload](multipart.md) | Controls uploading of large objects. |
 | [Static Website Hosting](hosting.md) | Manages bucket configurations for static web hosting. |
-| [CORS](cors.md) | Manages Cross-Origin Resource Sharing (CORS) configurations for buckets. |
+| [CORS](cors.md) | Manages CORS configurations for buckets. |
+| [Lifecycles](lifecycles.md) | Manages bucket object lifecycle configurations. |
+| [ACL](acl.md) | Manages access control lists. |
 
 ## Supported methods {#operations-list}
 
-### Bucket service
+### Bucket service {#bucket-service}
 
 | Method | Description |
 | ----- | ----- |
@@ -22,19 +24,19 @@
 | [listBuckets](bucket/list.md) | Returns a list of buckets. |
 | [deleteBucket](bucket/delete.md) | Deletes a bucket. |
 
-### Object service
+### Object service {#object-service}
 
 | Method | Description |
 | ----- | ----- |
-| [upload](object/upload.md) | Uploads an object to [!KEYREF objstorage-name]. |
-| [get](object/get.md) | Retrieves an object from [!KEYREF objstorage-name]. |
-| [copy](object/copy.md) | Copies an object stored in [!KEYREF objstorage-name]. |
+| [upload](object/upload.md) | Uploads an object to {{ objstorage-name }}. |
+| [get](object/get.md) | Retrieves an object from {{ objstorage-name }}. |
+| [copy](object/copy.md) | Copies an object stored in {{ objstorage-name }}. |
 | [getObjectMeta](object/getobjectmeta.md) | Retrieves object metadata. |
 | [delete](object/delete.md) | Deletes an object. |
 | [deleteMultipleObjecs](object/deletemultipleobjects.md) | Deletes objects based on a list. |
 | [options](object/options.md) | Checks whether a CORS request to an object can be made. |
 
-### Multipart Upload service
+### Multipart Upload service {#multipart-upload-service}
 
 | Method | Description |
 | ----- | ----- |
@@ -46,15 +48,15 @@
 | [completeUpload](multipart/completeupload.md) | Completes multipart upload. |
 | [listUploads](multipart/listuploads.md) | Returns a list of incomplete uploads. |
 
-### Static Website Hosting service
+### Static Website Hosting service {#static-website-hosting-service}
 
 | Method | Description |
 | ----- | ----- |
-| [upload](hosting/upload.md) | Uploads a bucket's configuration for static website hosting to [!KEYREF objstorage-name]. |
-| [get](hosting/get.md) | Returns a bucket's configuration for static website hosting from [!KEYREF objstorage-name]. |
-| [delete](hosting/delete.md) | Deletes a bucket's configuration for static website hosting. |
+| [upload](hosting/upload.md) | Uploads a bucket configuration for static website hosting to {{ objstorage-name }}. |
+| [get](hosting/get.md) | Returns a bucket configuration for static website hosting from {{ objstorage-name }}. |
+| [delete](hosting/delete.md) | Deletes a bucket configuration for static website hosting. |
 
-### CORS service
+### CORS service {#cors-service}
 
 | Method | Description |
 | ----- | ----- |
@@ -62,8 +64,25 @@
 | [get](cors/get.md) | Returns a CORS configuration for a bucket. |
 | [delete](cors/delete.md) | Deletes a CORS configuration for a bucket. |
 
-## See also
+### Lifecycles service {#lifecycles-service}
 
-- [[!TITLE]](../../s3/index.md)
-- [[!TITLE]](../../instruments/index.md)
+| Method | Description |
+| ----- | ----- |
+| [upload](lifecycles/upload.md) | Uploads an object lifecycle configuration to {{ objstorage-name }}. |
+| [get](lifecycles/get.md) | Returns an object lifecycle configuration from {{ objstorage-name }}. |
+| [delete](lifecycles/delete.md) | Deletes an object lifecycle configuration from {{ objstorage-name }}. |
+
+### ACL service {#acl-service}
+
+| Method | Description |
+| ----- | ----- |
+| [objectGetAcl](acl/objectget.md) | Returns the access control list for an object. |
+| [objectPutAcl](acl/objectput.md) | Uploads an access control list for an object. |
+| [bucketGetAcl](acl/bucketget.md) | Returns the access control list for a bucket. |
+| [bucketPutAcl](acl/bucketput.md) | Uploads an access control list for a bucket. |
+
+## See also {#see-also}
+
+- [{#T}](../../s3/index.md)
+- [{#T}](../../tools/index.md)
 

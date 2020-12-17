@@ -1,68 +1,44 @@
-# Подключение к базе данных в кластере [!KEYREF CH]
+# Подключение к базе данных в кластере {{ CH }}
 
-Внутри Яндекс.Облака подключиться к кластеру БД можно только с виртуальной машины с адресом в той же подсети Облака.
 
-К кластеру [!KEYREF CH] можно подключиться как с помощью [клиента командной строки](https://clickhouse.yandex/docs/ru/interfaces/cli/) (порт 9440), так и по [HTTP-интерфейсу](https://clickhouse.yandex/docs/ru/interfaces/http_interface/) (порт 8443). Все соединения с кластерами БД шифруются.
+Внутри {{ yandex-cloud }} подключиться к кластеру БД можно только с виртуальной машины, подключенной к той же подсети, что и кластер.
+
+
+К кластеру {{ CH }} можно подключиться как с помощью [клиента командной строки](https://clickhouse.yandex/docs/ru/interfaces/cli/) (порт 9440), так и по [HTTP-интерфейсу](https://clickhouse.yandex/docs/ru/interfaces/http_interface/) (порт 8443). Все соединения с кластерами БД шифруются.
 
 ## Получение SSL-сертификата {#get-ssl-cert}
 
-Чтобы использовать шифрованное соединение, необходимо получить SSL-сертификат:
+Чтобы использовать шифрованное соединение, необходимо подготовить SSL-сертификат, например, так:
+
 
 ```bash
-wget "https://[!KEYREF s3-storage-host][!KEYREF pem-path]"
+sudo mkdir -p /usr/local/share/ca-certificates/Yandex && \
+sudo wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" -O /usr/local/share/ca-certificates/Yandex/YandexInternalRootCA.crt && \
+sudo chmod 655 /usr/local/share/ca-certificates/Yandex/YandexInternalRootCA.crt
 ```
 
-## Подключение с помощью [!KEYREF CH] CLI {#cli}
 
-Чтобы подключиться к кластеру с помощью клиента командной строки, укажите путь к SSL-сертификату в [конфигурационном файле](https://clickhouse.yandex/docs/ru/interfaces/cli/#interfaces_cli_configuration), в элементе `<caConfig>`:
 
-```xml
-<config>
-  <openSSL>
-    <client>
-      <loadDefaultCAFile>true</loadDefaultCAFile>
-      <caConfig>[путь к SSL-сертификату]</caConfig>
-      <cacheSessions>true</cacheSessions>
-      <disableProtocols>sslv2,sslv3</disableProtocols>
-      <preferServerCiphers>true</preferServerCiphers>
-      <invalidCertificateHandler>
-        <name>RejectCertificateHandler</name>
-      </invalidCertificateHandler>
-    </client>
-  </openSSL>
-</config>
-```
+## Примеры строк подключения {#connection-string}
 
-Затем запустите ClickHouse CLI со следующими параметрами:
+{% include [conn-strings-environment](../../_includes/mdb/mdb-conn-strings-env.md) %} 
 
-```bash
-clickhouse-client --host <адрес хоста> \
-                  -s \
-                  --user <имя пользователя БД> \
-                  --password <пароль пользователя БД> \
-                  -q "<запрос к БД>"
-                  --port 9440
-```
+Вы можете подключаться к кластеру {{ CH }} только с использованием SSL-сертификата. Перед подключением [подготовьте сертификат](#get-ssl-cert). 
 
-## Подключение по HTTP {#http}
+В этих примерах предполагается, что сертификат `YandexInternalRootCA.crt` расположен в директории `/usr/local/share/ca-certificates/Yandex/`.
 
-Отправьте запрос, указав путь к полученному SSL-сертификату, атрибуты базы данных и текст запроса в формате urlencoded:
+{% include [see-fqdn-in-console](../../_includes/mdb/see-fqdn-in-console.md) %}
 
-```bash
-curl --cacert <путь к SSL-сертификату> \
-     -H "X-ClickHouse-User: <имя пользователя БД>" \
-     -H "X-ClickHouse-Key: <пароль пользователя БД>" \
-     'https://<адрес хоста>:8443/?database=<имя БД>&query=SELECT%20now()'
-```
+{% include [mch-connection-strings](../../_includes/mdb/mch-conn-strings.md) %}
 
-При подключении с помощью HTTP-метода GET возможны только операции чтения. GET-запрос операции записи всегда вызовет ошибку, как при использовании параметра соединения `readonly=1`.
-Для операций записи всегда используйте метод POST:
+При успешном подключении к кластеру и выполнении тестового запроса будет выведена версия {{ CH }}.
 
-```bash
-curl -X POST \
-     --cacert <путь к SSL-сертификату> \
-     -H "X-ClickHouse-User: <имя пользователя БД>" \
-     -H "X-ClickHouse-Key: <пароль пользователя БД>" \
-     'https://<адрес хоста>:8443/?database=<имя БД>&query=INSERT%20INTO%20Customers%20%28CustomerName%2C%20Address%29%20VALUES%20%28%27Example%20Exampleson%27%2C%20%27Moscow%2C%20Lva%20Tolstogo%2C%2016%27%29%3B'
-```
+## Автоматический выбор доступного хоста {#auto}
 
+Чтобы вручную не подключаться к другому хосту, если текущий станет недоступен, можно использовать адрес вида:
+
+* `c-<идентификатор кластера>.rw.mdb.yandexcloud.net` для подключения к мастеру кластера.
+
+* `<имя шарда>.c-<идентификатор кластера>.rw.mdb.yandexcloud.net` для подключения к мастеру [шарда](../concepts/sharding.md).
+
+Если хост, на который указывает этот адрес, станет недоступен, может быть небольшая задержка, прежде чем адрес начнет указывать на другой доступный хост.

@@ -1,36 +1,71 @@
-# Getting started with [!KEYREF mpg-short-name]
+# Getting started with {{ mpg-short-name }}
 
-Before creating a database cluster:
+To get started with the service:
 
-1. If you already have a folder in Yandex.Cloud, open the page of that folder in the management console. If there is no folder yet, create one:
+- [Create a DB cluster](#cluster-create).
+- [Connect to the DB](#connect).
 
-    [!INCLUDE [create-folder](../_includes/create-folder.md)]
 
-2. Create a VM (based on [Linux](../compute/quickstart/quick-create-linux.md) or [Windows](../compute/quickstart/quick-create-windows.md)) that you will use for accessing the DB cluster. If you plan to connect to the database from outside the Cloud, request external IP addresses for hosts when creating a cluster.
+## Before you start {#before-you-begin}
 
-Follow the instructions below to quickly create a cluster and test your connection to it.
+1. Go to the [management console]({{ link-console-main }}). Then log in to Yandex.Cloud or sign up if you don't have an account.
+
+1. If you don't have a folder yet, create one:
+
+    {% include [create-folder](../_includes/create-folder.md) %}
+
+You can connect to DB clusters from both inside and outside of the Cloud:
+
+1. To connect to a DB cluster from inside Yandex.Cloud, create a VM in the same network as the DB cluster (with [Linux](../compute/quickstart/quick-create-linux.md) or [Windows](../compute/quickstart/quick-create-windows.md)).
+1. To connect to a cluster from the internet, request public access to the hosts when creating the cluster.
+
+
+## Create a cluster {#cluster-create}
 
 1. In the management console, select the folder where you want to create a DB cluster.
+1. Select **{{ mpg-name }}**.
+1. Click **Create cluster**.
+1. Set the cluster parameters and click **Create cluster**. This process is described in detail in [{#T}](operations/cluster-create.md).
+1. When the cluster is ready, its status on the {{ mpg-short-name }} dashboard changes to **Running** and its state to **Alive**. This may take some time.
 
-1. Click **[!KEYREF mpg-name]**.
+## Connect to the DB {#connect}
 
-2. Click **Create cluster** and select the necessary DBMS.
+1. To connect to the DB server, get an SSL certificate:
 
-3. Set the cluster parameters and click **Create cluster**. The process is described in detail in the section [[!TITLE]](operations/cluster-create.md).
+    
+    1. Create a folder:
 
-4. When the cluster is ready to operate, its status on the [!KEYREF mpg-short-name] dashboard will change to **RUNNING**.
+        ```bash
+        $ mkdir ~/.postgresql
+        ```
 
-5. To connect to the DB server, an SSL certificate is required. You can prepare all the necessary authentication data as follows:
+    1. Get a certificate:
 
-    [!INCLUDE [get-cert](../_includes/mdb/get-cert.md)]
+        ```bash
+        $ wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" -O ~/.postgresql/root.crt
+        ```
 
-6. You can connect to the database using the `psql` command (for more information, see [[!TITLE]](operations/connect.md)):
+    1. Configure permissions to the certificate:
 
-    ```
+        ```bash
+        $ chmod 0600 ~/.postgresql/root.crt
+        ```
+
+   
+
+1. Use the `psql` command to connect:
+
+    ```bash
     $ psql "host=<host address> \
           port=6432 \
           sslmode=verify-full \
           dbname=<DB name> \
           user=<DB user name>"
     ```
+
+## What's next
+
+- Read about [service concepts](./concepts/index.md).
+- Learn more about [creating a cluster](./operations/cluster-create.md) and [connecting to the database](./operations/connect.md).
+- Read [questions and answers](./qa/general.md).
 

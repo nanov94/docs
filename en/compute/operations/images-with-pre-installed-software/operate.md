@@ -2,13 +2,13 @@
 
 ## Connecting via SSH {#connect}
 
-[!INCLUDE [vm-connect-ssh](../../../_includes/vm-connect-ssh.md)]
+{% include [vm-connect-ssh](../../../_includes/vm-connect-ssh.md) %}
 
 ## Connecting using your login and password {#logins-passwords}
 
 You can connect to a VM with your login and password when it is started.
 
-[!INCLUDE [vm-connect-ssh-linux-note](../../../_includes/vm-connect-ssh-linux-note.md)]
+{% include [vm-connect-ssh-linux-note](../../../_includes/vm-connect-ssh-linux-note.md) %}
 
 To get logins and passwords for VMs based on public images, use the following command:
 
@@ -26,7 +26,7 @@ To use SSL, generate an SSL certificate yourself and configure the web server to
 
 On public image-based VMs, only those ports are open which are required for the configuration and operation of the pre-installed software.
 
-You can view a list of open ports for a particular VM when [connecting to it via SSH](../vm-control/vm-connect-ssh.md). To open additional ports, use the `iptables` utility.
+You can view a list of open ports for a particular VM when [connecting to it via SSH](../vm-connect/ssh.md). To open additional ports, use the `iptables` utility.
 
 ## Installing updates {#updates}
 

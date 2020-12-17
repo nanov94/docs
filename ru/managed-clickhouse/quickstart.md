@@ -1,36 +1,90 @@
-# Как начать работать с [!KEYREF mch-short-name]
+# Как начать работать с {{ mch-short-name }}
 
-Чтобы воспользоваться сервисом, нужно создать кластер и подключиться к СУБД:
+Чтобы начать работу с сервисом:
 
-1. Чтобы создать кластер баз данных, понадобится только доступный вам каталог в Яндекс.Облаке. Если у вас уже есть каталог в Яндекс.Облаке, откройте страницу этого каталога в консоли управления. Если каталога еще нет, создайте его:
+- [Создайте кластер БД](#cluster-create).
+- [Подключитесь к БД](#connect).
 
-    [!INCLUDE [create-folder](../_includes/create-folder.md)]
 
-2. Подключаться к кластерам БД можно как изнутри, так и извне Облака:
+## Перед началом работы {#before-you-begin}
 
-    1. Чтобы подключаться изнутри Облака, создайте виртуальную машину в той же сети, что и кластер БД (на основе [Linux](../compute/quickstart/quick-create-linux.md) или [Windows](../compute/quickstart/quick-create-windows.md))
+1. Перейдите в [консоль управления]({{ link-console-main }}), затем войдите в {{ yandex-cloud }} или зарегистрируйтесь, если вы еще не зарегистрированы.
+1. Если у вас еще нет каталога, создайте его:
 
-    2. Чтобы подключаться к кластеру через интернет, запросите внешние IP-адреса для хостов при создании кластера.
+    {% include [create-folder](../_includes/create-folder.md) %}
 
-3. В консоли управления выберите каталог, в котором нужно создать кластер БД.
+Подключаться к кластерам БД можно как изнутри, так и извне {{ yandex-cloud }}:
 
-1. Нажмите кнопку **Создать ресурс** и выберите пункт **Кластер [!KEYREF CH]**.
+1. Чтобы подключаться изнутри {{ yandex-cloud }}, создайте виртуальную машину в той же сети, что и кластер БД (на основе [Linux](../compute/quickstart/quick-create-linux.md) или [Windows](../compute/quickstart/quick-create-windows.md))
+1. Чтобы подключаться к кластеру из интернета, запросите публичный доступ к хостам при создании кластера.
 
-2. Задайте параметры кластера и нажмите кнопку **Создать кластер**. Процесс подробно рассмотрен в разделе [[!TITLE]](operations/cluster-create.md).
 
-3. Когда кластер будет готов к работе, его статус на панели [!KEYREF mch-name] сменится на **RUNNING**.
+## Создайте кластер {#cluster-create}
 
-4. Чтобы подключиться к серверу БД, необходим SSL-сертификат. Скачайте его:
+1. В консоли управления выберите каталог, в котором нужно создать кластер БД.
+1. Выберите сервис **{{ mch-name }}**.
+1. Нажмите кнопку **Создать кластер**.
+1. Задайте параметры кластера и нажмите кнопку **Создать кластер**. Процесс подробно рассмотрен в разделе [{#T}](operations/cluster-create.md).
+1. Когда кластер будет готов к работе, его статус на панели {{ mch-short-name }} сменится на **Running**, а состояние - на **Alive**. Это может занять некоторое время.
+
+## Подключитесь к БД {#connect}
+
+1. Для подключения к серверу БД получите SSL-сертификат:
+
+        
+    1. Создайте каталог:
+
+        ```bash
+        $ mkdir ~/.clickhouse
+        ```
+
+    1. Получите сертификат:
+        
+        ```bash
+        $ wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" -O ~/.clickhouse/root.crt
+        ```
+
+    1. Настройте права доступа к сертификату:
+
+        ```bash
+        $ chmod 0600 ~/.clickhouse/root.crt
+        ```
+
+   
+
+1. Используйте для подключения ClickHouse CLI:
+
+    1. Укажите путь к SSL-сертификату в [конфигурационном файле](https://clickhouse.yandex/docs/ru/interfaces/cli/#interfaces_cli_configuration), в элементе `<caConfig>`:
+
+    ```xml
+    <config>
+      <openSSL>
+        <client>
+          <loadDefaultCAFile>true</loadDefaultCAFile>
+          <caConfig>~/.clickhouse/root.crt</caConfig>
+          <cacheSessions>true</cacheSessions>
+          <disableProtocols>sslv2,sslv3</disableProtocols>
+          <preferServerCiphers>true</preferServerCiphers>
+          <invalidCertificateHandler>
+            <name>RejectCertificateHandler</name>
+          </invalidCertificateHandler>
+        </client>
+      </openSSL>
+    </config>
+    ```
+    1.  Запустите ClickHouse CLI со следующими параметрами:
 
     ```bash
-    $ wget "https://[!KEYREF s3-storage-host][!KEYREF pem-path]"
+    clickhouse-client --host <FQDN хоста> \
+                      -s \
+                      --user <имя пользователя БД> \
+                      --password <пароль пользователя БД> \
+                      -q "<запрос к БД>" \
+                      --port 9440 
     ```
 
-5. Отправьте запрос, указав путь к полученному SSL-сертификату, атрибуты базы данных и текст запроса в формате urlencoded:
+## Что дальше
 
-    ```
-    $ curl --cacert <путь к SSL-сертификату> \
-         -H "X-ClickHouse-User: <имя пользователя БД>" \
-         -H "X-ClickHouse-Key: <пароль пользователя БД>" \
-         'https://<адрес хоста>:8443/?database=<имя БД>&query=SELECT%20now()'
-    ```
+- Изучите [концепции сервиса](./concepts/index.md).
+- Узнайте подробнее о [создании кластера](./operations/cluster-create.md) и [подключении к БД](./operations/connect.md).
+- Ознакомьтесь с [вопросами и ответами](./qa/general.md).

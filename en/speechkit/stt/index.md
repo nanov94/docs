@@ -1,81 +1,49 @@
 # Speech recognition
 
-_Speech recognition (speech-to-text, STT)_ is the process of converting speech to text. The service can recognize spontaneous speech in several languages.
+_Speech recognition (speech-to-text, STT)_ is the process of converting speech to text.
 
-## Languages {#langs}
+The service can recognize speech in several languages:
 
-- Russian
-- English
-- Turkish
+* Russian
+* English
+* Turkish
 
-## Language models {#model}
+## Recognition methods {#stt-ways}
 
-SpeechKit has a two-stage approach to speech recognition. At the first stage, the audio signal is analyzed to detect sequences of sounds that could be interpreted as words. For each sequence of sounds, there are usually several possible words (or hypotheses).
+There are three recognition methods:
 
-The second stage applies a _language model_, which allows you to validate each hypothesis in terms of the language structure and context, i.e., to what extent a given word is consistent with other words that have already been recognized. The speech recognition system uses the language model as a dictionary to validate the hypotheses. Creating a dictionary like this is a complex computational task involving deep learning.
+1. [Recognition of short audio fragments](request.md). This is suitable for recognizing small single-channel audio fragments.
 
-A neural network is trained on speech samples that are typical for a particular domain. That's why the language models are optimized for recognizing speech from a specific domain. For example, the _Numbers_ model is the best choice for phone number recognition, while a person's first and last name are best recognized using the _Names_ model.
+1. [Streaming mode](streaming.md) for short audio recognition. This allows you to send audio fragments and get results, including intermediate recognition results, over a single connection.
 
-The supported language models are listed below.
+1. [Recognition of long audio fragments](transcribation.md). This lets you recognize long multi-channel audio recordings, but the response may be slower.
 
----
+    For now, you can only recognize long audio in Russian.
 
-**[!TAB Russian]**
+## Recognition process {#process}
 
-- _Queries_ (`general`) — Short phrases containing 3-5 words on various topics, including search engine or website queries.
-For example:
-    - [покажи следующий поворот]
-    - [соединить с отделом продаж]
-    - [еще чашку кофе и две мягких французских булочки]
-    - [какая погода во владивостоке]
-    - [напомни купить овощей и фруктов по дороге домой]
-- _Addresses_ (`maps`) — Addresses and names of companies or geographical features.
-For example:
-    - [поехали на улицу кирпичные выемки пять]
-    - [сколько ехать от льва толстого до новой земли]
-    - [покажи маршрут до музея маяковского]
-- _Dates_ (`dates`) — Names of months, ordinal numbers, and cardinal numbers.
-For example:
-    - [второго ноль седьмого две тысячи первого]
-    - [двадцать седьмое апреля тысяча девятьсот девятнадцатого года]
-- _Names_ (`names`) — First and last names and phone call requests.
-For example:
-    - [щукин платон]
-    - [соедините с людчиком]
-    - [переговорить с васей васиным]
-- _Numbers_ (`numbers`) — Cardinal numbers from 1 to 999 and delimiters (dot, comma, and dash). This model can be used to dictate phone numbers, account numbers, or document numbers.
-For example:
-    - [два двенадцать восемьдесят пять ноль шесть]
-    - [сто пятьдесят семь запятая пятнадцать сорок три]
+Audio is recognized in three stages:
 
-**[!TAB English]**
+1. Words are detected. There are usually several possible words recognized (or hypotheses).
+1. Hypotheses are checked using the language model. The model validates to what extent a new word is consistent with other words that have already been recognized.
+1. The recognized text is processed: numbers are converted to digits, certain punctuation marks (such as hyphens) are added, and so on. The converted text is the final recognition result that is sent in the response body.
 
-- _Queries_ (`general`) — Short phrases containing 3-5 words on various topics, including search engine or website queries.
-    - [connect me to the sales department]
-    - [another cup of coffee and two soft French rolls]
-- _Addresses_ (`maps`) — Addresses and names of companies or geographical features.
-    - [go to Abbey Road]
+## Recognition accuracy {#speed_and_accuracy}
 
-**[!TAB Turkish]**
+To increase the accuracy of recognition, specify the language model that the service should use. The model should match the speech topic.
 
-- _Queries_ (`general`) — Short phrases containing 3-5 words on various topics, including search engine or website queries.
-    - [connect me to the sales department]
-    - [another cup of coffee and two soft French rolls]
-- _Addresses_ (`maps`) — Addresses and names of companies or geographical features.
-    - [go to Abbey Road]
+The accuracy of speech recognition is also affected by:
 
----
+* Original sound quality.
+* Audio encoding quality.
+* Speech intelligibility and rate.
+* Utterance complexity and length.
 
-The models are trained on large datasets generated by Yandex services and applications. This allows us to continually improve the quality of speech recognition.
+#### See also {#see-also}
 
-## Recognition quality {#speed_and_accuracy}
-
-The accuracy of recognition depends on the quality of the source sound, audio encoding quality, clarity and rate of speech, as well as phrase complexity and length. It is important that the speech topic matches the chosen language model because this improves the accuracy of recognition.
-
-#### See also
-
-- [[!TITLE]](request.md)
-- [[!TITLE]](streaming.md)
-- [Yandex speech technologies (a post on Habrahabr, in Russian)](https://habrahabr.ru/company/yandex/blog/243813/)
-- [Under the hood of Yandex.SpeechKit (a post on Habrahabr, in Russian)](https://habrahabr.ru/company/yandex/blog/198556/)
+* [{#T}](formats.md)
+* [{#T}](models.md)
+* [{#T}](request.md)
+* [{#T}](streaming.md)
+* [{#T}](transcribation.md)
 

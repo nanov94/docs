@@ -1,130 +1,212 @@
-# How to manage database users
+# Managing database users
 
 You can add and remove users, as well as manage their individual settings.
 
 ## Getting a list of users {#list-users}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and then select the **Users** tab.
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need and then select the **Users** tab.
+- CLI
 
-**[!TAB CLI]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  To get a list of cluster users, run the command:
 
-To get a list of cluster users, run the command:
+  ```
+  $ yc managed-postgresql user list
+       --cluster-name=<cluster name>
+  ```
 
-```
-$ [!KEYREF yc-mdb-pg] user list
-     --cluster-name=<cluster name>
-```
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+{% endlist %}
 
----
+## Add a user {#adduser}
 
-## Adding users {#adduser}
+{% list tabs %}
 
-When adding a user, [!KEYREF mpg-short-name] reserves 50 connections to a [!KEYREF PG] cluster (the `connlimit` parameter) by default. The minimum number of connections per user is 10.
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Users**.
+  1. Click **Add**.
+  1. Enter the database username and password (from 8 to 128 characters).
+  1. Select one or more databases that the user should have access to:
+     1. Select the database from the **Database** drop-down list.
+     1. Click **Add** to the right of the drop-down list.
+     1. Repeat the previous two steps until all the required databases are selected.
+     1. To delete a database that was added by mistake, click ![image](../../_assets/cross.svg) to the right of the database name in the **Permissions** list.
+  1. Configure the [DBMS settings](#dbms-settings) for the user.
+  1. Click **Add**.
 
-[!INCLUDE [note-pg-user-connections.md](../../_includes/mdb/note-pg-user-connections.md)]
+- CLI
 
----
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-**[!TAB Management console]**
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need and select the tab **Users**.
-1. Click **Add**.
-1. Enter the database user name and password (from 8 to 128 characters).
+  To create a user in a cluster, run the command:
 
-**[!TAB CLI]**
+  ```
+  $ yc managed-postgresql user create <username>
+       --cluster-name=<cluster name>
+       --password=<DB user password>
+       --permissions=<list of DBs the user can access>
+       --conn-limit=<maximum number of connections per user>
+  ```
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  This command configures only the main user settings.
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  To set the DBMS settings for the user, use the parameters described in [DBMS settings](#dbms-settings).
 
-To create a user in a cluster, run the command:
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
 
-```
-$ [!KEYREF yc-mdb-pg] user create <user name>
-     --cluster-name=<cluster name>
-     --password=<DB user password>
-     --permissions=<list of DBs the user can access>
-     --conn-limit=<number of connections available to the user>
-```
+{% endlist %}
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+{% note info %}
 
----
+When created, the user only gets the `CONNECT` privilege for the selected databases and can't perform any operations with the databases. To provide the user with access to the database, [grant](grant.md) them the required privileges or roles.
 
-## Updating users {#updateuser}
+{% endnote %}
 
-For the user, you can change:
+## Change password {#updateuser}
 
-- Name and password.
-- List of databases the user can access.
-- Limitation on the number of DB connections.
+{% list tabs %}
 
----
+- Management console
 
-**[!TAB Management console]**
+  To change the user's password:
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Users**.
+  1. Click the ![image](../../_assets/vertical-ellipsis.svg) icon and select **Change password**.
+  1. Set a new password and click **Edit**.
 
-In the management console, you can only change the password of a database user:
+- CLI
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need and select the tab **Users**.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) and select **Change password**.
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-**[!TAB CLI]**
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  To change the user's password, run the command:
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  ```
+  $ yc managed-postgresql user update <update>
+       --cluster-name=<cluster name>
+       --password=<new password>
+  ```
 
-To change the user's password or the list of databases available to the user, run:
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
 
-```
-$ [!KEYREF yc-mdb-pg] user update <user name>
-     --cluster-name=<cluster name>
-     --password=<DB user password>
-     --permissions=<list of DBs the user can access>
-     --conn-limit=<number of connections available to the user>
-```
+{% endlist %}
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+## Change user settings {update-settings}
 
----
+{% note info %}
 
-## Removing a user {#removeuser}
+The privileges and roles in {{ PG }} are not affected by these settings and are configured separately.
 
----
+For information on setting up user privileges and roles, see [{#T}](grant.md).
 
-**[!TAB Management console]**
+{% endnote %}
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need and select the tab **Users**.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) and select **Delete**.
+{% list tabs %}
 
-**[!TAB CLI]**
+- Management console
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  To change the user settings:
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Users**.
+  1. Click ![image](../../_assets/vertical-ellipsis.svg) and select **Settings**.
+  1. Set up the user's access rights to certain databases:
+     1. To grant access to the required databases:
+        1. Select the database from the **Database** drop-down list.
+        1. Click **Add** to the right of the drop-down list.
+        1. Repeat the previous two steps until all the required databases are selected.
+     1. To revoke access to a specific database, remove it from the **Permissions** list by clicking ![image](../../_assets/cross.svg) to the right of the database name.
+  1. Change the [{{ PG }} settings](#dbms-settings) for the user under **DBMS settings**.
+  1. Click **Save**.
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+- CLI
 
-To remove a user, run:
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-```
-$ [!KEYREF yc-mdb-pg] user delete <user name>
-     --cluster-name=<cluster name>
-```
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+  You can change the user settings from the command line interface:
 
----
+  1. To set up the user's access rights to certain databases, run the following command, listing the database names in the `--permissions` parameter:
+
+     ```
+     $ yc managed-postgresql user update <update>
+          --cluster-name=<cluster name>
+          --permissions=<list of DBs the user can access>
+     ```
+
+     The cluster name can be requested with a [list of folder clusters](#list-clusters).
+
+     This command grants the user access rights to the databases listed.
+
+     To revoke access to a specific database, remove its name from the list and pass the updated list to the command.
+
+  1. To change the [{{ PG }} settings](#dbms-settings) for the user, pass their parameters in the command:
+
+     ```
+     $ yc managed-postgresql user update <update>
+          --cluster-name=<cluster name>
+          --<setting 1>=<value 1>
+          --<setting 2>=<value 2>
+          --<setting 3>=<list of values>
+          ...
+     ```
+
+     The cluster name can be requested with a [list of folder clusters](#list-clusters).
+
+{% endlist %}
+
+## Deleting users {#removeuser}
+
+{% list tabs %}
+
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Users**.
+  1. Click ![image](../../_assets/vertical-ellipsis.svg) and select **Delete**.
+
+- CLI
+
+  {% include [cli-install](../../_includes/cli-install.md) %}
+
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
+
+  To remove a user, run:
+
+  ```
+  $ yc managed-postgresql user delete <username>
+       --cluster-name <cluster name>
+  ```
+
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
+
+{% endlist %}
+
+## Additional settings {#dbms-settings}
+
+These settings affect the behavior of {{ PG }} when handling user queries.
+
+{% list tabs %}
+
+- Management console
+
+  {% include [console-dbms-settings](../../_includes/mdb/mpg-dbms-settings-console.md) %}
+
+- CLI
+
+  {% include [cli-dbms-settings](../../_includes/mdb/mpg-dbms-settings-cli.md) %}
+
+{% endlist %}
 

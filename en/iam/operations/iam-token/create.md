@@ -1,37 +1,36 @@
-# Get an IAM token for your account
+# Getting an IAM token for a Yandex account
 
-To perform operations in Yandex.Cloud via the API, you need an [IAM token](../../concepts/authorization/iam-token.md).
+{% note info %}
 
-> [!NOTE]
->
-> [!INCLUDE [iam-token-lifetime](../../../_includes/iam-token-lifetime.md)]
+{% include [iam-token-lifetime](../../../_includes/iam-token-lifetime.md) %}
 
----
+{% endnote %}
 
-**[!TAB CLI]**
+{% list tabs %}
 
-Get an IAM token:
+- CLI
 
-```
-$ yc iam create-token
-```
+  {% include [cli-install](../../../_includes/cli-install.md) %}
 
-**[!TAB API]**
+  Get an IAM token:
 
-[!INCLUDE [owner-warning](../../../_includes/iam/owner-warning.md)]
+  ```
+  $ yc iam create-token
+  ```
 
-1. [Log in](https://passport.yandex.com/auth) to your Yandex or Yandex.Connect account.
-2. Get an OAuth token from Yandex.OAuth. To do this, follow the [link](https://oauth.yandex.com/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb), click **Allow** and copy the OAuth token that is issued.
-3. Exchange the OAuth token for an IAM token:
+- API
 
-    ```
-    curl -X POST \
-    -H 'Content-Type: application/json' \
-    -d '{"yandexPassportOauthToken": "<OAuth-token>"}' \
-    https://iam.api.cloud.yandex.net/iam/v1/tokens
-    ```
+  {% include [owner-warning](../../../_includes/iam/owner-warning.md) %}
 
----
+  {% include [create-iam-token-api-steps](../../../_includes/iam/create-iam-token-api-steps.md) %}
 
-[!INCLUDE [iam-token-usage](../../../_includes/iam-token-usage.md)]
+{% endlist %}
+
+{% include [iam-token-usage](../../../_includes/iam-token-usage.md) %}
+
+## Examples {#examples}
+
+### Using an IAM token obtained via the CLI {#use-cli}
+
+{% include [include](../../../_includes/iam/iam-token-usage-examples.md) %}
 

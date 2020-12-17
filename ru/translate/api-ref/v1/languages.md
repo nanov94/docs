@@ -1,6 +1,6 @@
 # Cписок поддерживаемых языков
 
-[!INCLUDE [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md)]
+{% include [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md) %}
 
 Получение списка направлений перевода, поддерживаемых сервисом.
 
@@ -10,14 +10,14 @@
 POST https://translate.api.cloud.yandex.net/translate/v1/languages
 ```
 
-### Параметры в теле запроса
+### Параметры в теле запроса {#parameters-in-the-request-body}
 
 Максимальный размер тела POST-запроса 30 КБ.
 
 
 Параметр | Описание
 ----- | -----
-`folderId` | Обязательный параметр.<br/>Идентификатор вашего каталога.<br/>Подробнее о том, как узнать идентификатор каталога читайте в разделе [Авторизация в API](../../concepts/auth.md).
+`folderId` | Обязательный параметр.<br/>Идентификатор вашего каталога.<br/>
 
 
 ## Ответ {#response}
@@ -37,7 +37,7 @@ POST https://translate.api.cloud.yandex.net/translate/v1/languages
 
 ## Примеры {#examples}
 
-### Пример запроса
+### Пример запроса {#sample-request}
 
 ```httpget
 export FOLDER_ID=<folder id>
@@ -48,7 +48,7 @@ curl -X POST \
      "https://translate.api.cloud.yandex.net/translate/v1/languages"
 ```
 
-### Пример ответа
+### Пример ответа {#response-example}
 
 Ответ возвращается в формате JSON.
 

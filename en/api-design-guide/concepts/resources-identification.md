@@ -35,9 +35,11 @@ As you can see from the example, a resource URL is identified by the <q>resource
 
 The resource category determines the type of resource. For example, `disks` is a category of disks; `instances` is a category of VMs; `images` is a category of images.
 
-> [!NOTE]
->
-> A resource category should not be confused with the concept of collection in the REST API. Categories are not independent resources and you cannot manage them (create, change them, or request information). Categories are for service use, i.e., they are used in resource URLs for routing requests on the service side.
+{% note info %}
+
+A resource category should not be confused with the concept of collection in the REST API. Categories are not independent resources and you cannot manage them (create, change them, or request information). Categories are for service use, i.e., they are used in resource URLs for routing requests on the service side.
+
+{% endnote %}
 
 ## Nested resource IDs {#nested-resources-identification}
 

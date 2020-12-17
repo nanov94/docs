@@ -1,47 +1,49 @@
-# Create a folder
+# Creating a folder
 
 _A folder_ is an isolated space where Yandex.Cloud resources are created and grouped.
 
-> [!WARNING]
->
-> When creating folders, keep in mind the [quotas and limits](../../concepts/limits.md). Currently, you cannot delete a folder yourself.
+{% note alert %}
 
----
+When creating folders, keep in mind the [quotas and limits](../../concepts/limits.md). Currently, you cannot delete a folder yourself.
 
-**[!TAB Management console]**
+{% endnote %}
 
-[!INCLUDE [create-folder](../../../_includes/create-folder.md)]
+{% list tabs %}
 
-**[!TAB CLI]**
+- Management console
 
-1. See the description of the folder creation command:
+  {% include [create-folder](../../../_includes/create-folder.md) %}
 
-    ```
-    $ yc resource-manager folder create --help
-    ```
+- CLI
 
-2. Create a new folder:
+  1. See a description of the create folder command:
 
-    * with a name and without a description:
+      ```
+      $ yc resource-manager folder create --help
+      ```
 
-        ```
-        $ yc resource-manager folder create \
-            --name new-folder
-        ```
+  2. Create a new folder:
 
-        [!INCLUDE [name-format](../../../_includes/name-format.md)]
+      * with a name and without a description:
 
-    * with a name and a description:
+          ```
+          $ yc resource-manager folder create \
+              --name new-folder
+          ```
 
-        ```
-        $ yc resource-manager folder create \
-            --name new-folder \
-            --description "my first folder with description"
-        ```
+          {% include [name-format](../../../_includes/name-format.md) %}
 
-**[!TAB API]**
+      * with a name and description:
 
-To create a folder, use the [create](../../api-ref/Folder/create.md) method for the[Folder](../../api-ref/Folder/index.md) resource.
+          ```
+          $ yc resource-manager folder create \
+              --name new-folder \
+              --description "my first folder with description"
+          ```
 
----
+- API
+
+  To create a folder, use the [create](../../api-ref/Folder/create.md) method for the[Folder](../../api-ref/Folder/index.md) resource.
+
+{% endlist %}
 

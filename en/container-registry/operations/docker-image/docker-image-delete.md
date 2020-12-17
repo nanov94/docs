@@ -1,33 +1,48 @@
 # Deleting a Docker image from a registry
 
-To delete a [Docker image](../../concepts/docker-image.md) use its ID. You can find the ID by
-[requesting a list of Docker images in the appropriate registry](docker-image-list.md#docker-image-list).
+{% note alert %}
 
----
+Deleting a Docker image is a deferred action operation: when you delete a Docker image, its layers are physically removed **1 hour later**. Information about the total size of the registry is also updated 1 hour later.
 
-**[!TAB CLI]**
+{% endnote %}
 
-[!INCLUDE [cli-install](../../../_includes/cli-install.md)]
+{% list tabs %}
 
-1. Delete the Docker image:
+- Management console
 
-    ```
-    $ yc container image delete crp9vik7sgeco7emq743
-    ```
+  To delete a [Docker image](../../concepts/docker-image.md):
+  1. Go to the repository where you want to remove the image:
+      1. Open the **Container Registry** section in the folder.
+      1. Open the appropriate registry.
+      1. Open the repository.
+  1. Click ![image](../../../_assets/vertical-ellipsis.svg) in the line of the Docker image to delete.
+  1. In the menu that opens, click **Delete**.
+  1. In the window that opens, click **Delete**.
 
-1. Make sure the Docker image has been deleted:
+- CLI
 
-    ```
-    $ yc container image list
-    +----+---------+------+------+-----------------+
-    | ID | CREATED | NAME | TAGS | COMPRESSED SIZE |
-    +----+---------+------+------+-----------------+
-    +----+---------+------+------+-----------------+
-    ```
+  {% include [cli-install](../../../_includes/cli-install.md) %}
 
-**[!TAB API]**
+  To delete a [Docker image](../../concepts/docker-image.md), use its ID. You can find the ID by [requesting a list of Docker images in the appropriate registry](docker-image-list.md#docker-image-list).
 
-To delete a Docker image, use the [delete](../../api-ref/Image/delete.md) method for the [Image](../../api-ref/Image/) resource.
+  1. Delete the Docker image:
 
----
+      ```
+      yc container image delete crp9vik7sgeco7emq743
+      ```
 
+  1. Make sure the Docker image has been deleted:
+
+      ```
+      yc container image list
+      +----+---------+------+------+-----------------+
+      | ID | CREATED | NAME | TAGS | COMPRESSED SIZE |
+      +----+---------+------+------+-----------------+
+      +----+---------+------+------+-----------------+
+      ```
+
+- API
+
+  To delete a Docker image, use the [delete](../../api-ref/Image/delete.md) method for the [Image](../../api-ref/Image/) resource.
+
+{% endlist %}

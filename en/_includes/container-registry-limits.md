@@ -1,13 +1,11 @@
-#### Quotas
+#### Quotas {#quotas}
 
 | Type of limit | Value |
 | ----- | ----- |
-| Maximum size of the registry | 100 GB |
+| Maximum number of registries per cloud | 10 |
 
-#### Limits
+#### Limits {#limits}
 
 | Type of limit | Value |
 | ----- | ----- |
-| Number of registries per folder | 1 |
-| Maximum size of the Docker image | Available size of the registry |
-
+| Maximum size of one [Docker image](../container-registry/concepts/docker-image.md) layer | 150 GB |

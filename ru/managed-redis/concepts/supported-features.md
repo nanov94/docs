@@ -1,15 +1,12 @@
-# Ограничения [!KEYREF mrd-name]
+# Ограничения {{ mrd-name }}
 
-[!KEYREF mrd-name] позволяет выполнять [любые команды Redis](https://redis.io/commands), кроме следующих:
+{{ mrd-name }} позволяет выполнять [любые команды Redis](https://redis.io/commands), кроме следующих:
 
 - `BGREWRITEAOF`
 - `BGSAVE`
-- `CLUSTER`
 - `COMMAND`
 - `CONFIG`
 - `DEBUG`
-- `EVAL`
-- `EVALSHA`
 - `LASTSAVE`
 - `MIGRATE`
 - `MODULE`
@@ -18,6 +15,5 @@
 - `OBJECT`
 - `REPLICAOF`
 - `SAVE`
-- `SCRIPT`
 - `SHUTDOWN`
 - `SLAVEOF`

@@ -1,2 +1,2 @@
-The IAM token is valid for 12 hours. After that period expires, get a new IAM token.
+[The IAM token lifetime](../iam/concepts/authorization/iam-token.md#lifetime) doesn't exceed {{ iam-token-lifetime }}, but we recommend requesting the token more often, like once per hour.
 

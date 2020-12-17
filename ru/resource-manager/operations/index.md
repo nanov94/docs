@@ -1,13 +1,15 @@
 # Пошаговые инструкции
 
-## Облако
+## Облако {#cloud}
 
-- [[!TITLE]](cloud/set-access-bindings.md)
-- [[!TITLE]](cloud/switch-cloud.md)
+- [{#T}](cloud/create.md)
+- [{#T}](cloud/update.md)
+- [{#T}](cloud/set-access-bindings.md)
+- [{#T}](cloud/switch-cloud.md)
 
-## Каталог
+## Каталог {#folder}
 
-- [[!TITLE]](folder/create.md)
-- [[!TITLE]](folder/update.md)
-- [[!TITLE]](folder/set-access-bindings.md)
-- [[!TITLE]](folder/get-id.md)
+- [{#T}](folder/create.md)
+- [{#T}](folder/update.md)
+- [{#T}](folder/set-access-bindings.md)
+- [{#T}](folder/get-id.md)

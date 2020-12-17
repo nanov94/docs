@@ -16,7 +16,11 @@ PUT /{bucket} HTTP/1.1
 `bucket` | Имя бакета.<br/><br/>При создании бакета помните об [ограничениях на имя](../../../concepts/bucket.md#naming).
 
 ### Заголовки {#request-headers}
-Используйте в запросе только [общие заголовки](../common-request-headers.md).
+Используйте в запросе [общие заголовки](../common-request-headers.md).
+
+С помощью заголовков, перечисленных ниже, можно установить [ACL](../../../concepts/acl.md) создаваемого бакета.
+
+{% include [storage-acl-headers](../../../_includes_service/storage-acl-bucket-headers.md) %}
 
 ## Ответ {#response}
 
@@ -26,7 +30,7 @@ PUT /{bucket} HTTP/1.1
 
 ### Коды ответов {#response-codes}
 
-Перечень возможных ответов смотрите в разделе [[!TITLE]](../response-codes.md).
+Перечень возможных ответов смотрите в разделе [{#T}](../response-codes.md).
 
 Успешный ответ не содержит дополнительных данных.
 

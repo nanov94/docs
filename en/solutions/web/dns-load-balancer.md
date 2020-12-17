@@ -15,8 +15,8 @@ To set up a fault tolerant website with DNS load balancing:
 
 Before creating VMs:
 
-1. Go to the Yandex.Cloud [management console](https://console.cloud.yandex.ru) and select the folder where you want to perform the operations.
-1. Make sure the selected folder has a network with subnets in the availability zones `ru-cental1-a` and `ru-central1-b`. To do this, click the **Yandex Virtual Private Cloud** tile on the folder page. If the list contains a network, click on its name to see the list of subnets. If the subnets or network you need are not listed, [create them](../../vpc/quickstart.md).
+1. Go to the Yandex.Cloud [management console]({{ link-console-main }}) and select the folder where you want to perform the operations.
+1. Make sure the selected folder has a network with subnets in the availability zones `ru-cental1-a` and `ru-central1-b`. To do this, click the **Virtual Private Cloud** tile on the folder page. If the list contains a network, click on its name to see the list of subnets. If the subnets or network you need are not listed, [create them](../../vpc/quickstart.md).
 
 ## 1. Create VMs with a pre-installed web server {#create-web-server-vm}
 
@@ -37,14 +37,15 @@ Create two VMs in sequence, following the instructions:
    * **LAMP** for Linux, Apache, MySQL, and PHP
 
 1. In the **Computing resources** section:
-    - Choose the [type of virtual machine](../../compute/concepts/vm-types.md) (light or standard).
+    - Choose the platform.
     - Specify the required amount of vCPUs and RAM.
 
     The characteristics of both VMs must match.
 
     The minimum configuration is enough for functional testing:
+    * **Platform**: Intel Cascade Lake.
     * **Guaranteed vCPU share**: 5%.
-    * **vCPU**: 1.
+    * **vCPU**: 2.
     * **RAM**: 1 GB.
 
 1. In the **Network settings** section, select the subnet to connect the VM to when creating it.
@@ -62,13 +63,13 @@ When a VM is created, it is assigned an IP address and hostname (FQDN). This dat
 
 #### See also
 
-- [[!TITLE]](../../compute/operations/vm-control/vm-connect-ssh.md)
+- [{#T}](../../compute/operations/vm-connect/ssh.md)
 
 ## 2. Upload the website files {#upload-files}
 
 For the `dns-lb-tutorial-web-ru-central1-a` and `dns-lb-tutorial-web-ru-central1-b`VMs, do the following:
 
-[!INCLUDE [upload-files](../_solutions_includes/upload-web-site-files.md)]
+{% include [upload-files](../_solutions_includes/upload-web-site-files.md) %}
 
 ## 3. Create VMs for DNS load balancers {#create-dns-balancer-vm}
 
@@ -87,14 +88,15 @@ Create two VMs in sequence, following the instructions:
 1. Select the **Ubuntu** or **CentOS** public image. Supported **Ubuntu** versions: 16.04 or higher.
 
 1. In the **Computing resources** section:
-    - Choose the [type of virtual machine](../../compute/concepts/vm-types.md) (light or standard).
+    - Choose the platform.
     - Specify the required amount of vCPUs and RAM.
 
     The characteristics of both VMs must match.
 
     The minimum configuration is enough for functional testing:
+    * **Platform**: Intel Cascade Lake.
     * **Guaranteed vCPU share**: 5%.
-    * **vCPU**: 1.
+    * **vCPU**: 2.
     * **RAM**: 1 GB.
 
 1. In the **Network settings** section, select the subnet to connect the VM to when creating it.
@@ -112,41 +114,41 @@ When a VM is created, it is assigned an IP address and hostname (FQDN). This dat
 
 #### See also
 
-- [[!TITLE]](../../compute/operations/vm-control/vm-connect-ssh.md)
+- [{#T}](../../compute/operations/vm-connect/ssh.md)
 
 ## 4. Install and configure the DNS load balancer software {#install-configure-dns-balancer}
 
 For the `dns-lb-tutorial-slb-ru-central1-a` and `dns-lb-tutorial-slb-ru-central1-b` VMs, do the following:
 
-1. Go to the VM page of the [management console](https://console.cloud.yandex.ru). In the **Network** section, find the VM's public IP address.
+1. Go to the VM page of the [management console]({{ link-console-main }}). In the **Network** section, find the VM's public IP address.
 
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
 
    The recommended authentication method when connecting over SSH is using a key pair.  Don't forget to set up the created key pair: the private key must match the public key sent to the VM.
 
 1. Set the required dependencies:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu 16/18]**
+   - Ubuntu 16/18
 
-   ```bash
-   $ sudo apt-get update
-   $ sudo apt-get install pdns-server pdns-backend-remote memcached python3-yaml python3-memcache python3-pip
-   ```
+     ```bash
+     $ sudo apt-get update
+     $ sudo apt-get install pdns-server pdns-backend-remote memcached python3-yaml python3-memcache python3-pip
+     ```
 
-   **[!TAB CentOS 6/7]**
+   - CentOS 6/7
 
-   ```bash
-   $ sudo yum check-update
-   $ sudo yum -y install epel-release
-   $ sudo yum -y install pdns pdns-backend-remote memcached python34-yaml python34-setuptools git nano
-   $ sudo service memcached start
-   $ sudo chkconfig pdns on
-   $ sudo chkconfig memcached on
-   ```
+     ```bash
+     $ sudo yum check-update
+     $ sudo yum -y install epel-release
+     $ sudo yum -y install pdns pdns-backend-remote memcached python34-yaml python34-setuptools git nano
+     $ sudo service memcached start
+     $ sudo chkconfig pdns on
+     $ sudo chkconfig memcached on
+     ```
 
-   ---
+   {% endlist %}
 
 1. Install `polaris-gslb`:
 
@@ -158,44 +160,44 @@ For the `dns-lb-tutorial-slb-ru-central1-a` and `dns-lb-tutorial-slb-ru-central1
 
 1. Copy the configuration files for polaris-gslb
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu 16/18]**
+   - Ubuntu 16/18
 
-   ```bash
-   $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/powerdns/pdns.conf
-   $ cd /opt/polaris/etc
-   $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
-   $ sudo cp polaris-health.yaml.dist polaris-health.yaml
-   $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
-   $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
-   ```
+     ```bash
+     $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/powerdns/pdns.conf
+     $ cd /opt/polaris/etc
+     $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
+     $ sudo cp polaris-health.yaml.dist polaris-health.yaml
+     $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
+     $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
+     ```
 
-   **[!TAB CentOS 6]**
+   - CentOS 6
 
-   ```bash
-   $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
-   $ cd /opt/polaris/etc
-   $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
-   $ sudo cp polaris-health.yaml.dist polaris-health.yaml
-   $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
-   $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
-   $ sudo cp -a /opt/polaris/bin/polaris-health /etc/init.d/polaris-health
-   $ sudo chkconfig polaris-health on
-   ```
+     ```bash
+     $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
+     $ cd /opt/polaris/etc
+     $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
+     $ sudo cp polaris-health.yaml.dist polaris-health.yaml
+     $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
+     $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
+     $ sudo cp -a /opt/polaris/bin/polaris-health /etc/init.d/polaris-health
+     $ sudo chkconfig polaris-health on
+     ```
 
-   **[!TAB CentOS 7]**
+   - CentOS 7
 
-   ```bash
-   $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
-   $ cd /opt/polaris/etc
-   $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
-   $ sudo cp polaris-health.yaml.dist polaris-health.yaml
-   $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
-   $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
-   ```
+     ```bash
+     $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
+     $ cd /opt/polaris/etc
+     $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
+     $ sudo cp polaris-health.yaml.dist polaris-health.yaml
+     $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
+     $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
+     ```
 
-   ---
+   {% endlist %}
 
 1. Find out the internal address of the VM:
 
@@ -205,21 +207,21 @@ For the `dns-lb-tutorial-slb-ru-central1-a` and `dns-lb-tutorial-slb-ru-central1
 
 1. In the `pdns.conf` configuration file, specify the VM's internal IP address. You can edit the configuration file using the `nano` utility:
 
-     ---
+     {% list tabs %}
 
-     **[!TAB Ubuntu 16/18]**
+     - Ubuntu 16/18
 
-     ```bash
-     $ sudo nano /etc/powerdns/pdns.conf
-     ```
+       ```bash
+       $ sudo nano /etc/powerdns/pdns.conf
+       ```
 
-     **[!TAB CentOS 6/7]**
+     - CentOS 6/7
 
-     ```bash
-     $ sudo nano /etc/pdns/pdns.conf
-     ```
+       ```bash
+       $ sudo nano /etc/pdns/pdns.conf
+       ```
 
-     ---
+     {% endlist %}
 
    The `pdns.conf` file has the format:
 
@@ -302,7 +304,7 @@ For the `dns-lb-tutorial-slb-ru-central1-a` and `dns-lb-tutorial-slb-ru-central1
        * In place of `<dns-lb-tutorial-web-ru-central1-a PUBLIC IP>`, enter the public IP address of the `dns-lb-tutorial-web-ru-central1-a` VM.
        * In place of `<dns-lb-tutorial-web-ru-central1-b PUBLIC IP>`,  enter the public IP address of the `dns-lb-tutorial-web-ru-central1-b` VM.
 
-       You can find out the VM's public address in the **Network** section on the VM page in the [management console](https://console.cloud.yandex.ru).
+       You can find out the VM's public address in the **Network** section on the VM page in the [management console]({{ link-console-main }}).
 
    1. `$ sudo nano /opt/polaris/etc/polaris-pdns.yaml`
 
@@ -436,7 +438,7 @@ The instructions below describe how to configure an external DNS service using a
 
 To configure an external DNS server, do the following:
 
-1. Find the public IP addresses of the `dns-lb-tutorial-slb-ru-central1-a` and `dns-lb-tutorial-slb-ru-central1-b` VMs in the **Network** section on the VM pages in the [management console](https://console.cloud.yandex.ru).
+1. Find the public IP addresses of the `dns-lb-tutorial-slb-ru-central1-a` and `dns-lb-tutorial-slb-ru-central1-b` VMs in the **Network** section on the VM pages in the [management console]({{ link-console-main }}).
 1. Log in to the control panel of the external DNS service. Go to the list of your domains and click on the domain name you need.
 1. Create two A records:
    * For the `dns-lb-tutorial-slb-ru-central1-a` VM:
@@ -458,8 +460,8 @@ To configure an external DNS server, do the following:
 
 ### 6.1. DNS load balancers {#test-dns-balancers}
 
-1. In the **Network** section on the VM page of the [management console](https://console.cloud.yandex.ru), find the public IP address of the `dns-lb-tutorial-slb-ru-central1-a` VM.
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM over SSH.
+1. In the **Network** section on the VM page of the [management console]({{ link-console-main }}), find the public IP address of the `dns-lb-tutorial-slb-ru-central1-a` VM.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM over SSH.
 1. Stop the DNS service to simulate a failure of the DNS load balancer:
 
    ```bash
@@ -474,45 +476,45 @@ To configure an external DNS server, do the following:
 
 ### 6.2. Web servers {#test-web-servers}
 
-1. In the **Network** section on the VM page of the [management console](https://console.cloud.yandex.ru), find the public IP address of the `dns-lb-tutorial-web-ru-central1-a` VM.
+1. In the **Network** section on the VM page of the [management console]({{ link-console-main }}), find the public IP address of the `dns-lb-tutorial-web-ru-central1-a` VM.
 
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM over SSH.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM over SSH.
 
 1. Stop the web service to simulate a failure on the web server:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB LAMP]**
+   - LAMP
 
-   ```bash
-   $ sudo service apache2 stop
-   ```
+     ```bash
+     $ sudo service apache2 stop
+     ```
 
-   **[!TAB LEMP]**
+   - LEMP
 
-   ```bash
-   $ sudo service nginx stop
-   ```
+     ```bash
+     $ sudo service nginx stop
+     ```
 
-   ---
+   {% endlist %}
 
 1. Connect to your website through a browser. The connection should be successful, even though one of the web servers has failed.
 
 1. After the check is complete, restart the web service:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB LAMP]**
+   - LAMP
 
-   ```bash
-   $ sudo service apache2 start
-   ```
+     ```bash
+     $ sudo service apache2 start
+     ```
 
-   **[!TAB LEMP]**
+   - LEMP
 
-   ```bash
-   $ sudo service nginx start
-   ```
+     ```bash
+     $ sudo service nginx start
+     ```
 
-   ---
+   {% endlist %}
 

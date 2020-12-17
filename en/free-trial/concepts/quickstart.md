@@ -1,25 +1,31 @@
 # How to use the free trial
 
-[!INCLUDE [free-trial-conditions](../../_includes/free-trial-conditions.md)]
+{% include [free-trial-conditions](../../_includes/free-trial-conditions.md) %}
 
 ## Registration
 
-To use the free trial, sign up for Yandex.Cloud and create your first billing account. The trial period is activated automatically after the billing account is created.
+To use the free trial, sign up for Yandex.Cloud and create your first billing account. The trial period is activated automatically after a billing account is created.
 
-[Learn more about registering and creating the billing account](../../billing/quickstart/index.md).
+[Learn more about registering and creating billing accounts](../../billing/quickstart/index.md).
+
+{% note info %}
+
+Residents and non-residents of the Russian Federation can sign up for Yandex.Cloud. Non-residents of the Russian Federation can only register business accounts. The terms and conditions are available in the Billing [documentation](../../billing/qa/non-resident.md).
+
+{% endnote %}
 
 ## Getting started
 
 To start working with Yandex.Cloud:
 
-[!INCLUDE [quickstart-all](../../_includes/quickstart-all-no-billing.md)]
+{% include [quickstart-all](../../_includes/quickstart-all-no-billing.md) %}
 
 You might also find these links useful:
 
-* [[!TITLE]](limits.md)
-* [[!TITLE]](usage-monitor.md)
-* [[!TITLE]](trial-ending.md)
-* [[!TITLE]](upgrade-to-paid.md)
-* [Overview of the Yandex.Cloud platform](../../overview/)
+* [{#T}](limits.md)
+* [{#T}](usage-monitor.md)
+* [{#T}](trial-ending.md)
+* [{#T}](upgrade-to-paid.md)
+* [Yandex.Cloud platform overview](../../overview/)
 * [Yandex.Cloud documentation](/docs)
 

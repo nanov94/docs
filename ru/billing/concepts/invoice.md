@@ -1,17 +1,26 @@
 # Счет-фактура
 
-Счет-фактура — налоговый документ, который оформляется Яндексом в соответствии с Налоговым Кодексом РФ.
+Счет-фактура — налоговый документ, который оформляется Яндексом для резидентов РФ в соответствии с Налоговым Кодексом РФ.
 
 ## Формирование счета-фактуры {#create-invoice}
 
-[Акт](../concepts/act.md) об оказанных услугах и счет-фактура формируются по окончании отчетного периода на сумму, фактически израсходованную с [баланса лицевого счета](../concepts/personal-account.md#balance). 
+[Акт](../concepts/act.md) об оказанных услугах и счет-фактура формируются по окончании отчетного периода на сумму, фактически израсходованную с [баланса лицевого счета](../concepts/personal-account.md#balance).
 
-[!INCLUDE [act-invoice-note](../_includes/act-invoice-note.md)]  
+{% include [act-invoice-note](../_includes/act-invoice-note.md) %}
 
-[!INCLUDE [act-invoice-examples](../_includes/act-invoice-examples.md)]  
+{% include [act-invoice-examples](../_includes/act-invoice-examples.md) %}
 
 
-## Учет НДС {#nds}
+## Учет налогов и сборов {#nds}
 
-[!INCLUDE [nds](../_includes/nds.md)]
+{% list tabs %}
 
+  - Резидентам РФ
+
+    {% include [nds-only-res](../_includes/nds-only-res.md) %}  
+       
+  - Нерезидентам РФ
+
+    Нерезидентам РФ счет-фактура не предоставляется.
+    
+{% endlist %} 

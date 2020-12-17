@@ -1,11 +1,27 @@
-- [Создать первый каталог](../resource-manager/quickstart.md)
-- [Создать облачную сеть](../vpc/quickstart.md)
-- [Создать виртуальную машину Linux](../compute/quickstart/quick-create-linux.md)
-- [Создать виртуальную машину Windows](../compute/quickstart/quick-create-windows.md)
-- Создать кластер баз данных:
-
-  - [ClickHouse](../managed-clickhouse/quickstart.md)
-  - [MongoDB](../managed-mongodb/quickstart.md)
-  - [PostgreSQL](../managed-postgresql/quickstart.md)
-
-- [Разместить файлы в объектном хранилище](../storage/quickstart.md)
+- Создайте виртуальную машину в {{ compute-name }}:
+  - [Linux](../compute/quickstart/quick-create-linux.md).
+  - [Windows](../compute/quickstart/quick-create-windows.md).
+  - [группу виртуальных машин](../compute/quickstart/ig.md).
+- Используйте сервисы для хранения:
+  - [Разместите файлы в {{ objstorage-name }}](../storage/quickstart.md).
+  - [Загрузите Docker-образ в реестр в {{ container-registry-name }}](../container-registry/quickstart/index.md).
+- Настройте сети:
+  - [Создайте облачную сеть в {{ vpc-name }}](../vpc/quickstart.md).
+  - [Настройте балансировщик в {{ load-balancer-name }}](../load-balancer/quickstart.md).
+- Управляйте доступом:
+  - [Добавьте пользователей и назначьте им роли в {{ iam-short-name }}](../iam/quickstart.md).
+  - [Создайте новый каталог в облаке и предоставьте к нему доступ в {{ resmgr-name }}](../resource-manager/quickstart.md).
+- Создайте кластер баз данных:
+  - [ClickHouse](../managed-clickhouse/quickstart.md).
+  - [MongoDB](../managed-mongodb/quickstart.md).
+  - [MySQL](../managed-mysql/quickstart.md).
+  - [Redis](../managed-redis/quickstart.md)
+  - [PostgreSQL](../managed-postgresql/quickstart.md).
+- Используйте машинное обучение:
+  - [Преобразуйте текст в речь и наоборот с помощью {{ speechkit-name }}](../speechkit/quickstart.md).
+  - [Переведите текст в {{ translate-name }}](../translate/quickstart.md).
+  - [Анализируйте изображение с помощью компьютерного зрения в {{ vision-name }}](../vision/quickstart.md).
+- Прочее:
+  - [Создайте кластер {{ k8s }}](../managed-kubernetes/quickstart.md).
+  - [Настройте обмен сообщениями между приложениями в {{ message-queue-name }}](../message-queue/quickstart.md).
+  - [Визуализируйте данные в {{ datalens-name }}](../datalens/).

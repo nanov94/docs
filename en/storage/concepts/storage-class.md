@@ -1,20 +1,42 @@
 # Storage class
 
-[!KEYREF objstorage-full-name] allows you to store objects in standard and cold storage.
+{{ objstorage-name }} lets you store objects in both *standard* and *cold* storages:
 
-The standard storage is designed for storing frequently used objects.
+- Standard storage is designed for storing frequently used objects.
+- Cold storage is designed for the long-term storage of objects that are rarely read.
 
-The cold storage is designed for long-term storage of objects with rare read requests.
+The storage class is optionally specified when uploading each individual object.
 
-The storage class is specified when uploading each individual object. You can't set a storage class for an entire bucket, folder, or cloud. By default, [!KEYREF objstorage-name] saves objects to the standard storage.
+Pricing differs for storing and accessing objects in standard and cold storage. For more information, see [{#T}](../pricing.md).
 
-Pricing differs for storing and accessing objects in standard storage and cold storage. For more information, see [[!TITLE]](../pricing.md).
+## Default storage for a bucket {#default-storage-class}
 
-## Storage class IDs
+If you don't specify the storage class on object upload, the object is saved to the default storage for the bucket.
+
+You can set the default storage when creating a bucket in the management console. Afterwards, you can also change this setting for each bucket in the management console. You can't set or change the default storage with other tools. For buckets created outside of the management console, the default storage is set. You can't set the default storage for all buckets in a folder or cloud at once.
+
+Setting the default storage is useful if the tool you use doesn't let you set the object storage class.
+
+## Changing an object storage class {#changing-storage-class}
+
+{{ objstorage-name }} doesn't support arbitrarily changing the storage class of an object. To change the storage class, you can:
+
+- Upload the object again to {{ objstorage-name }} with the required storage class.
+- Set the criteria for changing the storage class in the [object lifecycle](lifecycles.md) configuration.
+
+The Lifecycle configuration lets you move an object from standard storage to cold storage according to the [rules](../s3/api-ref/lifecycles/xml-config.md).
+
+{% note info %}
+
+The lifecycle configuration only lets you move an object from standard to cold storage.
+
+{% endnote %}
+
+## Storage class IDs {#storage-class-identifiers}
 
 - Standard storage: `STANDARD`.
 
 - Cold storage: `COLD`.
 
-    For uploading objects to cold storage, you can also specify the `STANDARD_IA` and `NEARLINE` IDs. [!KEYREF objstorage-name] interprets them as `COLD`. Use any suitable ID when working with the [API compatible with Amazon S3](../s3/index.md) or the tools described in [[!TITLE]](../instruments/index.md).
+    To upload objects to cold storage, you can also specify the `STANDARD_IA` and `NEARLINE` IDs. {{ objstorage-name }} interprets them as `COLD`. Use any ID you want when working with an [Amazon S3-compatible API](../s3/index.md) or the tools described in [{#T}](../tools/index.md).
 

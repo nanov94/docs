@@ -1,38 +1,65 @@
-# [!KEYREF iam-full-name]
+# {{ iam-full-name }}
 
-[!INCLUDE-NOTITLE [iam-def](../../_includes/iam-def.md)]
+{% include notitle [iam-def](../../_includes/iam-def.md) %}
 
-With [!KEYREF iam-short-name], you can:
+With {{ iam-short-name }}, you can:
 
 * [Grant access to resources](#access).
 * [Manage accounts in Yandex.Cloud](#accounts).
+* [Manage authorization keys](#keys).
 * [Log in to Yandex.Cloud](#auth).
 
-## Access {#access}
+## Resource access {#access}
 
 To grant a user access to a resource, you assign them [roles](access-control/roles.md) for the resource. Each role consists of a set of permissions that describe operations that can be performed with the resource.
 
-Before performing an operation with a certain resource (for example, creating a VM), Yandex.Cloud sends a request to the IAM service to check whether this operation is allowed. [!KEYREF iam-short-name] compares the list of required permissions to the list of permissions granted to the user who is performing this operation. If some of the permissions are missing, the operation is not allowed and Yandex.Cloud returns an error. For more information, see the section [[!TITLE]](access-control/index.md).
+Before performing an operation with a certain resource (such as creating a VM), Yandex.Cloud sends a request to the IAM service to check whether this operation is allowed. {{ iam-short-name }} compares the list of required permissions to the list of permissions granted to the user performing this operation. If some of the permissions are missing, the operation is not allowed and Yandex.Cloud returns an error. For more information, see [{#T}](access-control/index.md).
 
-## Accounts {#accounts}
+## Accounts in Yandex.Cloud {#accounts}
 
-Users who are performing operations with resources are identified via [Yandex.Passport accounts](#passport) and [service accounts](#sa).
+To identify users performing operations with resources, use [Yandex accounts](#passport), [service accounts](#sa), or [federated accounts](#saml-federation).
 
-> [!NOTE]
->
-> Billing accounts are not used for resource management in Yandex.Cloud and do not pertain to the [!KEYREF iam-short-name] service. For more information, see the section [[!TITLE]](../../billing/concepts/billing-account.md) in the billing documentation.
+{% note info %}
 
-### Yandex.Passport account {#passport}
+Billing accounts aren't used for managing resources in Yandex.Cloud and aren't part of {{ iam-short-name }}. For more information, see [{#T}](../../billing/concepts/billing-account.md) in the billing documentation.
 
-_A Yandex.Passport account_ is your Yandex or [Yandex.Connect](https://connect.yandex.com) account. You need a Yandex.Passport account for managing resources via the [management console](console.cloud.yandex.ru).
+{% endnote %}
 
-### Service account {#sa}
+### Yandex account {#passport}
 
-[!INCLUDE [sa-def](../_includes_service/sa-def.md)]
+_Yandex accounts_ are your accounts in Yandex.Passport or [Yandex.Connect]({{ link-yandex-connect }}).
 
-By using service accounts you can flexibly configure access rights to resources for programs you have written. For more information, see the section [[!TITLE]](users/service-accounts.md).
+{% note info %}
+
+{% include [yandex-account-2fa-warning.md](../../_includes/iam/yandex-account-2fa-warning.md) %}
+
+{% endnote %}
+
+### Service accounts {#sa}
+
+{% include [sa-def](../_includes_service/sa-def.md) %}
+
+By using service accounts you can flexibly configure access rights to resources for programs you wrote. For more information, see [{#T}](users/service-accounts.md).
+
+### Federated account {#saml-federation}
+
+_A federated account_ is a user account from an identity federation, like Active Directory.
+
+{% include [about-saml-federations](../../_includes/iam/about-saml-federations.md) %}
+
+For more information, see [{#T}](users/identity-federations.md).
+
+## Authorization keys {#keys}
+
+There are three different kinds of authorization keys in Yandex.Cloud:
+
+* [API keys](authorization/api-key.md): Used instead of IAM tokens for simplified authorization.
+* [Authorized keys](authorization/key.md): Used to obtain IAM tokens for service accounts.
+* [Static access keys](authorization/access-key.md): Used in services with AWS-compatible APIs.
+
+These keys are currently only used for service accounts.
 
 ## Authorization {#auth}
 
-The user has to go through authorization so that [!KEYREF iam-short-name] can check the user's rights. Authorization is performed in different ways, depending on the type of account and the interface used. For more information, see the section [[!TITLE]](authorization/index.md).
+The user must pass authentication so that {{ iam-short-name }} can authorize them (i.e., check whether the user has rights). Authentication is performed in different ways, depending on the type of account and the interface used. For more information, see [{#T}](authorization/index.md).
 

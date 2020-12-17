@@ -3,21 +3,43 @@
 В этом сценарии описано, как настроить веб-сайт с балансировкой нагрузки между двумя зонами доступности, защищенный от сбоев в одной зоне.
 
 Чтобы настроить отказоустойчивый веб-сайт с DNS-балансировкой нагрузки:
-1. [Создайте в разных зонах доступности две виртуальные машины с предустановленным веб-сервером](#create-web-server-vm)
-1. [Загрузите файлы веб-сайта](#upload-files)
-1. [Создайте в разных зонах доступности две виртуальные машины для DNS-балансировщиков](#create-dns-balancer-vm)
-1. [Установите и настройте ПО DNS-балансировщика](#install-configure-dns-balancer)
-1. [Настройте DNS](#configure-dns)
-1. [Протестируйте отказоустойчивость](#test-ha)
 
-## Подготовка к работе {#before-begin}
+1. [Подготовьте облако к работе](#before-you-begin).
+1. [Подготовьте сетевую инфраструктуру](#prepare-network).
+1. [Cоздайте две виртуальные машины](#create-web-server-vm) с предустановленным веб-сервером в разных зонах доступности.
+1. [Загрузите файлы веб-сайта](#upload-files)
+1. [Создайте две виртуальные машины](#create-dns-balancer-vm) для DNS-балансировщиков в разных зонах доступности.
+1. [Установите и настройте ПО DNS-балансировщика](#install-configure-dns-balancer).
+1. [Настройте DNS](#configure-dns).
+1. [Протестируйте отказоустойчивость](#test-ha).
+
+Если сайт вам больше не нужен, [удалите все используемые им ресурсы](#clear-out).
+
+## Подготовьте облако к работе {#before-you-begin}
+
+Перед тем, как разворачивать сервер, нужно зарегистрироваться в {{ yandex-cloud }} и создать платежный аккаунт:
+
+{% include [prepare-register-billing](../_solutions_includes/prepare-register-billing.md) %}
+
+Если у вас есть активный платежный аккаунт, вы можете создать или выбрать каталог, в котором будет работать ваша виртуальная машина, на [странице облака](https://console.cloud.yandex.ru/cloud).
+ 
+ [Подробнее об облаках и каталогах](../../resource-manager/concepts/resources-hierarchy.md).
+
+### Необходимые платные ресурсы {#paid-resources}
+
+В стоимость поддержки инфраструктуры 1С-Битрикс входит:
+
+* плата за постоянно запущенные виртуальные машины (см. [тарифы {{ compute-full-name }}](../../compute/pricing.md));
+* плата за использование динамического внешнего IP-адреса (см. [тарифы {{ vpc-full-name }}](../../vpc/pricing.md)).
+
+## Подготовьте сетевую инфраструктуру {#prepare-network}
 
 Перед тем, как создавать виртуальные машины:
 
-1. Перейдите в [консоль управления](https://console.cloud.yandex.ru) Яндекс.Облака и выберите каталог, в котором будете выполнять операции.
-1. Убедитесь, что в выбранном каталоге есть сеть с подсетями в зонах доступности `ru-cental1-a` и `ru-central1-b`. Для этого на странице каталога нажмите плитку **Yandex Virtual Private Cloud**. Если в списке есть сеть — нажмите на нее, чтобы увидеть список подсетей. Если нужных подсетей или сети нет, [создайте их](../../vpc/quickstart.md).
+1. Перейдите в [консоль управления]({{ link-console-main }}) {{ yandex-cloud }} и выберите каталог, в котором будете выполнять операции.
+1. Убедитесь, что в выбранном каталоге есть сеть с подсетями в зонах доступности `ru-cental1-a` и `ru-central1-b`. Для этого на странице каталога выберите сервис **Virtual Private Cloud**. Если в списке есть сеть — нажмите на нее, чтобы увидеть список подсетей. Если нужных подсетей или сети нет, [создайте их](../../vpc/quickstart.md).
 
-## 1. Создайте виртуальные машины с предустановленным веб-сервером {#create-web-server-vm}
+## Создайте виртуальные машины с предустановленным веб-сервером {#create-web-server-vm}
 
 Последовательно создайте две виртуальные машины по инструкции:
 
@@ -32,14 +54,15 @@
    * **LEMP** для Linux, nginx, MySQL, PHP;
    * **LAMP** для Linux, Apache, MySQL, PHP.
 1. В блоке **Вычислительные ресурсы**:
-    - Выберите [тип виртуальной машины](../../compute/concepts/vm-types.md) (легкая или стандартная).
+    - Выберите [платформу](../../compute/concepts/vm-platforms.md).
     - Укажите необходимое количество vCPU и объем RAM.
 
     Характеристики обеих виртуальных машин должны совпадать.
 
     Для функционального тестирования хватит минимальной конфигурации:
+    * **Платформа** — Intel Cascade Lake.
     * **Гарантированная доля vCPU** — 5%.
-    * **vCPU** — 1.
+    * **vCPU** — 2.
     * **RAM** — 1 ГБ.
 1. В блоке **Сетевые настройки** выберите, к какой подсети необходимо подключить виртуальную машину при создании.
 1. Укажите данные для доступа на виртуальную машину:
@@ -54,17 +77,17 @@
 
 #### См. также
 
-- [[!TITLE]](../../compute/operations/vm-control/vm-connect-ssh.md)
+- [{#T}](../../compute/operations/vm-connect/ssh.md)
 
 
-## 2. Загрузите файлы веб-сайта {#upload-files}
+## Загрузите файлы веб-сайта {#upload-files}
 
 Для виртуальных машин `dns-lb-tutorial-web-ru-central1-a` и `dns-lb-tutorial-web-ru-central1-b` выполните:
 
-[!INCLUDE [upload-files](../_solutions_includes/upload-web-site-files.md)]
+{% include [upload-files](../_solutions_includes/upload-web-site-files.md) %}
 
 
-## 3. Создайте виртуальные машины для DNS-балансировщиков {#create-dns-balancer-vm}
+## Создайте виртуальные машины для DNS-балансировщиков {#create-dns-balancer-vm}
 
 Последовательно создайте две виртуальные машины по инструкции:
 
@@ -77,14 +100,15 @@
    * для второй машины — `ru-central1-b`.
 1. Выберите публичный образ **Ubuntu** или **CentOS**. Поддерживаемые версии для **Ubuntu**: 16.04 или выше.
 1. В блоке **Вычислительные ресурсы**:
-    - Выберите [тип виртуальной машины](../../compute/concepts/vm-types.md) (легкая или стандартная).
+    - Выберите [платформу](../../compute/concepts/vm-platforms.md).
     - Укажите необходимое количество vCPU и объем RAM.
 
     Характеристики обеих виртуальных машин должны совпадать.
 
     Для функционального тестирования хватит минимальной конфигурации:
+    * **Платформа** — Intel Cascade Lake.
     * **Гарантированная доля vCPU** — 5%.
-    * **vCPU** — 1.
+    * **vCPU** — 2.
     * **RAM** — 1 ГБ.
 1. В блоке **Сетевые настройки** выберите, к какой подсети необходимо подключить виртуальную машину при создании.
 1. Укажите данные для доступа на виртуальную машину:
@@ -99,40 +123,40 @@
 
 #### См. также
 
-- [[!TITLE]](../../compute/operations/vm-control/vm-connect-ssh.md)
+- [{#T}](../../compute/operations/vm-connect/ssh.md)
 
 
-## 4. Установите и настройте ПО DNS-балансировщика {#install-configure-dns-balancer}
+## Установите и настройте ПО DNS-балансировщика {#install-configure-dns-balancer}
 
 Для виртуальных машин `dns-lb-tutorial-slb-ru-central1-a` и `dns-lb-tutorial-slb-ru-central1-b` выполните:
 
-1. В блоке **Сеть** на странице виртуальной машины в [консоли управления](https://console.cloud.yandex.ru) найдите публичный IP-адрес виртуальной машины.
-1. [Подключитесь](../../compute/operations/vm-control/vm-connect-ssh.md) к виртуальной машине по протоколу SSH. Для этого можно использовать утилиту `ssh` в Linux и macOS и программу [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) для Windows.
+1. В блоке **Сеть** на странице виртуальной машины в [консоли управления]({{ link-console-main }}) найдите публичный IP-адрес виртуальной машины.
+1. [Подключитесь](../../compute/operations/vm-connect/ssh.md) к виртуальной машине по протоколу SSH. Для этого можно использовать утилиту `ssh` в Linux и macOS и программу [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) для Windows.
 
    Рекомендуемый способ аутентификации при подключении по SSH — с помощью пары ключей.  Не забудьте настроить использование созданной пары ключей: закрытый ключ должен соответствовать открытому ключу, переданному на виртуальную машину.
 1. Установите необходимые зависимости:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu 16/18]**
+   - Ubuntu 16/18
 
-   ```bash
-   $ sudo apt-get update
-   $ sudo apt-get install pdns-server pdns-backend-remote memcached python3-yaml python3-memcache python3-pip
-   ```
+     ```bash
+     $ sudo apt-get update
+     $ sudo apt-get install pdns-server pdns-backend-remote memcached python3-yaml python3-memcache python3-pip
+     ```
 
-   **[!TAB CentOS 6/7]**
+   - CentOS 6/7
 
-   ```bash
-   $ sudo yum check-update
-   $ sudo yum -y install epel-release
-   $ sudo yum -y install pdns pdns-backend-remote memcached python34-yaml python34-setuptools git nano
-   $ sudo service memcached start
-   $ sudo chkconfig pdns on
-   $ sudo chkconfig memcached on
-   ```
+     ```bash
+     $ sudo yum check-update
+     $ sudo yum -y install epel-release
+     $ sudo yum -y install pdns pdns-backend-remote memcached python34-yaml python34-setuptools git nano
+     $ sudo service memcached start
+     $ sudo chkconfig pdns on
+     $ sudo chkconfig memcached on
+     ```
 
-   ---
+   {% endlist %}
 
 1. Установите `polaris-gslb`:
    ```bash
@@ -142,44 +166,44 @@
    ```
 1. Скопируйте файлы конфигурации для polaris-gslb
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu 16/18]**
+   - Ubuntu 16/18
 
-   ```bash
-   $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/powerdns/pdns.conf
-   $ cd /opt/polaris/etc
-   $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
-   $ sudo cp polaris-health.yaml.dist polaris-health.yaml
-   $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
-   $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
-   ```
+     ```bash
+     $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/powerdns/pdns.conf
+     $ cd /opt/polaris/etc
+     $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
+     $ sudo cp polaris-health.yaml.dist polaris-health.yaml
+     $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
+     $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
+     ```
 
-   **[!TAB CentOS 6]**
+   - CentOS 6
 
-   ```bash
-   $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
-   $ cd /opt/polaris/etc
-   $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
-   $ sudo cp polaris-health.yaml.dist polaris-health.yaml
-   $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
-   $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
-   $ sudo cp -a /opt/polaris/bin/polaris-health /etc/init.d/polaris-health
-   $ sudo chkconfig polaris-health on
-   ```
+     ```bash
+     $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
+     $ cd /opt/polaris/etc
+     $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
+     $ sudo cp polaris-health.yaml.dist polaris-health.yaml
+     $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
+     $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
+     $ sudo cp -a /opt/polaris/bin/polaris-health /etc/init.d/polaris-health
+     $ sudo chkconfig polaris-health on
+     ```
 
-   **[!TAB CentOS 7]**
+   - CentOS 7
 
-   ```bash
-   $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
-   $ cd /opt/polaris/etc
-   $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
-   $ sudo cp polaris-health.yaml.dist polaris-health.yaml
-   $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
-   $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
-   ```
+     ```bash
+     $ sudo cp /opt/polaris/etc/pdns.conf.dist /etc/pdns/pdns.conf
+     $ cd /opt/polaris/etc
+     $ sudo cp polaris-lb.yaml.dist polaris-lb.yaml
+     $ sudo cp polaris-health.yaml.dist polaris-health.yaml
+     $ sudo cp polaris-pdns.yaml.dist polaris-pdns.yaml
+     $ sudo cp polaris-topology.yaml.dist polaris-topology.yaml
+     ```
 
-   ---
+   {% endlist %}
 
 1. Узнайте внутренний адрес виртуальной машины:
    ```bash
@@ -187,21 +211,21 @@
    ```
 1. В конфигурационном файле `pdns.conf` укажите внутренний IP-адрес виртуальной машины. Вы можете отредактировать конфигурационный файл с помощью утилиты `nano`:
 
-     ---
+     {% list tabs %}
 
-     **[!TAB Ubuntu 16/18]**
+     - Ubuntu 16/18
 
-     ```bash
-     $ sudo nano /etc/powerdns/pdns.conf
-     ```
+       ```bash
+       $ sudo nano /etc/powerdns/pdns.conf
+       ```
 
-     **[!TAB CentOS 6/7]**
+     - CentOS 6/7
 
-     ```bash
-     $ sudo nano /etc/pdns/pdns.conf
-     ```
+       ```bash
+       $ sudo nano /etc/pdns/pdns.conf
+       ```
 
-     ---
+     {% endlist %}
 
    Файл `pdns.conf` имеет вид:
    ```
@@ -281,7 +305,7 @@
        * Вместо `<dns-lb-tutorial-web-ru-central1-a PUBLIC IP>` — публичный IP-адрес виртуальной машины `dns-lb-tutorial-web-ru-central1-a`.
        * Вместо `<dns-lb-tutorial-web-ru-central1-b PUBLIC IP>` — публичный IP-адрес виртуальной машины `dns-lb-tutorial-web-ru-central1-b`.
 
-       Публичный адрес виртуальной машины вы можете найти в блоке **Сеть** на странице виртуальной машины в [консоли управления](https://console.cloud.yandex.ru).
+       Публичный адрес виртуальной машины вы можете найти в блоке **Сеть** на странице виртуальной машины в [консоли управления]({{ link-console-main }}).
    1. `$ sudo nano /opt/polaris/etc/polaris-pdns.yaml`
 
       Файл `polaris-pdns.yaml` имеет вид:
@@ -393,7 +417,7 @@
    $ sudo iptables-save | sudo tee /etc/sysconfig/iptables
    ```
 
-## 5. Настройте DNS {#configure-dns}
+## Настройте DNS {#configure-dns}
 
 Доменное имя, которое вы хотите использовать для веб-сайта, нужно связать с созданными виртуальными машинами.
 
@@ -401,7 +425,7 @@
 
 Чтобы настроить внешний DNS-сервер, выполните:
 
-1. Найдите публичные IP-адреса виртуальных машин `dns-lb-tutorial-slb-ru-central1-a` и `dns-lb-tutorial-slb-ru-central1-b` в блоке **Сеть** на страницах виртуальных машин в [консоли управления](https://console.cloud.yandex.ru).
+1. Найдите публичные IP-адреса виртуальных машин `dns-lb-tutorial-slb-ru-central1-a` и `dns-lb-tutorial-slb-ru-central1-b` в блоке **Сеть** на страницах виртуальных машин в [консоли управления]({{ link-console-main }}).
 1. Войдите в панель управления внешнего DNS-сервиса. Перейдите в список ваших доменов и нажмите на имя нужного домена.
 1. Создайте две A-записи:
    * Для виртуальной машины `dns-lb-tutorial-slb-ru-central1-a`:
@@ -419,12 +443,12 @@
      * **Value** — `dns-lb-tutorial-slb-ru-central1-b.example.com.`.
 1. Подождите 15-20 минут, пока изменения DNS-записей вводятся в действие. Время ожидания может отличаться для вашего DNS-сервиса.
 
-## 6. Протестируйте отказоустойчивость {#test-ha}
+## Протестируйте отказоустойчивость {#test-ha}
 
-### 6.1. DNS-балансировщики {#test-dns-balancers}
+### DNS-балансировщики {#test-dns-balancers}
 
-1. В блоке **Сеть** на странице виртуальной машины в [консоли управления](https://console.cloud.yandex.ru) найдите публичный IP-адрес виртуальной машины `dns-lb-tutorial-slb-ru-central1-a`.
-1. [Подключитесь](../../compute/operations/vm-control/vm-connect-ssh.md) к виртуальной машине по протоколу SSH.
+1. В блоке **Сеть** на странице виртуальной машины в [консоли управления]({{ link-console-main }}) найдите публичный IP-адрес виртуальной машины `dns-lb-tutorial-slb-ru-central1-a`.
+1. [Подключитесь](../../compute/operations/vm-connect/ssh.md) к виртуальной машине по протоколу SSH.
 1. Остановите сервис DNS, чтобы сымитировать сбой в работе DNS-баласировщика:
    ```bash
    $ sudo service pdns stop
@@ -435,43 +459,46 @@
    $ sudo service pdns start
    ```
 
-### 6.2. Веб-серверы {#test-web-servers}
+### Веб-серверы {#test-web-servers}
 
-1. В блоке **Сеть** на странице виртуальной машины в [консоли управления](https://console.cloud.yandex.ru) найдите публичный IP-адрес виртуальной машины `dns-lb-tutorial-web-ru-central1-a`.
-1. [Подключитесь](../../compute/operations/vm-control/vm-connect-ssh.md) к виртуальной машине по протоколу SSH.
+1. В блоке **Сеть** на странице виртуальной машины в [консоли управления]({{ link-console-main }}) найдите публичный IP-адрес виртуальной машины `dns-lb-tutorial-web-ru-central1-a`.
+1. [Подключитесь](../../compute/operations/vm-connect/ssh.md) к виртуальной машине по протоколу SSH.
 1. Остановите веб-сервис, чтобы сымитировать сбой в работе веб-сервера:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB LAMP]**
+   - LAMP
 
-   ```bash
-   $ sudo service apache2 stop
-   ```
+     ```bash
+     $ sudo service apache2 stop
+     ```
 
-   **[!TAB LEMP]**
+   - LEMP
 
-   ```bash
-   $ sudo service nginx stop
-   ```
+     ```bash
+     $ sudo service nginx stop
+     ```
 
-   ---
+   {% endlist %}
 1. Подключитесь к вашему веб-сайту через браузер. Несмотря на сбой в работе одного из веб-серверов, подключение должно пройти успешно.
 1. После завершения проверки запустите веб-сервис:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB LAMP]**
+   - LAMP
 
-   ```bash
-   $ sudo service apache2 start
-   ```
+     ```bash
+     $ sudo service apache2 start
+     ```
 
-   **[!TAB LEMP]**
+   - LEMP
 
-   ```bash
-   $ sudo service nginx start
-   ```
+     ```bash
+     $ sudo service nginx start
+     ```
 
-   ---
+   {% endlist %}
 
+## Как удалить созданные ресурсы {#clear-out}
+
+Чтобы перестать платить за развернутые серверы, достаточно [удалить](../../compute/operations/vm-control/vm-delete.md) созданные виртуальные машины `dns-lb-tutorial-web-ru-central1-a` и `dns-lb-tutorial-web-ru-central1-b`. 

@@ -1,8 +1,19 @@
+---
+editable: false
+---
 # Quotas and limits
 
-In the [!KEYREF vpc-full-name] service, the following limitations apply:
+## {{ vpc-full-name }}
 
-[!INCLUDE [quotes-limits-def.md](../../_includes/quotes-limits-def.md)]
+{{ vpc-full-name }} has the following limits:
 
-[!INCLUDE [vpc-limits.md](../../_includes/vpc-limits.md)]
+{% include [quotes-limits-def.md](../../_includes/quotes-limits-def.md) %}
+
+{% include [vpc-limits.md](../../_includes/vpc-limits.md) %}
+
+## {{ interconnect-full-name }}
+
+{{ interconnect-full-name }} has the following limits:
+
+{% include [interconnect-limits.md](../../_includes/interconnect-limits.md) %}
 

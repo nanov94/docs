@@ -1,136 +1,162 @@
-# How to manage database users
+# Managing database users
 
 You can add and remove users, as well as manage their individual settings.
 
 ## Getting a list of users {#list-users}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mmg-name }}**.
+  1. Click on the name of the cluster you need and then select the **Users** tab.
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need and then select the **Users** tab.
+- CLI
 
-**[!TAB CLI]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  To get a list of cluster users, run the command:
 
-To get a list of cluster users, run the command:
+  ```
+  $ yc managed-mongodb user list
+       --cluster-name <cluster name>
+  ```
 
-```
-$ [!KEYREF yc-mdb-mg] user list
-     --cluster-name <cluster name>
-```
+  You can query the cluster name with the [list of clusters in the folder](cluster-list.md#list-clusters).
 
-The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
+- API
 
----
+  To get a list of users, use the [list](../api-ref/User/list.md) method.
 
-## Adding users {#adduser}
+{% endlist %}
 
----
+## Add a user {#adduser}
 
-**[!TAB Management console]**
+{% list tabs %}
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need and select the tab **Users**.
-1. Click **Add**.
-1. Enter the database user name and password (from 8 to 128 characters).
+- Management console
 
-**[!TAB CLI]**
+  1. Go to the folder page and select **{{ mmg-name }}**.
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  1. Click on the name of the cluster you need and select the tab **Users**.
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  1. Click **Add**.
 
-To create a user in a cluster:
+  1. Enter the database username and password (from 8 to 128 characters).
 
-1. See the description of the CLI's create user command:
+  1. Configure the [roles](../concepts/users-and-roles.md) for the user:
+     1. Select the database where you want to grant a role.
+     1. Select the role and click **Add** under the list of roles.
 
-   ```
-   $ [!KEYREF yc-mdb-mg] user create --help
-   ```
+     You can grant multiple roles to a user in different databases.
 
-1. Specify the user properties in the create command:
+  1. Click **Add**.
 
-   ```
-   $ [!KEYREF yc-mdb-mg] user create <user name>
-      --cluster-name <cluster name>
-      --password <user password>
-      --permission database=<DB name>,role=<role>,role=<another role>,...
-      --permission database=<another DB name>,role=<role>,...
-   ```
+- CLI
 
-   The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
----
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-## Updating users {#updateuser}
+  To create a user in a cluster:
 
----
+  1. See the description of the CLI's create user command:
 
-**[!TAB Management console]**
+     ```
+     $ yc managed-mongodb user create --help
+     ```
 
-In the management console, you can only change the password of a database user:
+  1. Specify the user properties in the create command:
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need and select the tab **Users**.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) and select **Change password**.
+     ```
+     $ yc managed-mongodb user create <username>
+        --cluster-name <cluster name>
+        --password <user password>
+        --permission database=<DB name>,role=<role>,role=<another role>,...
+        --permission database=<another DB name>,role=<role>,...
+     ```
 
-**[!TAB CLI]**
+     You can query the cluster name with the [list of clusters in the folder](cluster-list.md#list-clusters).
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+- API
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  You can add users using the [create](../api-ref/User/create.md) method.
 
-To change the user's password or the list of databases available to the user:
+{% endlist %}
 
-1. See the description of the CLI's update user command:
+## Changing users {#updateuser}
 
-   ```
-   $ [!KEYREF yc-mdb-mg] user update --help
-   ```
+{% list tabs %}
 
-1. Specify the user properties in the create command:
+- Management console
+  1. Go to the folder page and select **{{ mmg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Users**.
+  1. To change the user's password, click ![image](../../_assets/options.svg) and select **Change password**.
+  1. To change the user's [roles](../concepts/users-and-roles.md):
+     1. Click ![image](../../_assets/options.svg), and select **Configure**.
+     1. To add a role, select the database and role, then click **Add** under the list of roles.
+     1. To delete a role, click ![image](../../_assets/cross.svg) next to the role.
 
-   ```
-   $ [!KEYREF yc-mdb-mg] user update <user name>
-      --cluster-name <cluster name>
-      --password <user password>
-      --permission database=<DB name>,role=<role>,role=<another role>,...
-      --permission database=<another DB name>,role=<role>,...
-   ```
+- CLI
 
-   The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
----
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-## Removing a user {#removeuser}
+  To change a user's password or list of roles:
 
----
+  1. See the description of the CLI's update user command:
 
-**[!TAB Management console]**
+     ```
+     $ yc managed-mongodb user update --help
+     ```
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need and select the tab **Users**.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) and select **Delete**.
+  1. Specify the user properties in the create command:
 
-**[!TAB CLI]**
+     ```
+     $ yc managed-mongodb user update <username>
+        --cluster-name <cluster name>
+        --password <user password>
+        --permission database=<DB name>,role=<role>,role=<another role>,...
+        --permission database=<another DB name>,role=<role>,...
+     ```
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+     You can query the cluster name with the [list of clusters in the folder](cluster-list.md#list-clusters).
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+- API
 
-To remove a user, run:
+  To edit the user's data, use the [update](../api-ref/User/update.md) method.
 
-```
-$ [!KEYREF yc-mdb-mg] user delete <user name>
-     --cluster-name <cluster name>
-```
+{% endlist %}
 
-The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
+## Deleting users {#removeuser}
 
----
+{% list tabs %}
+
+- Management console
+  1. Go to the folder page and select **{{ mmg-name }}**.
+  1. Click on the name of the cluster you need and select the tab **Users**.
+  1. Click ![image](../../_assets/options.svg), and select **Delete**.
+
+- CLI
+
+  {% include [cli-install](../../_includes/cli-install.md) %}
+
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
+
+  To remove a user, run:
+
+  ```
+  $ yc managed-mongodb user delete <username>
+       --cluster-name <cluster name>
+  ```
+
+  You can query the cluster name with the [list of clusters in the folder](cluster-list.md#list-clusters).
+
+- API
+
+  You can delete a user using the [delete](../api-ref/User/delete.md) method.
+
+{% endlist %}
 

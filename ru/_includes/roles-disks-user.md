@@ -1,4 +1,4 @@
-#### compute.disks.user {#compute-disks-user}
+### compute.disks.user {#compute-disks-user}
 
 В роль `compute.disks.user` входят следующие разрешения:
 
@@ -6,8 +6,12 @@
 - получение информации о диске;
 - использование диска для создания новых ресурсов (образов, снимков, новых дисков и виртуальных машин).
 
-> [!NOTE]
->
-> Чтобы при создании виртуальной машины пометить диск автоматически удаляемым, этой роли недостаточно. Для этого используйте роль `editor`.
+{% include [roles-editor-includes-permissions](iam/roles-editor-includes-permissions.md) %}
 
-[!INCLUDE [roles-restriction-only-parents](iam/roles-restriction-only-parents.md)]
+{% note info %}
+
+Чтобы при создании виртуальной машины пометить диск автоматически удаляемым, этой роли недостаточно. Для этого используйте роль `editor`.
+
+{% endnote %}
+
+{% include [roles-restriction-only-parents](iam/roles-restriction-only-parents.md) %}

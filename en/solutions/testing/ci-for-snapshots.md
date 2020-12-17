@@ -18,14 +18,14 @@ To configure CI for VM disk snapshots:
 
 Before creating a VM:
 
-1. Go to the Yandex.Cloud [management console](https://console.cloud.yandex.ru) and select the folder where you want to perform the operations.
-1. Make sure the selected folder has a network with a subnet that the VM can be connected to. To do this, select **Yandex Virtual Private Cloud** on the folder page. If the list contains a network, click on its name to see the list of subnets. If there aren't any networks or subnets, [create them](../../vpc/quickstart.md).
+1. Go to the Yandex.Cloud [management console]({{ link-console-main }}) and select the folder where you want to perform the operations.
+1. Make sure the selected folder has a network with a subnet that the VM can be connected to. To do this, select **Virtual Private Cloud** on the folder page. If the list contains a network, click on its name to see the list of subnets. If there aren't any networks or subnets, [create them](../../vpc/quickstart.md).
 
 ## 1. Create a VM for the test application {#create-vm}
 
 Create a VM where the test application will be installed, the set of components required for it to work, and a web server:
 
-1. On the folder page of the [management console](https://console.cloud.yandex.ru), click **Create resource** and select **Virtual machine**.
+1. On the folder page of the [management console]({{ link-console-main }}), click **Create resource** and select **Virtual machine**.
 
 1. In the **Name** field, enter the VM name: `ci-tutorial-test-app`.
 
@@ -34,8 +34,9 @@ Create a VM where the test application will be installed, the set of components 
 1. Select a public image of Ubuntu 18.04.
 
 1. In the **Computing resources** section, select the following configuration:
+   * **Platform**: Intel Cascade Lake.
    * **Guaranteed vCPU share**: 5%.
-   * **vCPU**: 1.
+   * **vCPU**: 2.
    * **RAM**: 1 GB.
 
 1. In the **Network settings** section, select the subnet to connect the VM to when creating it.
@@ -55,9 +56,9 @@ When a VM is created, it is assigned an IP address and hostname (FQDN). This dat
 
 On the created VM, install the set of components required for the test application and a web server for processing requests. The application will be written in Python 2.
 
-1. In the **Network** section on the VM page of the [management console](https://console.cloud.yandex.ru), find the VM's public IP address.
+1. In the **Network** section on the VM page of the [management console]({{ link-console-main }}), find the VM's public IP address.
 
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
 
    ```
    $ ssh <Login>@<Public_IP_of_the_VM>
@@ -160,7 +161,7 @@ On the created VM, install the set of components required for the test applicati
 1. Create the `test-app.ini` file in the `/srv/test-app` folder:
 
    ```
-   $ touch test-app.ini 
+   $ touch test-app.ini
    ```
 
 1. Open the `test-app.ini` file using any text editor and insert the configuration of the uWSGI server:
@@ -182,7 +183,7 @@ On the created VM, install the set of components required for the test applicati
 
 1. Assign the `www-data` user as the owner of the `/srv/test-app` folder and the files it contains:
 
-   ``` 
+   ```
    $ sudo chown -R www-data:www-data /srv/test-app
    ```
 
@@ -258,7 +259,7 @@ To make sure the test application is running and the web server is configured co
 To easily transfer the created application and web server configuration to VMs created with CI, you need to take a snapshot of the test VM disk.
 
 1. In the Yandex.Cloud management console, select the folder where the VM was created.
-1. Choose **Yandex Compute Cloud**.
+1. Choose **Compute Cloud**.
 1. Find the `ci-tutorial-test-app` VM and select it.
 1. Click **Stop**.
 1. In the window that opens, click **Stop**.
@@ -271,7 +272,7 @@ To easily transfer the created application and web server configuration to VMs c
 
 One of the ways to set up CI in Yandex.Cloud is to take advantage of a public image with GitLab pre-installed. GitLab includes a set of tools for managing git repositories and configuring CI.
 
-1. On the folder page of the [management console](https://console.cloud.yandex.ru), click **Create resource** and select **Virtual machine**.
+1. On the folder page of the [management console]({{ link-console-main }}), click **Create resource** and select **Virtual machine**.
 
 1. In the **Name** field, enter the VM name: `ci-tutorial-gitlab`.
 
@@ -317,7 +318,7 @@ To configure GitLab and prepare CI, you must create a new repository and enter t
 
 1. Click **Create project**.
 
-1. Get an OAuth token from Yandex OAuth. To do this, follow the [link](https://oauth.yandex.com/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb) and click&**Allow**.
+1. Get an OAuth token from Yandex OAuth. To do this, follow the [link](https://oauth.yandex.com/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb) and click **Allow**.
 
 1. In the browser, open a link that looks like `http://<VM-public-IP-address>/root` .
 
@@ -340,7 +341,7 @@ To configure GitLab and prepare CI, you must create a new repository and enter t
 
 Runner is a tool for performing tasks that a user creates. You need to install Runner on the VM and register it in GitLab. In order for Runner to perform tasks, prepare additional components: install the Yandex.Cloud CLI and create a test to check the created VM.
 
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM with GitLab over SSH.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM with GitLab over SSH.
 
    ```
    $ ssh <Login>@<Public_IP_of_the_GitLab_VM>
@@ -453,7 +454,7 @@ You need to define the configuration for CI.
    stages:
      - build
      - test
-     
+
    build:
      stage: build
      variables:
@@ -470,8 +471,8 @@ You need to define the configuration for CI.
          --folder-id $folder_id
          --zone ru-central1-c
          --network-interface subnet-name=$subnet_name,nat-ip-version=ipv4
-         --create-boot-disk name=$instance_name-boot,type=network-nvme,size=15,snapshot-name=$snapshot_name,auto-delete=true
-         --memory 1 
+         --create-boot-disk name=$instance_name-boot,type=network-ssd,size=15,snapshot-name=$snapshot_name,auto-delete=true
+         --memory 1
          --cores 1
          --hostname $instance_name > instance-creation.out
        - sleep 30
@@ -493,7 +494,7 @@ You need to define the configuration for CI.
 
 1. In the `snapshot_name` field, enter a name for the snapshot of the first VM.
 In the `folder_id` field, specify the ID of the folder where the VMs are created.
-In the `subnet_name` field, specify the name of the subnet that the VMs will connect to. To find the name in the management console, open the appropriate folder and go to the Yandex Virtual Private Cloud page.
+In the `subnet_name` field, specify the name of the subnet that the VMs will connect to. To find the name in the management console, open the appropriate folder and go to the Virtual Private Cloud page.
 1. Click **Commit changes**.
 
 ## 9. Check how the application works on the VM created using CI {#test-new-vm}
@@ -503,7 +504,7 @@ After the commit, you need to make sure that CI worked correctly. A new VM shoul
 To check the created VM:
 
 1. Open the Yandex.Cloud management console.
-1. In the folder where the VMs were created, open the **Yandex Compute Cloud** service.
+1. In the folder where the VMs were created, open the **Compute Cloud** service.
 1. If everything was configured correctly, the list of VMs should include a new VM with a name like `ci-tutorial-test-app-1543910277`.
 1. Select the VM you created and copy the public address of the created VM.
 1. In the browser, open a link in this format:

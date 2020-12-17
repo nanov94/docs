@@ -4,8 +4,16 @@ editable: false
 
 # Квоты и лимиты
 
-В сервисе [!KEYREF vpc-full-name] действуют следующие ограничения:
+## {{ vpc-full-name }}
 
-[!INCLUDE [quotes-limits-def.md](../../_includes/quotes-limits-def.md)]
+В сервисе {{ vpc-full-name }} действуют следующие ограничения:
 
-[!INCLUDE [vpc-limits.md](../../_includes/vpc-limits.md)]
+{% include [quotes-limits-def.md](../../_includes/quotes-limits-def.md) %}
+
+{% include [vpc-limits.md](../../_includes/vpc-limits.md) %}
+
+## {{ interconnect-full-name }}
+
+В сервисе {{ interconnect-full-name }} действуют следующие ограничения:
+
+{% include [interconnect-limits.md](../../_includes/interconnect-limits.md) %}

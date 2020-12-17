@@ -5,22 +5,13 @@ editable: false
 
 In Yandex.Cloud, you can use resources of both billable and non-billable services.
 
-## Non-billable services {#unt-services}
+## Non-billable services {#free}
 
 The [Yandex Identity and Access Management](../iam/pricing.md) and [Yandex Resource Manager](../resource-manager/pricing.md) services are always free of charge.
 
-## Billable services {#t-services}
+## Fees for individual services {#billable}
 
-The cost of using billable services is calculated based on the amount for resources consumed and the usage timeframe. The amount for resources consumed is calculated individually for each service.
+Billable service costs are calculated based on the resources consumed and usage timeframe. Each service implements its own logic for calculating the volume of resources consumed.
 
-For more information about billing calculations, see the documentation for the services:
-
-- [Yandex Compute Cloud](../compute/pricing.md)
-- [Yandex Object Storage](../storage/pricing.md)
-- [Yandex Virtual Private Cloud](../vpc/pricing.md)
-- [[!KEYREF mch-full-name]](../managed-clickhouse/pricing.md)
-- [[!KEYREF mmg-full-name]](../managed-mongodb/pricing.md)
-- [[!KEYREF mpg-full-name]](../managed-postgresql/pricing.md)
-- [Yandex Speechkit](../speechkit/pricing.md)
-- [Yandex Translate](../translate/pricing.md)
+For more information about Yandex.Cloud pricing as well as pricing rules for all services, see the [Pricing](https://cloud.yandex.com/prices) page.
 

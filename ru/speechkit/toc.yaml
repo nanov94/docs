@@ -1,27 +1,48 @@
-# Заголовок оглавления для всех страниц в разделе
-title: "Yandex SpeechKit"
+title: Yandex SpeechKit
 href: index.yaml
 items:
-  - name: Авторизация в API
-    href: concepts/auth.md
+  - name: Начало работы
+    href: quickstart.md
   - name: Распознавание речи
     items:
       - name: О технологии
         href: stt/index.md
-      - name: Описание метода API
+      - name: Распознавание коротких аудио
         href: stt/request.md
+      - name: Распознавание длинных аудио
+        href: stt/transcribation.md
       - name: Потоковое распознавание
         href: stt/streaming.md
+      - name: Форматы аудио
+        href: stt/formats.md
+      - name: Модели распознавания
+        href: stt/models.md
   - name: Синтез речи
     items:
       - name: О технологии
         href: tts/index.md
       - name: Описание метода API
         href: tts/request.md
-  - name: Формат ответа
-    href: concepts/response.md
+      - name: Список голосов
+        href: tts/voices.md
+      - name: Использование SSML
+        href: tts/ssml.md
+      - name: Список поддерживаемых фонем в SSML
+        href: tts/supported-phonemes.md
   - name: Интеграция телефонии
     href: concepts/ivr-integration.md
+  - name: Использование API
+    items:
+      - name: Аутентификация в API
+        href: concepts/auth.md
+      - name: Формат ответа
+        href: concepts/response.md
+      - name: Диагностика ошибок
+        href: concepts/support-headers.md
+  - name: Квоты и лимиты
+    href: concepts/limits.md
+  - name: Управление доступом
+    href: security/index.md
   - name: Правила тарификации
     items:
       - name: Действующие правила
@@ -30,3 +51,5 @@ items:
         items:
           - name: Правила до 1 января 2019 года
             href: pricing-archive/pricing-01012019.md
+  - name: Вопросы и ответы
+    href: qa/index.md

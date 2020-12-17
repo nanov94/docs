@@ -1,130 +1,296 @@
-# Creating a [!KEYREF CH] cluster
+# Creating {{ CH }} clusters
 
-[!KEYREF CH] cluster is one or more database hosts that can have replication configured between them.
+{{ CH }}clusters are one or more database hosts that replication can be configured between.
 
-> [!IMPORTANT]
->
-> When creating a [!KEYREF CH] cluster with two or more hosts, [!KEYREF mch-short-name] automatically creates a cluster of three ZooKeeper hosts for managing replication and fault tolerance. These hosts are included when calculating the [resource quotas](https://console.cloud.yandex.ru/?section=quotas) used in the cloud and when calculating the cost of the cluster. For more information, see the section on replication for [[!KEYREF CH]](../concepts/replication.md#clickhouse).
+{% note warning %}
 
-The number of hosts that can be created together with a [!KEYREF CH] cluster depends on the storage option selected:
+When creating a {{ CH }} cluster with 2 or more hosts, {{ mch-short-name }} automatically creates a cluster of 3 ZooKeeper hosts for managing replication and fault tolerance. These hosts are considered when calculating the cost of the [resource quotas]({{ link-console-quotas }}) used by the cloud and the. Read more about replication for [{{ CH }}](../concepts/replication.md#clickhouse).
 
-* When using network drives, you can request any number of hosts (from one to the limits of the current [quota](../concepts/limits.md)).
+{% endnote %}
+
+
+The number of hosts that can be created with a {{ CH }} cluster depends on the storage option selected:
+
+* When using network drives, you can request any number of hosts (from one to the current [quota](../concepts/limits.md) limit).
 
 * When using SSDs, you can create at least two replicas along with the cluster (a minimum of two replicas is required to ensure fault tolerance). If the [available folder resources](../concepts/limits.md) are still sufficient after creating a cluster, you can add extra replicas.
 
----
 
-**[!TAB Management console]**
+{% list tabs %}
 
-1. In the management console, select the folder where you want to create a DB cluster.
+- Management console
 
-1. Click **[!KEYREF mch-name]**.
+  1. In the management console, select the folder where you want to create a DB cluster.
 
-2. Click **Create cluster** and select the necessary DBMS. Once a cluster is created, you cannot change the DBMS.
+  1. Select **{{ mch-name }}**.
 
-3. Enter the cluster name in the **Cluster name** field. The cluster name must be unique within the folder.
+  1. Click **Create cluster**.
 
-4. Select the environment where you want to create the cluster (you cannot change the environment after cluster creation):
+  1. Enter the cluster name in the **Cluster name** field. The cluster name must be unique within the folder.
 
-    * <q>production</q> — for stable versions of your apps.
+  1. Select the environment where you want to create the cluster (you can't change the environment once the cluster is created):
+      - `PRODUCTION`: For stable versions of your apps.
+      - `PRESTABLE`: For testing, including the {{ mch-short-name }} service itself. The Prestable environment is first updated with new features, improvements, and bug fixes. However, not every update ensures backward compatibility.
 
-    * <q>prestable</q> — to perform testing, including that of the [!KEYREF mch-short-name] service itself. The prestable environment is updated more often, which means that known problems are fixed sooner in it, but this may cause backward incompatible changes.
+  1. Select the host class that defines the technical specifications of the VMs where the DB hosts will be deployed. All available options are listed in [{#T}](../concepts/instance-types.md). When you change the host class for the cluster, the characteristics of all existing instances change, too.
 
-5. Select the host class that will define the technical specifications of the VMs where the DB hosts will be deployed. For the list of available classes, see the section [[!TITLE]](../concepts/instance-types.md). When you change the host class for the cluster, the characteristics of all existing instances change, too.
+  1. Under **Storage size**:
 
-6. In the **Storage size** section:
+            - Select the type of storage, either a more flexible network type (**network-hdd** or **network-ssd**) or faster local SSD storage (**local-ssd**). The size of the local storage can only be changed in 100 GB increments.
 
-    * Select the type of storage, either a more flexible network type (**network-hdd** or **network-nvme**) or faster local SSD storage (**local-nvme**). The size of the local storage can only be changed in increments of 100 GB.
+     
+      - Select the size to be used for data and backups. For more information about how backups take up storage space, see [{#T}](../concepts/backup.md).
 
-    * Select the size to be used for data and backups. For more information about how backups take up storage space, see [[!TITLE]](../concepts/backup.md).
+  1. Under **Database**, specify the DB attributes:
+      - DB name.
+      - Username.
+      - User password. At least 8 characters.
 
-7. In the **Database** section, specify DB attributes:
+  1. Under **Hosts**, specify the parameters for the database hosts created with the cluster (keep in mind that if you use SSDs when creating the {{ CH }} cluster, you can set at least two hosts). To change the added host, place the cursor on the host line and click  ![image](../../_assets/pencil.svg).
 
-    * DB name
+  1. If necessary, configure additional cluster settings:
 
-    * User name
+     {% include [mch-extra-settings](../../_includes/mdb/mch-extra-settings-web-console.md) %}
 
-    * User password (a minimum of 8 characters).
+  1. If necessary, configure the DBMS settings:
 
-8. In the **Hosts** section, specify parameters for database hosts created with the cluster (keep in mind that if you use SSDs when creating [!KEYREF CH] clusters, you can set at least two hosts). To change the added host, place the cursor on the host line and click ![image](../../_assets/pencil.svg).
+     {% include [mch-additional-properties](../../_includes/mdb/mch-additional-properties.md) %}
 
-9. Click **Create cluster**.
+  1. Click **Create cluster**.
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-To create a cluster:
+  To create a cluster:
 
-1. Check whether the folder has any subnets for the cluster hosts:
+  
+  1. Check whether the folder has any subnets for the cluster hosts:
 
-    ```
-    $ yc vpc subnet list
-    ```
+     ```
+     $ yc vpc subnet list
+     ```
 
-    If there are no subnets in the folder, [create the necessary subnets](../../vpc/operations/subnet-create.md) in the [!KEYREF vpc-short-name] service.
+     If there are no subnets in the folder, [create the necessary subnets](../../vpc/operations/subnet-create.md) in {{ vpc-short-name }}.
 
-1. See the description of the CLI's create cluster command:
+ 
 
-    ```
-    $ [!KEYREF yc-mdb-ch] cluster create --help
-    ```
+  1. View a description of the CLI's create cluster command:
 
-2. Specify the cluster parameters in the create command (the example shows only mandatory flags):
+      ```
+      $ yc managed-clickhouse cluster create --help
+      ```
 
-    ```
-    $ [!KEYREF yc-mdb-ch] cluster create \
-       --name <cluster name> \
-       --environment <prestable or production> \
-       --network-name <network name> \
-       --host type=<clickhouse or zookeeper>,zone-id=<availability zone>,subnet-id=<subnet ID> \
-       --resource-preset <host class> \
-       --clickhouse-disk-type <network-hdd | network-nvme | local-nvme> \
-       --clickhouse-disk-size <storage size in GB> \
-       --user name=<user name>,password=<user password> \
-       --database name=<DB name>
-    ```
+  1. Specify the cluster parameters in the create command (the example shows only mandatory flags):
 
-    The subnet ID `subnet-id` should be specified if the selected availability zone contains two or more subnets.
+     
+     ```
+     $ yc managed-clickhouse cluster create \
+        --name <cluster name> \
+        --environment <prestable or production> \
+        --network-name <network name> \
+        --host type=<clickhouse or zookeeper>,zone-id=<availability zone>,subnet-id=<subnet ID> \
+        --resource-preset <host class> \
+        --clickhouse-disk-type <network-hdd | network-ssd | local-ssd> \
+        --clickhouse-disk-size <storage size in GB> \
+        --user name=<username>,password=<user password> \
+        --database name=<DB name>
+     ```
 
----
+     The subnet ID `subnet-id` should be specified if the selected availability zone contains two or more subnets.
 
-## Examples
+    
 
-### Creating a single-host cluster
+- Terraform
 
-To create a cluster with a single host, you should pass a single parameter, `--host`.
+  {% include [terraform-definition](../../solutions/_solutions_includes/terraform-definition.md) %}
 
-Let's say we need to create a [!KEYREF CH] cluster with the following characteristics:
+  If you don't have Terraform yet, [install it and configure the provider](../../solutions/infrastructure-management/terraform-quickstart.md#install-terraform).
 
-* Named `mych`.
+  To create a cluster:
 
-* In the `production` environment.
+    1. In the configuration file, describe the parameters of resources that you want to create:
+       * Database cluster: Description of the cluster and its hosts.
+       * Network: Description of the [cloud network](../../vpc/concepts/network.md#network) where the cluster will be located. If you already have a suitable network, you don't need to describe it again.
+       * Subnets: Description of the [subnets](../../vpc/concepts/network.md#network) to connect the cluster hosts to. If you already have suitable subnets, you don't need to describe them again.
 
-* In the `default` network.
+       Example configuration file structure:
 
-* With a single ClickHouse host of the `s1.nano` class in the `b0rcctk2rvtr8efcch64` subnet and the `ru-central1-c` availability zone.
+       ```
+       resource "yandex_mdb_clickhouse_cluster" "<cluster name>" {
+         name        = "<cluster name>"
+         environment = "<environment>"
+         network_id  = "<network ID>"
+       
+         clickhouse {
+           resources {
+             resource_preset_id = "<host class>"
+             disk_type_id       = "<storage type>"
+             disk_size          = "<storage size, GB>"
+           }
+         }
+       
+         database {
+           name = "<DB name>"
+         }
+       
+         user {
+           name     = "<DB username>"
+           password = "<password>"
+           permission {
+             database_name = "<name of the DB where the user is created>"
+           }
+         }
+       
+         host {
+           type      = "CLICKHOUSE"
+           zone      = "<availability zone>"
+           subnet_id = "<subnet ID>"
+         }
+       }
+       
+       resource "yandex_vpc_network" "<network name>" { name = "<network name>" }
+       
+       resource "yandex_vpc_subnet" "<subnet name>" {
+         name           = "<subnet name>"
+         zone           = "<availability zone>"
+         network_id     = "<network ID>"
+         v4_cidr_blocks = ["<range>"]
+       }
+       ```
 
-* With SSD network storage of 20 GB.
+       For more information about resources that you can create using Terraform, see the [provider's documentation](https://www.terraform.io/docs/providers/yandex/r/mdb_clickhouse_cluster.html).
 
-* With one user (`user1`) and the password `user1user1`.
+    1. Make sure that the configuration files are correct.
+       1. In the command line, go to the folder where you created the configuration file.
+       1. Run the check using the command:
 
-* With one `db1` database.
+          ```
+          terraform plan
+          ```
 
-Run the command:
+       If the configuration is described correctly, the terminal displays a list of created resources and their parameters. If there are errors in the configuration, Terraform points them out. This is a test step. No resources are created.
 
-```
-$ [!KEYREF yc-mdb-ch] cluster create \
-     --name mych \
-     --environment=production \
-     --network-name default \
-     --clickhouse-resource-preset s1.nano \
-     --host type=clickhouse,zone-id=ru-central1-c,subnet-id=b0cl69g98qumiqmtg12a \
-     --clickhouse-disk-size 20 \
-     --clickhouse-disk-type network-nvme \
-     --user name=user1,password=user1user1 \
-     --database name=db1
-```
+    1. Create a cluster.
+       1. If the configuration doesn't contain any errors, run the command:
+
+          ```
+          terraform apply
+          ```
+       2. Confirm that you want to create the resources.
+
+       After this, all the necessary resources will be created in the specified folder and the IP addresses of the VMs will be displayed in the terminal. You can check resource availability and their settings in [management console]({{ link-console-main }}).
+
+{% endlist %}
+
+## Examples {#examples}
+
+{% list tabs %}
+
+- CLI
+
+  **Creating a single-host cluster**
+
+  To create a cluster with a single host, you should pass a single parameter, `--host`.
+
+  Let's say we need to create a {{ CH }} cluster with the following characteristics:
+
+    - Named `mych`.
+  - In the `production` environment.
+  - In the `default` network.
+  - With a single `{{ host-class }}` class ClickHouse host in the `b0rcctk2rvtr8efcch64` subnet and `ru-central1-c` availability zone.
+  - With 20 GB fast network storage (`{{ disk-type-example }}`).
+  - With one user, `user1`, with the password `user1user1`.
+  - With one database, `db1`.
+
+ 
+
+  Run the command:
+
+  
+  ```
+  $ yc managed-clickhouse cluster create \
+       --name mych \
+       --environment=production \
+       --network-name default \
+       --clickhouse-resource-preset s2.micro \
+       --host type=clickhouse,zone-id=ru-central1-c,subnet-id=b0cl69g98qumiqmtg12a \
+       --clickhouse-disk-size 20 \
+       --clickhouse-disk-type network-ssd \
+       --user name=user1,password=user1user1 \
+       --database name=db1
+  ```
+
+ 
+
+- Terraform
+
+  **Creating a single-host cluster**
+
+  Let's say we need to create a {{ CH }} cluster and a network for it with the following characteristics:
+    - Named `mych`.
+    - In the `PRESTABLE` environment.
+    - In the cloud with ID `b1gq90dgh25иebiu75o`.
+    - In a folder named `myfolder`.
+    - In a new network named `mynet`.
+    - With a single `{{ host-class }}` class host in the new subnet named `mysubnet` and the `ru-central1-c` availability zone. The `mysubnet` subnet will have a range of `10.5.0.0/24`.
+    - With 32 GB of fast network storage.
+    - With the database name `my_db`.
+    - With the username `user1` and password `user1user1`.
+
+  The configuration file for the cluster looks like this:
+
+  ```
+  provider "yandex" {
+    token = "<OAuth or static key of service account>"
+    cloud_id  = "b1gq90dgh25иebiu75o"
+    folder_id = "${data.yandex_resourcemanager_folder.myfolder.id}"
+    zone      = "ru-central1-c"
+  }
+  
+  resource "yandex_mdb_clickhouse_cluster" "mych" {
+    name        = "mych"
+    environment = "PRESTABLE"
+    network_id  = "${yandex_vpc_network.mynet.id}"
+  
+    clickhouse {
+      resources {
+        resource_preset_id = "s2.micro"
+        disk_type_id       = "network-ssd"
+        disk_size          = 32
+      }
+    }
+  
+    database {
+      name = "my_db"
+    }
+  
+    user {
+      name     = "user1"
+      password = "user1user1"
+      permission {
+        database_name = "my_db"
+      }
+    }
+  
+    host {
+      type      = "CLICKHOUSE"
+      zone      = "ru-central1-c"
+      subnet_id = "${yandex_vpc_subnet.mysubnet.id}"
+    }
+  }
+  
+  resource "yandex_vpc_network" "mynet" { name = "mynet" }
+  
+  resource "yandex_vpc_subnet" "mysubnet" {
+    name           = "mysubnet"
+    zone           = "ru-central1-c"
+    network_id     = "${yandex_vpc_network.mynet.id}"
+    v4_cidr_blocks = ["10.5.0.0/24"]
+  }
+  ```
+
+{% endlist %}
 

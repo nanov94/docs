@@ -1,0 +1,1 @@
+[`resource-manager.clouds.member`](../../../../iam/concepts/access-control/roles.md#member) — роль, необходимая для доступа к ресурсам в облаке всем, кроме [владельцев облака](../../../../resource-manager/concepts/resources-hierarchy.md#owner) и [сервисных аккаунтов](../../../../iam/concepts/users/service-accounts.md).

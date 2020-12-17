@@ -2,101 +2,116 @@
 
 You can add and remove databases, as well as view information about them.
 
-## Getting a list of databases in a cluster {#list-db}
+## Getting a list of cluster databases {#list-db}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mch-name }}**.
+  1. Click on the name of the cluster you need and select the **Databases** tab.
 
-1. Go to the folder page and click **[!KEYREF mch-name]**.
-1. Click on the name of the cluster you need and select the **Databases** tab.
+- CLI
 
-**[!TAB CLI]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  To get a list of databases in a cluster, run the command:
 
-To get a list of cluster databases, run the command:
+  ```
+  $ yc managed-clickhouse database list
+       --cluster-name=<cluster name>
+  ```
 
-```
-$ [!KEYREF yc-mdb-ch] database list
-     --cluster-name=<cluster name>
-```
+  The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+- API
 
-**[!TAB API]**
+  To get a list of cluster databases, use the [list](../api-ref/Database/list.md) method.
 
-To get a list of cluster databases, use the [list](../api-ref/Database/list.md) method.
-
----
+{% endlist %}
 
 ## Creating a database {#add-db}
 
 The number of databases in a cluster is unlimited.
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mch-name }}**.
+  1. Click on the name of the cluster you need.
 
-1. Go to the folder page and click **[!KEYREF mch-name]**.
-1. Click on the name of the cluster you need.
-1. Select the **Databases** tab.
-1. Click **Add**.
-1. Enter the DB name and click **Add**.
+  1. Select the **Databases** tab.
+  1. Click **Add**.
+  1. Enter a name for the database and click **Add**.
 
-**[!TAB CLI]**
+  {% note info %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+    Database names may consist of Latin letters, numbers, dashes, and underscores. The maximum name length is 63 characters. You can't create a database named `default`.
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% endnote %}
 
-Run the create database command and set the name of the new database:
+- CLI
 
-```
-$ [!KEYREF yc-mdb-ch] database create <DB name>
-    --cluster-name <cluster name>
-```
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!KEYREF mch-short-name] runs the create database operation.
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+  Run the create database command and set the name of the new database:
 
-**[!TAB API]**
+  ```
+  $ yc managed-clickhouse database create <database name>
+      --cluster-name <cluster name>
+  ```
 
-You can create a new database in a cluster using the [create](../api-ref/Database/create.md) method.
+  {{ mch-short-name }} runs the create database operation.
 
----
+  {% note info %}
 
-## Removing a database {#remove-db}
+    Database names may consist of Latin letters, numbers, dashes, and underscores. The maximum name length is 63 characters. You can't create a database named `default`.
 
----
+  {% endnote %}
 
-**[!TAB Management console]**
+  The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
 
-1. Go to the folder page and click **[!KEYREF mch-name]**.
-1. Click on the name of the cluster you need and select the **Databases** tab.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) in the line of the necessary DB and select **Delete**.
+- API
 
-**[!TAB CLI]**
+  You can create a new database in a cluster using the [create](../api-ref/Database/create.md) method.
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+{% endlist %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+## Deleting a database {#remove-db}
 
-To remove a database, run the command:
+{% list tabs %}
 
-```
-$ [!KEYREF yc-mdb-ch] database delete <DB name>
-     --cluster-name=<cluster name>
-```
+- Management console
+  1. Go to the folder page and select **{{ mch-name }}**.
+  1. Click on the name of the cluster you need and select the **Databases** tab.
+  1. Click ![image](../../_assets/vertical-ellipsis.svg) in the line of the necessary DB and select **Delete**.
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+- CLI
 
-**[!TAB API]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-You can delete a database using the [delete](../api-ref/Database/delete.md) method.
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
----
+  To delete a database, run the command:
 
+  ```
+  $ yc managed-clickhouse database delete <database name>
+       --cluster-name=<cluster name>
+  ```
+
+  The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
+
+- API
+
+  You can delete a database using the [delete](../api-ref/Database/delete.md) method.
+
+{% endlist %}
+
+{% note warning %}
+
+Before creating a new database with the same name, wait for the delete operation to complete, otherwise the database being deleted is restored. Operation status can be obtained with a [list of cluster operations](cluster-list.md#list-operations).
+
+{% endnote %}

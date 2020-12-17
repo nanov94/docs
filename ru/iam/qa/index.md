@@ -1,9 +1,9 @@
-# Вопросы и ответы
+# Вопросы и ответы про {{ iam-name }}
 
-## Общие вопросы
+## Общие вопросы {#general-questions}
 
-[!INCLUDE-NOTITLE [general](general.md)]
+{% include notitle [general](general.md) %}
 
-## Вход в систему и доступ к ресурсам
+## Вход в систему и доступ к ресурсам {#log-in-and-access}
 
-[!INCLUDE-NOTITLE [access](access.md)]
+{% include notitle [access](access.md) %}

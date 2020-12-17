@@ -2,85 +2,85 @@
 
 Помимо облачной сети в каталоге по умолчанию вы можете создавать дополнительные облачные сети в других каталогах.
 
----
+{% list tabs %}
 
-**[!TAB Консоль управления]**
+- Консоль управления
 
-Чтобы создать [облачную сеть](../concepts/network.md):
-1. Откройте раздел **Virtual Private Cloud** в каталоге, где требуется создать облачную сеть.
-1. Нажмите кнопку **Создать сеть.**
-1. Задайте имя сети. 
-	
-    [!INCLUDE [name-format](../../_includes/name-format.md)]
+  Чтобы создать [облачную сеть](../concepts/network.md):
+  1. Откройте раздел **Virtual Private Cloud** в каталоге, где требуется создать облачную сеть.
+  1. Нажмите кнопку **Создать сеть.**
+  1. Задайте имя сети.
 
-1. Нажмите кнопку **Создать сеть**.
+      {% include [name-format](../../_includes/name-format.md) %}
 
-**[!TAB CLI]**
+  1. Нажмите кнопку **Создать сеть**.
 
-Если у вас еще нет интерфейса командной строки Яндекс.Облака, [установите его](https://cloud.yandex.ru/docs/cli/quickstart#install).
+- CLI
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% include [include](../../_includes/cli-install.md) %}
 
-Чтобы создать [облачную сеть](../concepts/network.md):
-1. Посмотрите описание команды CLI для создания облачной сети:
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-    ```
-    $ yc vpc network create --help
-    ```
+  Чтобы создать [облачную сеть](../concepts/network.md):
+  1. Посмотрите описание команды CLI для создания облачной сети:
 
-1. Создайте облачную сеть в каталоге по умолчанию:
+      ```
+      $ yc vpc network create --help
+      ```
 
-    ```
-    $ yc vpc network create --name test-network-1 \
-        --description "My test network"
-    ```
+  1. Создайте облачную сеть в каталоге по умолчанию:
 
-    [!INCLUDE [name-format](../../_includes/name-format.md)]
+      ```
+      $ yc vpc network create --name test-network-1 \
+          --description "My test network"
+      ```
 
-    Флаги `--name` и `--description` необязательные — можно создать сеть без имени и описания и обращаться к ней по идентификатору. 
+      {% include [name-format](../../_includes/name-format.md) %}
 
-1. Получите список всех облачных сетей в каталоге по умолчанию:
+      Флаги `--name` и `--description` необязательные — можно создать сеть без имени и описания и обращаться к ней по идентификатору.
 
-    ```
-    $ yc vpc network list
-    +----------------------+----------------+
-    |          ID          |      NAME      |
-    +----------------------+----------------+
-    | enpiuvhhd4t80k4n80i8 | test-network-1 |
-    | enplom7a98s1t0lhass8 | default        |
-    +----------------------+----------------+
-    ```
+  1. Получите список всех облачных сетей в каталоге по умолчанию:
 
-    Получите тот же список c большим количеством деталей в формате YAML:
+      ```
+      $ yc vpc network list
+      +----------------------+----------------+
+      |          ID          |      NAME      |
+      +----------------------+----------------+
+      | enpiuvhhd4t80k4n80i8 | test-network-1 |
+      | enplom7a98s1t0lhass8 | default        |
+      +----------------------+----------------+
+      ```
 
-    ```
-    $ yc vpc network list --format yaml
-    - id: enpiuvhhd4t80k4n80i8
-      folder_id: b1g6ci08ma55klukmdjs
-      created_at: "2018-10-23T11:12:51Z"
-      name: test-network-1
-      description: My first network
-    - id: enplom7a98s1t0lhass8
-      folder_id: b1g6ci08ma55klukmdjs
-      created_at: "2018-09-24T08:23:00Z"
-      name: default
-      description: Auto-created default network
-    ```
+      Получите тот же список c большим количеством деталей в формате YAML:
 
----
+      ```
+      $ yc vpc network list --format yaml
+      - id: enpiuvhhd4t80k4n80i8
+        folder_id: b1g6ci08ma55klukmdjs
+        created_at: "2018-10-23T11:12:51Z"
+        name: test-network-1
+        description: My first network
+      - id: enplom7a98s1t0lhass8
+        folder_id: b1g6ci08ma55klukmdjs
+        created_at: "2018-09-24T08:23:00Z"
+        name: default
+        description: Auto-created default network
+      ```
+
+{% endlist %}
 
 ## Примеры {#examples}
 
 Создайте облачную сеть с именем и описанием в выбранном каталоге:
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-```
-$ yc vpc network create --name test-network-1 \ 
-  --description "My test network" \
-  --folder-id b1gnbfd11bq5g5vnjgr4 
-```
+  ```
+  $ yc vpc network create --name test-network-1 \
+    --description "My test network" \
+    --folder-id b1gnbfd11bq5g5vnjgr4
+  ```
 
----
+{% endlist %}

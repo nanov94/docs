@@ -1,31 +1,33 @@
 # Удаление кластера
 
-> [!IMPORTANT]
->
-> Удаленный кластер баз данных невозможно восстановить: вместе с кластером удаляются все его резервные копии.
+{% include [backups-stored](../../_includes/mdb/backups-stored.md) %}
 
----
+{% list tabs %}
 
-**[!TAB Консоль управления]**
+- Консоль управления
+  
+  1. Откройте страницу каталога в консоли управления.
+  1. Выберите сервис **{{ mch-name }}**.
+  1. Нажмите значок ![image](../../_assets/options.svg) для нужного кластера и выберите пункт **Удалить**.
+  
+- CLI
+  
+  {% include [cli-install](../../_includes/cli-install.md) %}
+  
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
+  
+  Чтобы удалить кластер, выполните команду:
+  
+  ```
+  $ yc managed-clickhouse cluster delete <имя или идентификатор кластера>
+  ```
+  
+  Идентификатор и имя кластера можно запросить со [списком кластеров в каталоге](#list-clusters).
 
-1. Откройте страницу каталога в консоли управления.
-1. Нажмите плитку **[!KEYREF mch-name]**.
-1. Нажмите значок ![image](../../_assets/vertical-ellipsis.svg) для нужного кластера и выберите пункт **Удалить**.
+- Terraform
 
-**[!TAB CLI]**
+  {% include [terraform-delete-mdb-cluster](../../_includes/mdb/terraform-delete-mdb-cluster.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
-
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
-
-Чтобы удалить кластер, выполните команду:
-
-```
-$ [!KEYREF yc-mdb-ch] cluster delete <имя или идентификатор кластера>
-```
-
-Идентификатор и имя кластера можно запросить со [списком кластеров в каталоге](#list-clusters).
-
----
+{% endlist %}
 
 

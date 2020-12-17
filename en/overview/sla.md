@@ -7,9 +7,6 @@ The SLA defines:
 
 SLA details are available at:
 
-* [Yandex.Cloud Service Level Agreement](https://yandex.com/legal/cloud_sla/).
-* Service levels for Yandex.Cloud services:
-  * [Yandex Compute Cloud](https://yandex.ru/legal/cloud_sla_compute/)
-  * [Yandex Object Storage](https://yandex.ru/legal/cloud_sla_storage)
-  * [Yandex Managed Databases](https://yandex.ru/legal/cloud_sla_mdb)
+* [Yandex.Cloud Service Level Agreement](https://yandex.com/legal/cloud_sla/)
+* [Levels of service for the Yandex.Cloud services](https://yandex.com/legal/cloud_sla_levels/)
 

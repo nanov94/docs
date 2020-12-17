@@ -1,32 +1,87 @@
-# Connecting to a database in a cluster [!KEYREF MG]
+# Connecting to a database in a cluster {{ MG }}
 
-Inside Yandex.Cloud, you can connect to a DB cluster only from a VM whose address is in the same Cloud subnet.
+You can connect to {{ mmg-short-name }} cluster hosts:
 
-## Authentication
+{% include [cluster-connect-note](../../_includes/mdb/cluster-connect-note.md) %}
 
-[!KEYREF MG]-clusters in [!KEYREF mmg-short-name] support only encrypted connections. Therefore, an SSL certificate is required to connect to such a cluster. You can prepare all the necessary authentication data as follows:
+To connect to {{ mmg-name }} cluster hosts, specify port 27018.
+
+{% note info %}
+
+If public access is only configured for certain hosts in your cluster, automatic primary replica change may make the primary replica unavailable over the internet.
+
+{% endnote %}
+
+## Configuring an SSL certificate {#Configuring-an-SSL-certificate}
+
+{{ MG }}hosts with public access only support connections with an SSL certificate. You can prepare a certificate as follows:
+
 
 ```bash
 $ mkdir ~/.mongodb
-$ wget "https://[!KEYREF s3-storage-host][!KEYREF pem-path]" -O ~/.mongodb/CA.pem
+$ wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" -O ~/.mongodb/CA.pem
 $ chmod 0600 ~/.mongodb/CA.pem
 ```
 
-## Connection string
 
-Now you can connect to the database using the `mongo` command by listing all the cluster hosts in the `host` parameter value:
+## Connection string {#Connection-string}
 
-```bash
-$ mongo --norc \
-        --ssl \
-        --sslCAFile ~/.mongodb/CA.pem \
-        --host 'rs01/<address of host 1>:27018,<address of host 2>:27018,<address of host N>:27018' \
-        -u <user name> \
-        -p <user password> \
-        <DB name>
-```
+You can connect to the database using the command `mongo` by listing all the cluster hosts in the `host` parameter value.
 
-Write requests will be automatically sent to the cluster's primary host.
+{% include [see-fqdn-in-console](../../_includes/mdb/see-fqdn-in-console.md) %}
 
-You can find the addresses of all the hosts in the DB cluster on the appropriate cluster page in the management console.
+{% list tabs %}
+
+- SSL for mongo 4.2
+
+  {% include [public-connect-ssl](../../_includes/mdb/public-connect-ssl.md) %}
+
+  
+  ```bash
+  $ mongo --norc \
+          --tls \
+          --tlsCAFile ~/.mongodb/CA.pem \
+          --host 'rs01/<host 1 FQDN>:27018,<host 2 FQDN>:27018,<host N FQDN>:27018' \
+          -u <user name> \
+          -p <user password> \
+          <DB name>
+  ```
+
+ 
+
+- SSL for older versions of MongoDB
+
+  {% include [public-connect-ssl](../../_includes/mdb/public-connect-ssl.md) %}
+
+  
+  ```bash
+  $ mongo --norc \
+          --ssl \
+          --sslCAFile ~/.mongodb/CA.pem \
+          --host 'rs01/<host 1 FQDN>:27018,<host 2 FQDN>:27018,<host N FQDN>:27018' \
+          -u <user name> \
+          -p <user password> \
+          <DB name>
+  ```
+
+ 
+
+- Without SSL
+
+  If you don't need to encrypt traffic within the virtual network when connecting to the database, you can connect from a Yandex.Cloud VM without SSL. Pass the `sslmode` parameter with the `disable` value:
+
+  
+  ```bash
+  $ mongo --norc \
+          --host 'rs01/<host 1 FQDN>:27018,<host 2 FQDN>:27018,<host N FQDN>:27018' \
+          -u <user name> \
+          -p <user password> \
+          <DB name>
+  ```
+
+ 
+
+{% endlist%}
+
+Write requests will be automatically routed to the primary cluster replica.
 

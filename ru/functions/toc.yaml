@@ -1,0 +1,347 @@
+title: Yandex Cloud Functions
+href: index.yaml
+items:
+  - name: Начало работы
+    items:
+      - name: Обзор
+        href: quickstart/index.md
+      - name: Создание и выполнение функции
+        href: quickstart/function-quickstart.md
+      - name: Создание таймера
+        href: quickstart/timer-quickstart.md
+      - name: Создание триггера для Message Queue
+        href: quickstart/ymq-trigger-quickstart.md
+      - name: Создание триггера для Object Storage
+        href: quickstart/os-trigger-quickstart.md
+      - name: Создание триггера для Container Registry
+        href: quickstart/cr-trigger-quickstart.md
+      - name: Создание триггера для Cloud Logs
+        href: quickstart/cloudlogs-trigger-quickstart.md
+      - name: Создание триггера для IoT Core
+        href: quickstart/iot-core-trigger-quickstart.md
+  - name: Пошаговые инструкции
+    items:
+      - name: Все инструкции
+        href: operations/index.md
+      - name: Получение IAM-токена сервисного аккаунта с помощью функции
+        href: operations/function-sa.md
+      - name: Управление правами доступа к функции
+        href: operations/function-public.md
+      - name: Управление функцией
+        items:
+          - name: Создание функции
+            href: operations/function/function-create.md
+          - name: Управление версиями функции
+            href: operations/function/version-manage.md
+          - name: Работа в редакторе кода
+            href: operations/function/function-editor.md
+          - name: Вызов функции
+            href: operations/function/function-invoke.md
+          - name: Изменение функции
+            href: operations/function/function-update.md
+          - name: Просмотр графиков мониторинга
+            href: operations/function/function-monitoring.md
+          - name: Просмотр журнала выполнения
+            href: operations/function/function-logs.md
+          - name: Удаление функции
+            href: operations/function/function-delete.md
+      - name: Управление триггером
+        items:
+          - name: Получение информации о триггере
+            href: operations/trigger/trigger-list.md
+          - name: Создание таймера
+            href: operations/trigger/timer-create.md
+          - name: Создание триггера для Message Queue
+            href: operations/trigger/ymq-trigger-create.md
+          - name: Создание триггера для Object Storage
+            href: operations/trigger/os-trigger-create.md
+          - name: Создание триггера для Container Registry
+            href: operations/trigger/cr-trigger-create.md
+          - name: Создание триггера для Cloud Logs
+            href: operations/trigger/cloudlogs-trigger-create.md
+          - name: Создание триггера для Yandex IoT Core
+            href: operations/trigger/iot-core-trigger-create.md
+          - name: Изменение триггера
+            href: operations/trigger/trigger-update.md
+          - name: Удаление триггера
+            href: operations/trigger/trigger-delete.md
+  - name: Концепции
+    items:
+      - name: Обзор
+        href: concepts/index.md
+      - name: Функция
+        href: concepts/function.md
+      - name: Вызов функции
+        href: concepts/function-invoke.md
+      - name: Среда выполнения
+        items:
+          - name: Обзор
+            href: concepts/runtime/index.md
+          - name: Окружение
+            href: concepts/runtime/environment-variables.md
+          - name: Контекст выполнения
+            href: concepts/runtime/execution-context.md
+      - name: Сборщик
+        href: concepts/builder.md
+      - name: Триггер
+        items:
+          - name: Обзор
+            href: concepts/trigger/index.md
+          - name: Таймер
+            href: concepts/trigger/timer.md
+          - name: Триггер для Message Queue
+            href: concepts/trigger/ymq-trigger.md
+          - name: Триггер для Object Storage
+            href: concepts/trigger/os-trigger.md
+          - name: Триггер для Container Registry
+            href: concepts/trigger/cr-trigger.md
+          - name: Триггер для Cloud Logs
+            href: concepts/trigger/cloudlogs-trigger.md
+          - name: Триггер для Yandex IoT Core
+            href: concepts/trigger/iot-core-trigger.md
+      - name: Лог-группы
+        href: concepts/log-group.md
+      - name: Мониторинг
+        href: concepts/monitoring.md
+      - name: Резервное копирование
+        href: concepts/backup.md
+      - name: Квоты и лимиты
+        href: concepts/limits.md
+  - name: Разработка на Node.js
+    items:
+      - name: Обзор
+        href: lang/nodejs/index.md
+      - name: Управление зависимостями
+        href: lang/nodejs/dependencies.md
+      - name: Обработчик запросов
+        href: lang/nodejs/handler.md
+      - name: Контекст вызова
+        href: lang/nodejs/context.md
+      - name: Журналирование
+        href: lang/nodejs/logging.md
+      - name: Обработка ошибок
+        href: lang/nodejs/errors.md
+      - name: Использование SDK
+        href: lang/nodejs/sdk.md
+  - name: Разработка на Python
+    items:
+      - name: Обзор
+        href: lang/python/index.md
+      - name: Управление зависимостями
+        href: lang/python/dependencies.md
+      - name: Обработчик запросов
+        href: lang/python/handler.md
+      - name: Контекст вызова
+        href: lang/python/context.md
+      - name: Журналирование
+        href: lang/python/logging.md
+      - name: Обработка ошибок
+        href: lang/python/errors.md
+      - name: Использование SDK
+        href: lang/python/sdk.md
+  - name: Разработка на Go
+    items:
+      - name: Обзор
+        href: lang/golang/index.md
+      - name: Управление зависимостями
+        href: lang/golang/dependencies.md
+      - name: Обработчик запросов
+        href: lang/golang/handler.md
+      - name: Контекст вызова
+        href: lang/golang/context.md
+      - name: Журналирование
+        href: lang/golang/logging.md
+      - name: Обработка ошибок
+        href: lang/golang/errors.md
+      - name: Использование SDK
+        href: lang/golang/sdk.md
+  - name: Разработка на PHP
+    items:
+      - name: Обзор
+        href: lang/php/index.md
+      - name: Управление зависимостями
+        href: lang/php/dependencies.md
+      - name: Обработчик запросов
+        href: lang/php/handler.md
+      - name: Контекст вызова
+        href: lang/php/context.md
+      - name: Журналирование
+        href: lang/php/logging.md
+      - name: Обработка ошибок
+        href: lang/php/errors.md
+  - name: Разработка на Bash
+    items:
+      - name: Обзор
+        href: lang/bash/index.md
+      - name: Обработчик запросов
+        href: lang/bash/handler.md
+      - name: Журналирование
+        href: lang/bash/logging.md
+      - name: Обработка ошибок
+        href: lang/bash/errors.md
+      - name: Использование SDK
+        href: lang/bash/sdk.md
+  - name: Разработка на Java
+    items:
+      - name: Обзор
+        href: lang/java/index.md
+      - name: Модель программирования
+        items:
+          - name: Обзор
+            href: lang/java/model/index.md
+          - name: Интерфейс Function
+            href: lang/java/model/jdk-function.md
+          - name: Интерфейс YcFunction
+            href: lang/java/model/yc-function.md
+          - name: Класс HttpServlet
+            href: lang/java/model/servlet-api.md
+          - name: Spring Boot
+            href: lang/java/model/spring-boot.md
+      - name: Управление зависимостями
+        href: lang/java/dependencies.md
+      - name: Обработчик запросов
+        href: lang/java/handler.md
+      - name: Контекст вызова
+        href: lang/java/context.md
+      - name: Журналирование
+        href: lang/java/logging.md
+      - name: Обработка ошибок
+        href: lang/java/errors.md
+      - name: Использование SDK
+        href: lang/java/sdk.md
+  - name: Разработка на R
+    items:
+      - name: Обзор
+        href: lang/r/index.md
+      - name: Модель программирования
+        href: lang/r/model/index.md
+      - name: Управление зависимостями
+        href: lang/r/dependencies.md
+      - name: Обработчик запросов
+        href: lang/r/handler.md
+      - name: Контекст вызова
+        href: lang/r/context.md
+      - name: Журналирование
+        href: lang/r/logging.md
+      - name: Обработка ошибок
+        href: lang/r/errors.md
+  - name: Разработка на C#
+    items:
+      - name: Обзор
+        href: lang/csharp/index.md
+      - name: Модель программирования
+        items:
+          - name: Обзор
+            href: lang/csharp/model/index.md
+          - name: Интерфейс Function
+            href: lang/csharp/model/independent-function.md
+          - name: Интерфейс YcFunction
+            href: lang/csharp/model/yc-function.md
+      - name: Управление зависимостями
+        href: lang/csharp/dependencies.md
+      - name: Обработчик запросов
+        href: lang/csharp/handler.md
+      - name: Контекст вызова
+        href: lang/csharp/context.md
+      - name: Журналирование
+        href: lang/csharp/logging.md
+      - name: Обработка ошибок
+        href: lang/csharp/errors.md
+      - name: Использование SDK
+        href: lang/csharp/sdk.md
+  - name: Сценарии использования
+    items:
+      - name: Создание навыка Алисы
+        href: solutions/alice-skill.md
+  - name: Правила тарификации
+    href: pricing.md
+  - name: Управление доступом
+    href: security/index.md
+  - name: Справочник API Functions
+    items:
+      - name: Аутентификация в API
+        href: api-ref/functions/authentication.md
+      - name: gRPC
+        items:
+          - name: Обзор
+            href: grpc/index.md
+          - name: FunctionService
+            href: grpc/function_service.md
+          - name: OperationService
+            href: grpc/operation_service.md
+      - name: REST
+        items:
+          - name: Обзор
+            href: functions/api-ref/index.md
+          - name: Function
+            items:
+              - name: Обзор
+                href: functions/api-ref/Function/index.md
+              - name: create
+                href: functions/api-ref/Function/create.md
+              - name: createVersion
+                href: functions/api-ref/Function/createVersion.md
+              - name: delete
+                href: functions/api-ref/Function/delete.md
+              - name: get
+                href: functions/api-ref/Function/get.md
+              - name: getVersion
+                href: functions/api-ref/Function/getVersion.md
+              - name: getVersionByTag
+                href: functions/api-ref/Function/getVersionByTag.md
+              - name: list
+                href: functions/api-ref/Function/list.md
+              - name: listAccessBindings
+                href: functions/api-ref/Function/listAccessBindings.md
+              - name: listOperations
+                href: functions/api-ref/Function/listOperations.md
+              - name: listRuntimes
+                href: functions/api-ref/Function/listRuntimes.md
+              - name: listTagHistory
+                href: functions/api-ref/Function/listTagHistory.md
+              - name: listVersions
+                href: functions/api-ref/Function/listVersions.md
+              - name: removeTag
+                href: functions/api-ref/Function/removeTag.md
+              - name: setAccessBindings
+                href: functions/api-ref/Function/setAccessBindings.md
+              - name: setTag
+                href: functions/api-ref/Function/setTag.md
+              - name: update
+                href: functions/api-ref/Function/update.md
+              - name: updateAccessBindings
+                href: functions/api-ref/Function/updateAccessBindings.md
+  - name: Справочник API Triggers
+    items:
+      - name: Аутентификация в API
+        href: api-ref/triggers/authentication.md
+      - name: gRPC
+        items:
+          - name: Обзор
+            href: grpc/index.md
+          - name: TriggerService
+            href: grpc/trigger_service.md
+          - name: OperationService
+            href: grpc/operation_service.md
+      - name: REST
+        items:
+          - name: Обзор
+            href: triggers/api-ref/index.md
+          - name: Trigger
+            items:
+              - name: Обзор
+                href: triggers/api-ref/Trigger/index.md
+              - name: create
+                href: triggers/api-ref/Trigger/create.md
+              - name: delete
+                href: triggers/api-ref/Trigger/delete.md
+              - name: get
+                href: triggers/api-ref/Trigger/get.md
+              - name: list
+                href: triggers/api-ref/Trigger/list.md
+              - name: listOperations
+                href: triggers/api-ref/Trigger/listOperations.md
+              - name: update
+                href: triggers/api-ref/Trigger/update.md
+  - name: Вопросы и ответы
+    href: qa/index.md

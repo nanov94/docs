@@ -16,14 +16,14 @@ Authorization: authorization string (AWS Signature Version 4)
 Request parameters
 ```
 
-### Заголовки запроса
+### Заголовки запроса {#request-headers}
 
 Все запросы должны содержать стандартные заголовки:
 
 * `Content-Type` — `application/x-www-form-urlencoded`.
-* `Authorization` — Подпись запроса согласно раздела [Authenticating Requests](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-request-authentication.html) документации Amazon SQS. При использовании [SDK или консольного клиента](../instruments/index.md) запрос и подпись запроса формируются автоматически, вам необходимо только передавать параметры запроса.
+* `Authorization` — Подпись запроса согласно разделу [Authenticating Requests](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-api-request-authentication.html) документации Amazon SQS. При использовании [SDK или консольного клиента](../instruments/index.md) запрос и подпись запроса формируются автоматически, вам необходимо только передавать параметры запроса.
 
-### Параметры запроса
+### Параметры запроса {#request-parameters}
 
 Все запросы должны содержать стандартные параметры:
 
@@ -42,14 +42,14 @@ Request parameters
 Attribute.1.Name=VisibilityTimeout
 Attribute.1.Value=40
 Attribute.2.Name=MessageRetentionPeriod
-Attribute.2.Name=1000
+Attribute.2.Value=1000
 ```
 
 В этом примере атрибутом 1 служит `VisibilityTimeout`, которому присваивается значение 40 и атрибутом 2 — `MessageRetentionPeriod`, которому присваивается значение 1000.
 
 ## Ответ на запрос к API {#api-response}
 
-В ответ на запрос [!KEYREF message-queue-name] возвращает XML-структуру, содержащую результат запроса.
+В ответ на запрос {{ message-queue-name }} возвращает XML-структуру, содержащую результат запроса.
 
 ### Успешный ответ {#success}
 
@@ -85,7 +85,7 @@ Attribute.2.Name=1000
 Тег | Описание
 ----- | -----
 `Type` | Тип ошибки, указывающий, на чьей стороне произошла ошибка: отправителя или получателя.
-`Code` | Идентификатор ошибки.<br/><br/>Перечень стандартных ошибок смотрите в разделе [[!TITLE]](common-errors.md).
+`Code` | Идентификатор ошибки.<br/><br/>Перечень стандартных ошибок смотрите в разделе [{#T}](common-errors.md).
 `Message` | Описание ошибки на английском языке.
 `Detail` | Дополнительные сведения об ошибке (опционально).
 

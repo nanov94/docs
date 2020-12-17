@@ -1,6 +1,6 @@
-# Text translation
+# How to translate text
 
-[!INCLUDE [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md)]
+{% include [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md) %}
 
 Translates the source text into the specified language.
 
@@ -10,7 +10,7 @@ Translates the source text into the specified language.
 POST https://translate.api.cloud.yandex.net/translate/v1/translate
 ```
 
-### Parameters in the request body
+### Parameters in the request body {#parameters-in-the-request-body}
 
 All parameters must be URL-encoded. The maximum size of the POST request body is 30 KB.
 
@@ -19,8 +19,8 @@ All parameters must be URL-encoded. The maximum size of the POST request body is
 | `text` | Required parameter.<br/>UTF-8 encoded text to translate.<br/>You can use multiple `text` parameters in a request. |
 | `source` | Language of the source text.<br/>Set as a two-letter language code according to [ISO-639-1](https://en.wikipedia.org/wiki/ISO_639-1) (for example, `ru`). If this parameter is omitted, the service tries to detect the source language automatically. |
 | `target` | Required parameter.<br/>Translation direction.<br/>Set as a two-letter language code according to [ISO-639-1](https://en.wikipedia.org/wiki/ISO_639-1) (for example `en`). |
-| `format` | Text format.<br/>Possible values:<br/><ul><li>`plain` — Text without markup (default value).</li><li>`html` — Text in HTML format.</li></ul> |
-| `folderId` | Required parameter.<br/>ID of your folder.<br/>For more information about how to find out the folder ID, see the section [Authorization in the API](../../concepts/auth.md). |
+| `format` | Text format.<br/>Possible values:<br/><ul><li>`plain` — Text without markup (default value).</li><li>`html` — Text in HTML format.</li></ul> |
+| `folderId` | Required parameter.<br/>The ID of your folder.<br/> |
 
 ## Response {#response}
 
@@ -37,7 +37,7 @@ The response is returned in JSON format.
 
 ## Examples {#examples}
 
-### Sample request
+### Sample request {#sample-request}
 
 ```httpget
 export FOLDER_ID=<folder id>
@@ -50,7 +50,7 @@ curl -X POST \
      "https://translate.api.cloud.yandex.net/translate/v1/translate"
 ```
 
-### Response example
+### Response example {#response-example}
 
 The response is returned in JSON format.
 

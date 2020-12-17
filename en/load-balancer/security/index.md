@@ -1,52 +1,68 @@
 # Access management
 
-Yandex.Cloud users can only perform operations on resources that are allowed by the roles assigned to them. If the user has no roles assigned, all operations are forbidden.
+In this section, you'll learn:
 
-To allow access to resources in the [!KEYREF load-balancer-full-name] service, assign the required roles to the user from the list below. At this time, a role can only be assigned to a parent resource (folder or cloud), and the roles are inherited by nested resources.
+* [What resources you can assign roles to](#resources).
+* [What roles exist in the service](#roles-list).
+* [What roles are required](#choosing-roles) for particular actions.
 
-> [!NOTE]
+{% include [about-access-management](../../_includes/iam/about-access-management.md) %}
 
-For more information about role inheritance, see the section [Inheritance of access rights](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance) in the [!KEYREF resmgr-name] documentation.
+## What resources you can assign roles to. {#resources}
 
-## Assigning roles
+{% include [basic-resources](../../_includes/iam/basic-resources-for-access-control.md) %}
 
-To manage load balancers, the user must have the appropriate permissions in the cloud and folders where operations will be performed.
+## What roles exist in the service {#roles-list}
 
-To grant the user permissions:
+The diagram shows which roles are available in the service and how they inherit each other's permissions. For example, the `editor` role includes all `viewer` role permissions. A description of each role is given under the diagram.
 
-[!INCLUDE [grant-role-console](../../_includes/grant-role-console.md)]
+![image](service-roles-hierarchy.png)
 
-## Roles
+Active roles in the service:
 
-The list below shows all roles that are considered when verifying access rights in the [!KEYREF service-name] service.
+* Service roles:
+    * {% include [resource-manager.clouds.owner](../../_includes/iam/roles/short-descriptions/resource-manager.clouds.owner.md) %}
+    * {% include [resource-manager.clouds.member](../../_includes/iam/roles/short-descriptions/resource-manager.clouds.member.md) %}
+    * {% include [load-balancer.viewer](../../_includes/iam/roles/short-descriptions/load-balancer.viewer.md) %}
+    * {% include [load-balancer.privateAdmin](../../_includes/iam/roles/short-descriptions/load-balancer.privateAdmin.md) %}
+    * {% include [load-balancer.admin](../../_includes/iam/roles/short-descriptions/load-balancer.admin.md) %}
+* Primitive roles:
+    * {% include [viewer](../../_includes/iam/roles/short-descriptions/viewer.md) %}
+    * {% include [editor](../../_includes/iam/roles/short-descriptions/editor.md) %}
+    * {% include [admin](../../_includes/iam/roles/short-descriptions/admin.md) %}
 
-### Service roles
+## What roles do I need {#choosing-roles}
 
-Service roles are roles that allow access to the resources of a particular service. When [!KEYREF service-name] resource access rights are checked, [!KEYREF resmgr-name] service roles are taken into account.
+The table below lists the roles needed to perform a given action. You can always assign a role granting more permissions than the role specified. For example, you can assign `editor` instead of `viewer`.
 
-[!INCLUDE [cloud-roles](../../_includes/cloud-roles.md)]
+Any operations with a load balancer that has a public IP address require the `load-balancer.admin` role. In networks where target groups are located, you can have the `vpc.publicAdmin` role instead. Operations on the internal load balancer require the `load-balancer.privateAdmin` role and operations on its target groups — the `load-balancer.privateAdmin` or `compute.admin` role.
 
-### Primitive roles
+Operations on target groups located in subnets, where the specified administrative roles are missing, require the `vpc.user` role for these subnets.
 
-You can assign primitive roles to any resource in any service.
+| Action | Methods | Required roles |
+| ----- | ----- | ----- |
+| **View data** |  |
+| View information about any resource | `get`, `list`, `listOperations` | `viewer` for this resource |
+| **Manage load balancers** |  |
+| [Create](../operations/load-balancer-create.md) and update load balancers in folders | `create` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the folder and, if the load balancer is public, networks where target groups are located |
+| [Delete load balancers](../operations/load-balancer-delete.md) | `update`, `delete` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the load balancer |
+| [Attach target groups](../operations/target-group-attach.md) | `attachTargetGroup` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the folder and, if the load balancer is public, networks where target groups are located |
+| [Detach target groups](../operations/target-group-detach.md) | `detachTargetGroup` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the load balancer |
+| [Get states of target groups](../operations/check-resource-health.md) | `getTargetStates` | `load-balancer.viewer` or `viewer` for the load balancer and the specified target groups |
+| [Add](../operations/listener-add.md) and [remove](../operations/listener-remove.md) listeners | `addListener`, `removeListener` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the load balancer |
+| [Stop](../operations/load-balancer-stop.md) and [start](../operations/load-balancer-start.md) a load balancer | `stop`, `start` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the load balancer |
+| **Manage target groups** |  |
+| [Create](../operations/target-group-create.md) and update target groups in folders | `create` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the folder and subnets where target groups are located |
+| [Delete target groups](../operations/target-group-delete.md) | `update`, `delete` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the target group and load balancer |
+| Add resources in a target group | `addTargets` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the target group, load balancer, and subnets where target groups are located |
+| Remove resources in a target group | `removeTargets` | `load-balancer.privateAdmin`/`load-balancer.admin` or `editor` for the target group |
+| **Manage resource access** |  |
+| [Assign](../../iam/operations/roles/grant.md), [revoke](../../iam/operations/roles/revoke.md), and view roles granted for the resource | `setAccessBindings`, `updateAccessBindings`, `listAccessBindings` | `admin` for the resource |
 
-#### [!KEYREF roles-viewer]
+#### What's next {what-is-next}
 
-A user with the `[!KEYREF roles-viewer]` role can view lists of load balancers and target groups.
-
-#### [!KEYREF roles-editor]
-
-A user with the `[!KEYREF roles-editor]` role can perform any operations on load balancers and target groups: create, delete, and update them.
-
-In addition, the `[!KEYREF roles-editor]` role includes all permissions of the `[!KEYREF roles-viewer]` role.
-
-#### [!KEYREF roles-admin]
-
-A user with the `[!KEYREF roles-admin]` role can manage access rights to resources. For example, they can allow other users to create load balancers and target groups or view information about them.
-
-In addition, the `[!KEYREF roles-admin]` role includes all permissions of the role of `[!KEYREF roles-editor]`.
-
-## See also
-
-[Hierarchy of Yandex.Cloud resources](../../resource-manager/concepts/resources-hierarchy.md)
+* [How to assign a role](../../iam/operations/roles/grant.md).
+* [How to revoke a role](../../iam/operations/roles/revoke.md).
+* [Learn more about access management in {{ yandex-cloud }}](../../iam/concepts/access-control/index.md).
+* [More about role inheritance](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance).
 

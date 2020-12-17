@@ -76,9 +76,11 @@ In response, the server returns the `Operation` object with the current status o
 
 You can only cancel operations that change the state of a resource. In the references, all operations that can be canceled are marked explicitly.
 
-> [!NOTE]
->
-> The `Cancel` method works on a best effort basis. Calling the method does not guarantee that the operation will be canceled. The operation may be at a stage when no cancellation is possible.
+{% note info %}
+
+The `Cancel` method works on a best effort basis. Calling the method does not guarantee that the operation will be canceled. The operation may be at a stage when no cancellation is possible.
+
+{% endnote %}
 
 ## Viewing a list of operations {#operation-listing}
 
@@ -140,7 +142,7 @@ Server response:
         "name": "disk-1",
         "description": "Test disk",
         "zoneId" : "ru-central1-a",
-        "typeId" : "network-nvme",
+        "typeId" : "network-ssd",
         "size" : 10737418240
       }
     },

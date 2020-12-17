@@ -3,5 +3,5 @@ editable: false
 ---
 # Quotas and limits
 
-There are no quotas or limits for the [!KEYREF iam-full-name] service.
+{% include [iam-limits.md](../../_includes/iam/iam-limits.md) %}
 

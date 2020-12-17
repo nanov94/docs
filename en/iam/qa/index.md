@@ -1,10 +1,10 @@
-# Questions and answers
+# Questions and answers about {{ iam-name }}
 
-## General questions
+## General questions {#general-questions}
 
-[!INCLUDE-NOTITLE [general](general.md)]
+{% include notitle [general](general.md) %}
 
-## Logging in and accessing resources
+## Logging in and accessing resources {#log-in-and-access}
 
-[!INCLUDE-NOTITLE [access](access.md)]
+{% include notitle [access](access.md) %}
 

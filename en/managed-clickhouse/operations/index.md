@@ -1,11 +1,18 @@
-# Step-by-step instructions for [!KEYREF mch-name]
+# Step-by-step instructions for {{ mch-name }}
 
-- [[!TITLE]](cluster-list.md)
-- [[!TITLE]](cluster-create.md)
-- [[!TITLE]](connect.md)
-- [[!TITLE]](insert.md)
-- [[!TITLE]](cluster-backups.md)
-- [[!TITLE]](cluster-delete.md)
-- [[!TITLE]](cluster-users.md)
-- [[!TITLE]](update.md)
+- [{#T}](cluster-list.md)
+- [{#T}](cluster-create.md)
+- [{#T}](data-migration.md)
+- [{#T}](connect.md)
+- [{#T}](web-sql-query.md)
+- [{#T}](insert.md)
+- [{#T}](update.md)
+- [{#T}](cluster-backups.md)
+- [{#T}](cluster-users.md)
+- [{#T}](databases.md)
+- [{#T}](hosts.md)
+- [{#T}](zk-hosts.md)
+- [{#T}](shards.md)
+- [{#T}](cluster-version-update.md)
+- [{#T}](cluster-delete.md)
 

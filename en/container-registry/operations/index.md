@@ -1,23 +1,34 @@
 # Step-by-step instructions
 
-- [[!TITLE]](authentication.md)
+To work with Docker images, [authenticate in {{ container-registry-short-name }}](authentication.md).
 
-## Docker image
+## Working with {{ coi }} {#coi}
 
-- [[!TITLE]](docker-image/docker-image-list.md)
-- [[!TITLE]](docker-image/docker-image-create.md)
-- [[!TITLE]](docker-image/docker-image-push.md)
-- [[!TITLE]](docker-image/docker-image-pull.md)
-- [[!TITLE]](docker-image/docker-image-delete.md)
+For more information about how to work with a {{ coi }}, see the [{{ cos-name }} documentation](../../cos/).
 
-## Registry
+## Managing a Docker image {#docker-images}
 
-- [[!TITLE]](registry/registry-list.md)
-- [[!TITLE]](registry/registry-create.md)
-- [[!TITLE]](registry/registry-update.md)
-- [[!TITLE]](registry/registry-delete.md)
+- [{#T}](docker-image/docker-image-list.md)
+- [{#T}](docker-image/docker-image-create.md)
+- [{#T}](docker-image/docker-image-push.md)
+- [{#T}](docker-image/docker-image-pull.md)
+- [{#T}](docker-image/docker-image-delete.md)
 
-## Repository
+## Managing a registry {#registry}
 
-- [[!TITLE]](repository/repository-list.md)
+- [{#T}](registry/registry-list.md)
+- [{#T}](registry/registry-create.md)
+- [{#T}](registry/registry-update.md)
+- [{#T}](registry/registry-delete.md)
 
+## Managing a repository {#repository}
+
+- [{#T}](repository/repository-list.md)
+
+## Managing policies for automatically deleting Docker images {#lifecycle-policy}
+
+- [{#T}](lifecycle-policy/lifecycle-policy-list.md)
+- [{#T}](lifecycle-policy/lifecycle-policy-create.md)
+- [{#T}](lifecycle-policy/lifecycle-policy-update.md)
+- [{#T}](lifecycle-policy/lifecycle-policy-dry-run.md)
+- [{#T}](lifecycle-policy/lifecycle-policy-delete.md)

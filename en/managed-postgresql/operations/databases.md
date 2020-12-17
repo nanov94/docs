@@ -2,120 +2,139 @@
 
 You can add and remove databases, as well as view information about them.
 
-## Getting a list of databases in a cluster {#list-db}
+## Getting a list of cluster databases {#list-db}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the **Databases** tab.
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need and select the **Databases** tab.
+- CLI
 
-**[!TAB CLI]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  To get a list of databases in a cluster, run the command:
 
-To get a list of cluster databases, run the command:
+  ```
+  $ yc managed-postgresql database list
+       --cluster-name=<cluster name>
+  ```
 
-```
-$ [!KEYREF yc-mdb-pg] database list
-     --cluster-name=<cluster name>
-```
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+- API
 
-**[!TAB API]**
+  To get a list of cluster databases, use the [list](../api-ref/Database/list.md) method.
 
-To get a list of cluster databases, use the [list](../api-ref/Database/list.md) method.
-
----
+{% endlist %}
 
 ## Creating a database {#add-db}
 
-The number of databases in a cluster is unlimited.
+You can create an unlimited number of databases in each {{ mpg-name }} cluster.
 
----
+By default, databases are created with the `LC_COLLATE=C` and `LC_CTYPE=C` encoding settings. This allows {{ PG }} to run queries with string data types more efficiently, but may sometimes work counter-intuitively (for example, with Cyrillic). These settings are covered in more detail in the [{{ PG }} documentation](https://www.postgresql.org/docs/current/locale.html).
 
-**[!TAB Management console]**
+{% note alert %}
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need.
-1. If a new database should be owned by a non-existing user, [create a user](cluster-users.md#adduser).
-1. Select the **Databases** tab.
-1. Click **Add**.
-1. Enter the database name and select its owner.
+The LC_COLLATE and LC_CTYPE settings of a database cannot be changed after its creation.
 
-**[!TAB CLI]**
+{% endnote %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+You can configure character collation and sorting settings for columns when you create and edit
+specific tables. Learn more in the [{{ PG }} documentation](https://www.postgresql.org/docs/current/sql-createtable.html).
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+{% list tabs %}
 
-To create a database in a cluster:
+- Management console
 
-1. See the description of the CLI's create database command:
+  To create a database:
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need.
 
-   ```
-   $ [!KEYREF yc-mdb-pg] database create --help
-   ```
+  1. If the owner of the new database still doesn't exist, [add the user](cluster-users.md#adduser).
+  1. Select the **Databases** tab.
+  1. Click **Add**.
+  1. Enter the database name, select its owner, and configure the character set.
 
-1. Request a list of cluster users to select the owner of the new database:
+- CLI
 
-   ```
-   $ [!KEYREF yc-mdb-pg] user list
-        --cluster-name <cluster name>
-   ```
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-   If the required user is not in the list, [create a user](cluster-users.md#adduser).
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-1. Run the create database command:
+  To create a database in a cluster:
 
-   ```
-   $ [!KEYREF yc-mdb-pg] database create <DB name>
-        --cluster-name <cluster name>
-        --owner <username of the DB owner>
-   ```
+  1. See the description of the CLI's create database command:
 
-   [!KEYREF mpg-short-name] runs the create database operation.
+     ```
+     $ yc managed-postgresql database create --help
+     ```
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+  1. Request a list of cluster users to select the owner of the new database:
 
-**[!TAB API]**
+     ```
+     $ yc managed-postgresql user list
+          --cluster-name <cluster name>
+     ```
 
-You can create a new database in a cluster using the [create](../api-ref/Database/create.md) method.
+     If the required user is not in the list, [create it](cluster-users.md#adduser).
 
----
+  1. Run the create database command. If needed, specify the character collation and sorting settings (default settings are `LC_COLLATE=C` and `LC_CTYPE=C`):
 
-## Removing a database {#remove-db}
+     ```
+     $ yc managed-postgresql database create <database name>
+          --cluster-name <cluster name>
+          --owner <username of the DB owner>
+          --lc-collate ru_RU.UTF-8
+          --lc-type ru_RU.UTF-8
+     ```
 
----
+     {{ mpg-short-name }} runs the create database operation.
 
-**[!TAB Management console]**
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
 
-1. Go to the folder page and click **[!KEYREF mpg-name]**.
-1. Click on the name of the cluster you need and select the **Databases** tab.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) in the line of the necessary DB and select **Delete**.
+- API
 
-**[!TAB CLI]**
+  You can create a new database in a cluster using the [create](../api-ref/Database/create.md) method.
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+{% endlist %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+## Deleting a database {#remove-db}
 
-To remove a database, run the command:
+{% list tabs %}
 
-```
-$ [!KEYREF yc-mdb-pg] database delete <DB name>
-     --cluster-name=<cluster name>
-```
+- Management console
+  1. Go to the folder page and select **{{ mpg-name }}**.
+  1. Click on the name of the cluster you need and select the **Databases** tab.
+  1. Click ![image](../../_assets/vertical-ellipsis.svg) in the line of the necessary DB and select **Delete**.
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+- CLI
 
-**[!TAB API]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-You can delete a database using the [delete](../api-ref/Database/delete.md) method.
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
----
+  To delete a database, run the command:
+
+  ```
+  $ yc managed-postgresql database delete <database name>
+       --cluster-name=<cluster name>
+  ```
+
+  The cluster name can be requested with a [list of clusters in the folder](cluster-list.md).
+
+- API
+
+  You can delete a database using the [delete](../api-ref/Database/delete.md) method.
+
+{% endlist %}
+
+{% note warning %}
+
+Before creating a new database with the same name, wait for the delete operation to complete, otherwise the database being deleted is restored. Operation status can be obtained with a [list of cluster operations](cluster-list.md#list-operations).
+
+{% endnote %}
 

@@ -1,14 +1,12 @@
 # Yandex Container Registry
 title: "Yandex Container Registry"
 description:
-- "<em>Это альфа-версия сервиса Container Registry (сервиса для управления Docker-образами).</em> На
-этой стадии стабильность работы сервиса не гарантируется. Для сервиса не действует соглашение об уровне обслуживания (SLA).
-Подробнее смотрите в разделе <a href=\"/docs/overview/concepts/launch-stages\">Стадии готовности сервисов</a>."
-- "Yandex Container Registry — сервис для хранения и распространения Docker-образов."
+  - "Yandex Container Registry — сервис для хранения и распространения Docker-образов."
+  - "Для сервиса действует <a href=\"https://yandex.ru/legal/cloud_sla\">соглашение об уровне обслуживания</a>. Уровень обслуживания сервиса определен в документе <a href=\"https://yandex.ru/legal/cloud_sla_ycr\">Уровень обслуживания Yandex Container Registry</a>."
 # Мета-информация title, description, keywords и т.п. (title вкладки и разные SEO-теги)
 meta:
   title: "Yandex Container Registry"
-# Блок с ссылками
+# Блок со ссылками
 links:
 - title: "Начало работы"
   description: "Создайте первый реестр"
@@ -24,7 +22,7 @@ links:
   href: "api-ref/"
 - title: "Сценарии использования"
   description: "Решайте типовые задачи по управлению Docker-образами с помощью Container Registry"
-  href: "scenario/"
+  href: "solutions/"
 - title: "Квоты и лимиты"
   description: "Технические и организационные ограничения сервиса"
   href: "concepts/limits"

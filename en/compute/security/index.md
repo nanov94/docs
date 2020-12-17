@@ -1,50 +1,43 @@
 # Access management
 
-Yandex.Cloud users can only perform operations on resources that are allowed by the roles assigned to them. If a user doesn't have any roles assigned, almost all operations are forbidden. Regardless of the roles assigned, the user can view reference lists of availability zones and disk types.
+In this section, you'll learn:
 
-To allow access to [!KEYREF compute-full-name] resources (VMs, disks, images, and snapshots), assign the user the required roles from the list below. At this time, a role can only be assigned to a parent resource (folder or cloud), and the roles are inherited by nested resources.
+* [What resources you can assign roles to](#resources).
+* [What roles exist in the service](#roles-list).
 
-> [!NOTE]
->
-> For more information about role inheritance, see [[!TITLE]](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance) in the [!KEYREF resmgr-full-name] documentation.
+{% include [about-access-management](../../_includes/iam/about-access-management.md) %}
 
-## Assigning roles
+## What resources you can assign roles to. {#resources}
 
-To assign a role to a user:
+{% include [basic-resources](../../_includes/iam/basic-resources-for-access-control.md) %}
 
-[!INCLUDE [grant-role-console](../../_includes/grant-role-console.md)]
+## What roles exist in the service {#roles-list}
 
-## Roles
+{% include [roles-intro](../../_includes/roles-intro.md) %}
 
-The list below shows all roles that are considered when verifying access rights in the [!KEYREF compute-short-name] service.
+![image](service-roles-hierarchy.svg)
 
 ### Service roles
 
-_Service roles_ are roles that allow access to the resources of a particular service. When checking  [!KEYREF compute-short-name] resource access rights, [!KEYREF compute-short-name] and [!KEYREF resmgr-name] service roles are considered.
+| Role | Permissions |
+| ----- | ----- |
+| `compute.admin` | Gives rights to manage virtual machines and [instance groups](../../compute/concepts/instance-groups/index.md). |
+| `compute.disks.user` | Lets you use disks to create new resources, such as virtual machines. |
+| `compute.images.user` | Lets you use images to create new resources, such as virtual machines. |
+| `iam.serviceAccounts.user` | Verifies the right to use the service account.<br/>This role is required to perform operations with instance groups. If you enter a service account in the request, {{ iam-short-name }} checks that you have rights to use this account. |
+| `resource-manager.clouds.member` | The role required to access resources in the cloud for all users except [cloud owners](../../resource-manager/concepts/resources-hierarchy.md#owner) and [service accounts](../../iam/concepts/users/service-accounts.md). |
+| `resource-manager.clouds.owner` | Grants you full access to a cloud and the resources in it. You can only assign this role for a cloud. |
 
-[!INCLUDE [roles-disks-user](../../_includes/roles-disks-user.md)]
-
-[!INCLUDE [roles-images-user](../../_includes/roles-images-user.md)]
-
-[!INCLUDE [cloud-roles](../../_includes/cloud-roles.md)]
+For more information about service roles, see [{#T}](../../iam/concepts/access-control/roles.md) in the {{ iam-full-name }} documentation.
 
 ### Primitive roles
 
-You can assign primitive roles to any resource in any service.
+{% include [roles-primitive](../../_includes/roles-primitive.md) %}
 
-#### [!KEYREF roles-viewer]
+#### What's next {#what-is-next}
 
-A user with the `[!KEYREF roles-viewer]` can view information about resources, for example, view a list of disks or obtain information about a VM.
-
-#### [!KEYREF roles-editor]
-
-A user with the `[!KEYREF roles-editor]` can manage any resources, such as create, stop, or start a VM, and attach or detach a disk.
-
-In addition, the `[!KEYREF roles-editor]` role includes all permissions of the `[!KEYREF roles-viewer]` role.
-
-#### [!KEYREF roles-admin]
-
-A user with the `[!KEYREF roles-admin]` can manage access rights to resources, for example, allow other users to create VMs or view information about them.
-
-In addition, the `[!KEYREF roles-admin]` role includes all permissions of the role of `[!KEYREF roles-editor]`.
+* [How to assign a role](../../iam/operations/roles/grant.md).
+* [How to revoke a role](../../iam/operations/roles/revoke.md).
+* [Learn more about access management in {{ yandex-cloud }}](../../iam/concepts/access-control/index.md).
+* [For more information about role inheritance](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance).
 

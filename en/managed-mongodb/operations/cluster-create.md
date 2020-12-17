@@ -1,128 +1,257 @@
-# Creating a [!KEYREF MG] cluster
+# Creating {{ MG }} clusters
 
-[!KEYREF MG] cluster is one or more database hosts that can have replication configured between them. Replication is enabled by default in any cluster consisting of more than one host (the primary host accepts write requests and asynchronously duplicates changes in the secondary hosts).
+{{ MG }}clusters are one or more database hosts that replication can be configured between. Replication is enabled by default in any cluster consisting of more than one host (the primary host accepts write requests and asynchronously duplicates changes in the secondary hosts).
 
-The number of hosts that can be created together with a [!KEYREF MG] cluster depends on the storage option selected:
 
-* When using network drives, you can request any number of hosts (from one to the limits of the current [quota](../concepts/limits.md)).
+The number of hosts that can be created with a {{ MG }} cluster depends on the storage option selected:
 
-* When using SSDs, you can create at least three replicas along with the cluster (a minimum of three replicas is required to ensure fault tolerance). If the [available folder resources](../concepts/limits.md) are still sufficient after creating a cluster, you can add extra replicas.
+  - When using network drives, you can request any number of hosts (from one to the current [quota](../concepts/limits.md) limit).
+  - When using SSDs, you can create at least three replicas along with the cluster (a minimum of three replicas is required to ensure fault tolerance). If the [available folder resources](../concepts/limits.md) are still sufficient after creating a cluster, you can add extra replicas.
 
----
 
-**[!TAB Management console]**
+{% list tabs %}
 
-1. In the management console, select the folder where you want to create a DB cluster.
+- Management console
+  1. In the management console, select the folder where you want to create a DB cluster.
+  1. Select **{{ mmg-name }}**.
+  1. Click **Create cluster**.
+  1. Enter the cluster name in the **Cluster name** field. The cluster name must be unique within the folder.
+  1. Select the environment where you want to create the cluster (you can't change the environment once the cluster is created):
+     - `PRODUCTION`: For stable versions of your apps.
+     - `PRESTABLE`: For testing, including the {{ mmg-short-name }} service itself. The Prestable environment is first updated with new features, improvements, and bug fixes. However, not every update ensures backward compatibility.
+  1. Select the DBMS version.
+  1. Select the host class that defines the technical specifications of the VMs where the DB hosts will be deployed. When you change the host class for the cluster, the characteristics of all existing hosts change, too.
+  1. Under **Storage size**:
+      - Select the type of storage, either a more flexible network type (**network-hdd** or **network-ssd**) or faster local SSD storage (**local-ssd**). The size of the local storage can only be changed in 100 GB increments.
+      - Select the size to be used for data and backups. For more information about how backups take up storage space, see [{#T}](../concepts/backup.md).
+  1. Under **Database**, specify the DB attributes:
+      - DB name.
+      - Username.
+      - User password. At least 8 characters.
+  1. Under **Hosts**, select parameters for the database hosts created with the cluster (keep in mind that if you use SSDs when creating a {{ MG }} cluster, you can set at least three hosts). If you open **Advanced settings**, you can choose specific subnets for each host. By default, each host is created in a separate subnet.
+  1. Click **Create cluster**.
 
-2. Click **[!KEYREF mmg-name]**.
+- CLI
 
-3. Click **Create cluster** and select the necessary DBMS. Once a cluster is created, you cannot change the DBMS.
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-4. Enter the cluster name in the **Cluster name** field. The cluster name must be unique within the folder.
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-5. Select the environment where you want to create the cluster (you cannot change the environment after cluster creation):
+  To create a cluster:
 
-    * <q>production</q> — for stable versions of your apps.
+  
+  1. Check whether the folder has any subnets for the cluster hosts:
 
-    * <q>prestable</q> — to perform testing, including that of the [!KEYREF mmg-short-name] service itself. The prestable environment is updated more often, which means that known problems are fixed sooner in it, but this may cause backward incompatible changes.
+     ```
+     $ yc vpc subnet list
+     ```
 
-6. Select the DBMS version.
+     If there are no subnets in the folder, [create the necessary subnets](../../vpc/operations/subnet-create.md) in {{ vpc-short-name }}.
 
-7. Select the host class that will define the technical specifications of the VMs where the DB hosts will be deployed. When you change the host class for the cluster, the characteristics of all existing hosts change, too.
+ 
 
-8. In the **Storage size** section:
+  1. View a description of the CLI's create cluster command:
 
-    * Select the type of storage, either a more flexible network type (**network-hdd** or **network-nvme**) or faster local SSD storage (**local-nvme**). The size of the local storage can only be changed in increments of 100 GB.
+      ```
+      $ yc managed-mongodb cluster create --help
+      ```
 
-    * Select the size to be used for data and backups. For more information about how backups take up storage space, see [[!TITLE]](../concepts/backup.md).
+  1. Specify the cluster parameters in the create command (the example shows only mandatory flags):
 
-9. In the **Database** section, specify DB attributes:
+      
+      ```
+      $ yc managed-mongodb cluster create \
+         --cluster-name <cluster name>
+         --environment=<prestable or production> \
+         --network-name <network name> \
+         --host zone-id=<availability zone>,subnet-id=<subnet ID> \
+         --mongod-resource-preset <host class> \
+         --user name=<user name>, password=<user password> \
+         --database name=<database name>,owner=<database owner name> \
+         --mongod-disk-type <network-hdd | network-ssd | local-ssd> \
+         --mongod-disk-size <storage size in GB>
+      ```
 
-    * DB name
+      The subnet ID `subnet-id` should be specified if the selected availability zone contains two or more subnets.
 
-    * User name
+     
 
-    * User password (a minimum of 8 characters).
+- Terraform
 
-10. In the **Hosts** section, select parameters for database hosts created with the cluster (keep in mind that if you use SSDs when creating [!KEYREF MG] clusters, you can set at least three hosts). If you open the **Advanced settings** section, you can choose specific subnets for each host. By default, each host is created in a separate subnet.
+  {% include [terraform-definition](../../solutions/_solutions_includes/terraform-definition.md) %}
 
-11. Click **Create cluster**.
+  If you don't have Terraform yet, [install it and configure the provider](../../solutions/infrastructure-management/terraform-quickstart.md#install-terraform).
 
-**[!TAB CLI]**
+  To create a cluster:
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  1. In the configuration file, describe the parameters of resources that you want to create:
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+     {% include [terraform-create-cluster-step-1](../../_includes/mdb/terraform-create-cluster-step-1.md) %}
 
-To create a cluster:
+     Example configuration file structure:
 
-1. Check whether the folder has any subnets for the cluster hosts:
+     ```
+     resource "yandex_mdb_mongodb_cluster" "<cluster name>" {
+       name        = "<cluster name>"
+       environment = "<PRESTABLE or PRODUCTION>"
+       network_id  = "<network ID>"
+     
+       cluster_config {
+         version = "MongoDB version: 3.6, 4.0, or 4.2"
+       }
+     
+       database {
+         name = "<DB name>"
+       }
+     
+       user {
+         name     = "<username>"
+         password = "<user password>"
+         permission {
+           database_name = "<database name>"
+         }
+       }
+     
+       resources {
+         resource_preset_id = "<host class>"
+         disk_type_id       = "<storage type>"    
+         disk_size          = "<storage size in GB>"
+       }
+     
+       host {
+         zone_id   = "<availability zone>"
+         subnet_id = "<subnet ID>"
+       }
+     }
+     
+     resource "yandex_vpc_network" "<network name>" { name = "<network name>" }
+     
+     resource "yandex_vpc_subnet" "<subnet name>" {
+       name           = "<subnet name>" 
+       zone           = "<availability zone>"
+       network_id     = "<network ID>"
+       v4_cidr_blocks = ["<range>"]
+     }
+     ```
 
-    ```
-    $ yc vpc subnet list
-    ```
+     For more information about resources that you can create using Terraform, see the [provider's documentation](https://www.terraform.io/docs/providers/yandex/r/mdb_mongodb_cluster.html).
 
-    If there are no subnets in the folder, [create the necessary subnets](../../vpc/operations/subnet-create.md) in the [!KEYREF vpc-short-name] service.
+  1. Make sure that the configuration files are correct.
 
-1. See the description of the CLI's create cluster command:
+     {% include [terraform-create-cluster-step-2](../../_includes/mdb/terraform-create-cluster-step-2.md) %}
 
-    ```
-    $ [!KEYREF yc-mdb-mg] cluster create --help
-    ```
+  1. Create a cluster.
 
-2. Specify the cluster parameters in the create command (the example shows only mandatory flags):
+     {% include [terraform-create-cluster-step-3](../../_includes/mdb/terraform-create-cluster-step-3.md) %}
 
-    ```
-    $ [!KEYREF yc-mdb-mg] cluster create \
-       --name <cluster name> \
-       --environment=<prestable or production> \
-       --network-name <network name> \
-       --host zone-id=<availability zone>,subnet-id=<subnet ID> \
-       --resource-preset <host class> \
-       --user name=<user name>,password=<user password> \
-       --database name=<database name>,owner=<database owner name> \
-       --mongod-disk-type <network-hdd | network-nvme | local-nvme> \
-       --mongod-disk-size <storage size in GB>
-    ```
+{% endlist %}
 
-    The subnet ID `subnet-id` should be specified if the selected availability zone contains two or more subnets.
+## Examples {#examples}
 
----
+### Creating a single-host cluster {#Creating-single-host-cluster}
 
-## Examples
+{% list tabs %}
 
-### Creating a single-host cluster
+- CLI
 
-To create a cluster with a single host, you should pass a single parameter, `--host`.
+  To create a cluster with a single host, you should pass a single parameter, `--host`.
 
-Let's say we need to create a [!KEYREF MG] cluster with the following characteristics:
+  Let's say we need to create a {{ MG }} cluster with the following characteristics:
 
-* Named `mymg`.
+    - Named `mymg`.
+  - In the `production` environment.
+  - In the `{{ network-name }}` network.
+  - With one `{{ host-class }}` class host in the `b0rcctk2rvtr8efcch64` subnet in the `{{ zone-id }}` availability zone.
+  - With 20 GB fast network storage (`{{ disk-type-example }}`).
+  - With one user, `user1`, with the password `user1user1`.
+  - With one database, `db1`.
 
-* In the `production` environment.
+ 
 
-* In the `default` network.
+  Run the command:
 
-* With a single host of the `s1.nano` class in the `b0rcctk2rvtr8efcch64` subnet and the `ru-central1-c` availability zone.
+  
+  ```
+  $ yc managed-mongodb cluster create \
+       --cluster-name mymg \
+       --environment production \
+       --network-name default \
+       --mongod-resource-preset s2.micro \
+       --host zone-id=ru-central1-c,subnet-id=b0rcctk2rvtr8efcch64 \
+       --mongod-disk-size 20 \
+       --mongod-disk-type network-ssd \
+       --user name=user1,password=user1user1 \
+       --database name=db1
+  ```
 
-* With SSD network storage of 20 GB.
+ 
 
-* With one user (`user1`) and the password `user1user1`.
+- Terraform
 
-* With one `db1` database.
+  Let's say we need to create a {{ MG }} cluster and a network for it with the following characteristics:
+  - Named `mymg`.
+  - Version `4.2`.
+  - In the `PRODUCTION` environment.
+  - In the cloud with ID `b1gq90dgh25иuebiu75o`.
+  - In a folder named `myfolder`.
+  - In a new network named `mynet`.
+  - With 1 `{{ host-class }}` class host in the new `mysubnet` subnet and `{{ zone-id }}` availability zone. The `mysubnet` subnet will have the range `10.5.0.0/24`.
+  - With 20 GB fast network storage (`{{ disk-type-example }}`).
+  - With one user, `user1`, with the password `user1user1`.
+  - With one database, `db1`.
 
-Run the command:
+  The configuration file for the cluster looks like this:
 
-```
-$ [!KEYREF yc-mdb-mg] cluster create \
-     --name mymg \
-     --environment production \
-     --network-name default \
-     --mongod-resource-preset s1.nano \
-     --host zone-id=ru-central1-c,subnet-id=b0rcctk2rvtr8efcch64 \
-     --mongod-disk-size 20 \
-     --mongod-disk-type network-nvme \
-     --user name=user1,password=user1user1 \
-     --database name=db1
-```
+  ```
+  provider "yandex" {
+    token     = "<OAuth or static key of service account>"
+    cloud_id  = "b1gq90dgh25иuebiu75o"
+    folder_id = "${data.yandex_resourcemanager_folder.myfolder.id}"
+    zone      = "ru-central1-c"
+  }
+  
+  resource "yandex_mdb_mongodb_cluster" "mymg" {
+    name        = "mymg"
+    environment = "PRODUCTION"
+    network_id  = "${yandex_vpc_network.mynet.id}"
+  
+    cluster_config {
+      version = "4.2"
+    }
+  
+    database {
+      name = "db1"
+    }
+  
+    user {
+      name     = "user1"
+      password = "user1user1"
+      permission {
+        database_name = "db1"
+      }
+    }
+  
+    resources {
+      resource_preset_id = "s2.micro"
+      disk_type_id       = "network-ssd"    
+      disk_size          = 20
+    }
+  
+    host {
+      zone_id   = "ru-central1-c"
+      subnet_id = "${yandex_vpc_subnet.mysubnet.id}"
+    }
+  }
+  
+  resource "yandex_vpc_network" "mynet" { name = "mynet" }
+  
+  resource "yandex_vpc_subnet" "mysubnet" {
+    name           = "mysubnet"
+    zone           = "ru-central1-c"
+    network_id     = "${yandex_vpc_network.mynet.id}"
+    v4_cidr_blocks = ["10.5.0.0/24"]
+  }
+  ```
+
+{% endlist %}
 

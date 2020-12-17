@@ -1,10 +1,16 @@
-# Step-by-step instructions for [!KEYREF mmg-name]
+# Step-by-step instructions for {{ mmg-name }}
 
-- [[!TITLE]](cluster-list.md)
-- [[!TITLE]](cluster-create.md)
-- [[!TITLE]](connect.md)
-- [[!TITLE]](cluster-backups.md)
-- [[!TITLE]](cluster-delete.md)
-- [[!TITLE]](cluster-users.md)
-- [[!TITLE]](update.md)
+- [{#T}](cluster-list.md)
+- [{#T}](cluster-create.md)
+- [{#T}](data-migration.md)
+- [{#T}](connect.md)
+- [{#T}](cluster-stop.md)
+- [{#T}](update.md)
+- [{#T}](cluster-version-update.md)
+- [{#T}](databases.md)
+- [{#T}](hosts.md)
+- [{#T}](cluster-users.md)
+- [{#T}](cluster-backups.md)
+- [{#T}](shards.md)
+- [{#T}](cluster-delete.md)
 

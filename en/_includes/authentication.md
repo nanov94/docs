@@ -1,12 +1,14 @@
 # Authentication in the API
 
-To perform operations in Yandex.Cloud via the API, you need an [IAM-token](../iam/concepts/authorization/iam-token.md).
+To perform operations via the API, you need to get an [IAM token](../iam/concepts/authorization/iam-token.md):
 
-To authenticate successfully in the API:
+* [Instructions](../iam/operations/iam-token/create.md) for a Yandex account.
+* [Instructions](../iam/operations/iam-token/create-for-sa.md) for a service account.
+* [Instructions](../iam/operations/iam-token/create-for-federation.md) for a federated account.
 
-1. Get an IAM token:
-    * [Instructions](../iam/operations/iam-token/create.md) for a Yandex account.
-    * [Instructions](../iam/operations/iam-token/create-for-sa.md) for a service account.
+{% include [iam-token-usage](iam-token-usage.md) %}
 
-2. [!INCLUDE [iam-token-usage](iam-token-usage.md)]
+#### See also {#see-also}
+
+[{#T}](../iam/concepts/index.md#accounts)
 

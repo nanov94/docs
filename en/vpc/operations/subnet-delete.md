@@ -1,85 +1,86 @@
 # Deleting a subnet
 
-> [!WARNING]
->
-> Before deleting a subnet, disable all resources connected to it.
-> You cannot restore a subnet after it is deleted.
->
+{% note alert %}
 
----
+Before deleting a subnet, disable all resources connected to it.
+You cannot restore a subnet after it is deleted.
 
-**[!TAB Management console]**
+{% endnote %}
 
-To delete a [subnet](../concepts/network.md#subnet):
+{% list tabs %}
 
-1. Open the **Virtual Private Cloud** section in the folder you want to delete the subnet from.
-1. Click on the name of the subnet's cloud network.
-1. Click ![vertical-ellipsis](../../_assets/vertical-ellipsis.svg) in the row of the subnet to delete.
-1. In the menu that opens, click **Delete**.
-1. In the window that opens, click **Delete**.
+- Management console
 
-**[!TAB CLI]**
+  To delete a [subnet](../concepts/network.md#subnet):
 
-If you don't have the Yandex.Cloud command line interface yet, [install it](../../cli/quickstart#install).
+  1. Open the **Virtual Private Cloud** section in the folder you want to delete the subnet from.
+  1. Click on the name of the subnet's cloud network.
+  1. Click ![vertical-ellipsis](../../_assets/vertical-ellipsis.svg) in the row of the subnet to delete.
+  1. In the menu that opens, click **Delete**.
+  1. In the window that opens, click **Delete**.
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+- CLI
 
-1. See the description of the CLI command for deleting a subnet:
+  {% include [include](../../_includes/cli-install.md) %}
 
-    ```
-    $ yc vpc subnet delete --help
-    ```
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-1. Get a list of all subnets in the default folder:
+  1. See the description of the CLI command for deleting a subnet:
 
-    ```
-    $ yc vpc subnet list
-    +----------------------+-----------------------+------------------------+
-    |          ID          |         NAME          | ... |       RANGE      |
-    +----------------------+-----------------------+------------------------+
-    ...
-    | e2l0psbfoloefpjb1rau | test-subnet-1         | ... | [192.168.0.0/24] |
-    ...
-    +----------------------+-----------------------+-----+------------------+
-    ```
+      ```
+      $ yc vpc subnet delete --help
+      ```
 
-1. Select the `ID` or `NAME` of the subnet you need.
+  1. Get a list of all subnets in the default folder:
 
-1. Delete the subnet from the default folder:
+      ```
+      $ yc vpc subnet list
+      +----------------------+-----------------------+------------------------+
+      |          ID          |         NAME          | ... |       RANGE      |
+      +----------------------+-----------------------+------------------------+
+      ...
+      | e2l0psbfoloefpjb1rau | test-subnet-1         | ... | [192.168.0.0/24] |
+      ...
+      +----------------------+-----------------------+-----+------------------+
+      ```
 
-    ```
-    $ yc vpc subnet delete test-subnet-1 
-    ```
+  1. Select the `ID` or `NAME` of the subnet you need.
 
----
+  1. Delete the subnet from the default folder:
 
-## Examples
+      ```
+      $ yc vpc subnet delete test-subnet-1
+      ```
 
-### Deleting a subnet from a particular folder
+{% endlist %}
 
----
+## Examples {#examples}
 
-**[!TAB CLI]**
+### Deleting a subnet from a particular folder {#from-folder}
 
-To delete a subnet from a different folder, use the `--folder-id` or `--folder-name` flag.
+{% list tabs %}
 
-```
-$ yc vpc subnet delete test-subnet-2 --folder-id b1gnbfd11bq5g5vnjgr4
-```
+- CLI
 
-```
-$ yc vpc subnet delete test-subnet-2 --folder-name test-folder
-```
+  To delete a subnet from a different folder, use the `--folder-id` or `--folder-name` flag.
 
-You can pass the ID and name as positional arguments, or you can use the `--id` and `--name` flags:
+  ```
+  $ yc vpc subnet delete test-subnet-2 --folder-id b1gnbfd11bq5g5vnjgr4
+  ```
 
-```
-$ yc vpc subnet delete --id enpavfmgapumnl7cqin8
-```
+  ```
+  $ yc vpc subnet delete test-subnet-2 --folder-name test-folder
+  ```
 
-```
-$ yc vpc subnet delete --name test-network-1
-```
+  You can pass the ID and name as positional arguments, or you can use the `--id` and `--name` flags:
 
----
+  ```
+  $ yc vpc subnet delete --id enpavfmgapumnl7cqin8
+  ```
+
+  ```
+  $ yc vpc subnet delete --name test-network-1
+  ```
+
+{% endlist %}
 

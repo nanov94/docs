@@ -1,7 +1,11 @@
-# Getting started with Yandex Compute Cloud
+# Getting started with {{ compute-name }}
 
-Choose how to explore Yandex Compute Cloud:
+Choose how to explore:
 
-- [Create a Linux VM](quick-create-linux.md)
-- [Create a Windows VM](quick-create-windows.md)
+- {{ compute-name }}
+    - [Create a Linux VM](quick-create-linux.md)
+    - [Create a Windows VM](quick-create-windows.md)
+
+- {{ ig-name }}
+    - [Creating an instance group](ig.md)
 

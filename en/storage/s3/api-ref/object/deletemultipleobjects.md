@@ -4,14 +4,14 @@ Deletes objects based on a list of keys passed in a request.
 
 It takes less time than deleting the same objects one by one via separate requests.
 
-The delete list may contain a maximum of 1,000 keys.
+The delete list may contain a maximum of 1000 keys.
 
-If one of the objects does not exist, [!KEYREF objstorage-name] marks it as deleted in the response.
+If an object doesn't exist, {{ objstorage-name }} marks it as deleted in the response.
 
-You can configure responses so that [!KEYREF objstorage-name] returns one of the following selections:
+You can configure responses so that {{ objstorage-name }} returns one of the following selections:
 
 - Statuses of all delete operations.
-- Only statuses with errors deleting objects. In this case, if no errors occurred, an empty response will be returned.
+- Only statuses with errors deleting objects. In this case, if no errors occurred, an empty response is returned.
 
 ## Request {#request}
 
@@ -23,7 +23,7 @@ POST /{bucket}?delete HTTP/1.1
 
 | Parameter | Description |
 | ----- | ----- |
-| `bucket` | Name of the bucket. |
+| `bucket` | Bucket name. |
 
 ### Query parameters {#request-parameters}
 
@@ -33,7 +33,7 @@ POST /{bucket}?delete HTTP/1.1
 
 ### Headers {#request-headers}
 
-In a request, use only [common request headers](../common-request-headers.md).
+Use only [common request headers](../common-request-headers.md) in requests.
 
 For this request, the `Content-MD5` and `Content-Length` headers are required.
 
@@ -55,7 +55,7 @@ The list of keys to delete is passed in XML format.
 | Tag | Description |
 | ----- | ----- |
 | `Delete` | Contains the response body.<br/><br/>Path: `/Delete`. |
-| `Quiet` | `<Quiet>true</Quiet>` enables <q>quiet</q> mode.<br/><br/>[!KEYREF objstorage-name] will only include deletion errors in the response. If there are no errors, there will be no response body.<br/><br/>If omitted, the default value is `false`.<br/><br/>Path: `/Delete/Quiet`. |
+| `Quiet` | `<Quiet>true</Quiet>` enables <q>quiet</q> mode.<br/><br/>{{ objstorage-name }} only includes deletion errors in the response. If there are no errors, there won't be a response body.<br/><br/>If omitted, the default value is `false`.<br/><br/>Path: `/Delete/Quiet`. |
 | `Object` | Contains parameters for deleting an object.<br/><br/>Path: `/Delete/Object`. |
 | `Key` | Object key.<br/><br/>Path: `/Delete/Object/Key`. |
 
@@ -63,11 +63,11 @@ The list of keys to delete is passed in XML format.
 
 ### Headers {#response-headers}
 
-A response can only contain [common response headers](../common-response-headers.md).
+Responses can only contain [common response headers](../common-response-headers.md).
 
 ### Response codes {#response-codes}
 
-For a list of possible responses, see [[!TITLE]](../response-codes.md).
+For a list of possible responses, see [{#T}](../response-codes.md).
 
 A successful response contains additional data in XML format with the schema described below.
 
@@ -82,7 +82,7 @@ A successful response contains additional data in XML format with the schema des
     <Key>some/another/key.txt</Key>
     <Code>TextErrorCode</Code>
     <Message>Describing message</Message>
-  </Error>  
+  </Error>
 </DeleteResult>
 ```
 

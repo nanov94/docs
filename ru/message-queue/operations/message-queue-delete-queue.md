@@ -2,25 +2,41 @@
 
 Чтобы удалить очередь сообщений:
 
----
+{% list tabs %}
 
-**[!TAB Консоль управления]**
+- Консоль управления
+  
+  1. Откройте раздел **Message Queue**.
+  1. Нажмите значок ![image](../../_assets/vertical-ellipsis.svg) в строке очереди, которую требуется удалить.
+  1. В открывшемся меню нажмите кнопку **Удалить**.
+  1. В открывшемся окне нажмите кнопку **Удалить**.
+  
+- AWS CLI
+  
+  Выполните в терминале команду:
+  
+  ```
+  $ aws sqs delete-queue \
+              --queue-url https://message-queue.api.cloud.yandex.net/aoegtvhtp8ob9rqq8sto/000000000000002p01jp/sample-queue \
+              --endpoint https://message-queue.api.cloud.yandex.net/      
+  ```
+  
+- Terraform
 
-1. Откройте раздел **Message Queue**.
-1. Нажмите значок ![image](../../_assets/vertical-ellipsis.svg) в строке очереди, которую требуется удалить.
-1. В открывшемся меню нажмите кнопку **Удалить**.
-1. В открывшемся окне нажмите кнопку **Удалить**.
+  Если вы создавали очередь сообщений с помощью Terraform, вы можете удалить ее:
 
-**[!TAB AWS CLI]**
-
-Выполните в терминале команду:
-
-```
-$ aws sqs delete-queue \
-            --queue-url https://message-queue.api.cloud.yandex.net/aoegtvhtp8ob9rqq8sto/000000000000002p01jp/sample-queue \
-            --endpoint https://message-queue.api.cloud.yandex.net/      
-```
-
-
-
----
+   1. В командной строке перейдите в папку, где расположен конфигурационный файл Terraform.
+   2. Удалите ресурсы с помощью команды:
+      ```
+      $ terraform destroy
+      ```
+      
+      {% note alert %}
+      
+      Terraform удалит все ресурсы, созданные в текущей конфигурации: кластеры, сети, подсети, виртуальные машины и т. д.
+      
+      {% endnote %}
+    
+    3. Подтвердите удаление ресурсов.
+  
+{% endlist %}

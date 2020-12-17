@@ -1,49 +1,41 @@
 # Управление доступом
 
-Пользователь Яндекс.Облака может выполнять только те операции над ресурсами, которые разрешены назначенными ему ролями. Пока у пользователя нет никаких ролей, почти все операции ему запрещены. Независимо от назначенных ролей пользователь может просматривать справочные списки зон доступности и типов дисков.
+В этом разделе вы узнаете:
+* [на какие ресурсы можно назначить роль](#resources);
+* [какие роли действуют в сервисе](#roles-list).
 
-Чтобы разрешить доступ к ресурсам сервиса [!KEYREF compute-full-name] (виртуальным машинам, дискам, образам и снимкам), назначьте пользователю нужные роли из приведенного ниже списка. На данный момент роль может быть назначена только на родительский ресурс (каталог или облако), роли которого наследуются вложенными ресурсами.
+{% include [about-access-management](../../_includes/iam/about-access-management.md) %}
 
-> [!NOTE]
->
-> Подробнее о наследовании ролей читайте в разделе [[!TITLE]](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance) документации сервиса [!KEYREF resmgr-full-name].
+## На какие ресурсы можно назначить роль {#resources}
 
-## Назначение ролей
+{% include [basic-resources](../../_includes/iam/basic-resources-for-access-control.md) %}
 
-Чтобы назначить пользователю роль:
+## Какие роли действуют в сервисе {#roles-list}
 
-[!INCLUDE [grant-role-console](../../_includes/grant-role-console.md)]
+{% include [roles-intro](../../_includes/roles-intro.md) %}
 
-## Роли
-
-Ниже перечислены все роли, которые учитываются при проверке прав доступа в сервисе [!KEYREF compute-short-name].
+![image](service-roles-hierarchy.svg)
 
 ### Сервисные роли
 
-_Сервисные роли_ — роли, дающие доступ к ресурсам определенного сервиса. При проверке прав доступа к ресурсам [!KEYREF compute-short-name] учитываются сервисные роли [!KEYREF compute-short-name] и [!KEYREF resmgr-name].
+Роль | Разрешения
+----- | -----
+`compute.admin` | Дает права на управление виртуальными машинами и [группами виртуальных машин](../../compute/concepts/instance-groups/index.md).
+`compute.disks.user` | Позволяет использовать диски для создания новых ресурсов, например виртуальных машин.
+`compute.images.user` | Позволяет использовать образы для создания новых ресурсов, например виртуальных машин.
+`iam.serviceAccounts.user` | Подтверждает права на использование сервисного аккаунта.<br/>Эта роль необходима для выполнения операций с группами ВМ. Если вы указали сервисный аккаунт в запросе, {{ iam-short-name }} проверит, есть ли у вас права на использование этого аккаунта.
+`resource-manager.clouds.member` | Роль, необходимая для доступа к ресурсам в облаке всем, кроме [владельцев облака](../../resource-manager/concepts/resources-hierarchy.md#owner) и [сервисных аккаунтов](../../iam/concepts/users/service-accounts.md).
+`resource-manager.clouds.owner` | Дает полный доступ к облаку и ресурсам в нем. Можно назначить только на облако.
 
-[!INCLUDE [roles-disks-user](../../_includes/roles-disks-user.md)]
-
-[!INCLUDE [roles-images-user](../../_includes/roles-images-user.md)]
-
-[!INCLUDE [cloud-roles](../../_includes/cloud-roles.md)]
+Более подробную информацию о сервисных ролях читайте на странице [{#T}](../../iam/concepts/access-control/roles.md) в документации сервиса {{ iam-full-name }}.
 
 ### Примитивные роли
 
-Примитивные роли можно назначать на любой ресурс в любом сервисе.
+{% include [roles-primitive](../../_includes/roles-primitive.md) %}
 
-#### [!KEYREF roles-viewer]
+#### Что дальше {#what-is-next}
 
-Пользователь с ролью `[!KEYREF roles-viewer]` может просматривать информацию о ресурсах, например посмотреть список дисков или получить информацию о виртуальной машине.
-
-#### [!KEYREF roles-editor]
-
-Пользователь с ролью `[!KEYREF roles-editor]` может управлять любыми ресурсами, например создать виртуальную машину, остановить или запустить виртуальную машину, подключить или отключить диск.
-
-Помимо этого роль `[!KEYREF roles-editor]` включает в себя все разрешения роли `[!KEYREF roles-viewer]`.
-
-#### [!KEYREF roles-admin]
-
-Пользователь с ролью `[!KEYREF roles-admin]` может управлять правами доступа к ресурсам, например разрешить другим пользователям создавать виртуальные машины или просматривать информацию о них.
-
-Помимо этого роль `[!KEYREF roles-admin]` включает в себя все разрешения роли `[!KEYREF roles-editor]`.
+* [Как назначить роль](../../iam/operations/roles/grant.md).
+* [Как отозвать роль](../../iam/operations/roles/revoke.md).
+* [Подробнее об управлении доступом в {{ yandex-cloud }}](../../iam/concepts/access-control/index.md).
+* [Подробнее о наследовании ролей](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance).

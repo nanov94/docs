@@ -1,0 +1,55 @@
+title: Yandex DataSphere
+href: index.yaml
+items:
+  - name: Getting started
+    href: quickstart.md
+  - name: Step-by-step instructions
+    items:
+      - name: All instructions
+        href: operations/index.md
+      - name: Creating a project
+        href: operations/projects/create.md
+      - name: Installing dependencies
+        href: operations/projects/install-dependencies.md
+      - name: Running sample code in a notebook
+        href: operations/projects/snippets.md
+      - name: Version control. Working with checkpoints
+        href: operations/projects/checkpoints.md
+      - name: Managing computing resources
+        href: operations/projects/control-compute-resources.md
+      - name: Clearing the interpreter state
+        href: operations/projects/clear-kernel-state.md
+      - name: Sharing a notebook
+        items:
+          - name: Publishing a notebook
+            href: operations/projects/publication.md
+          - name: Exporting a project
+            href: operations/projects/export.md
+      - name: Changing a name or description
+        href: operations/projects/update.md
+      - name: Deleting a project
+        href: operations/projects/delete.md
+      - name: Working with Git
+        href: operations/projects/work-with-git.md
+  - name: Concepts
+    items:
+      - name: Overview
+        href: concepts/index.md
+      - name: Project
+        href: concepts/project.md
+      - name: List of pre-installed software
+        href: concepts/preinstalled-packages.md
+      - name: Available commands
+        href: concepts/magic.md
+      - name: Computing resource configurations
+        href: concepts/configurations.md
+      - name: Integration with version and data control systems
+        href: concepts/dvc-and-git.md
+      - name: Quotas and limits
+        href: concepts/limits.md
+  - name: Access management
+    href: security/index.md
+  - name: Pricing policy
+    href: pricing.md
+  - name: Questions and answers
+    href: qa/index.md

@@ -1,3 +1,5 @@
 # Сценарии работы с тестовыми средами
 
-* [[!TITLE]](ci-for-snapshots.md)
+* [{#T}](gitlab.md)
+* [{#T}](ci-for-snapshots.md)
+* [{#T}](hpc-on-preemptible.md)

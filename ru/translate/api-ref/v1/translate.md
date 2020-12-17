@@ -1,6 +1,6 @@
 # Перевод текста
 
-[!INCLUDE [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md)]
+{% include [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md) %}
 
 Переводит заданный текст на указанный язык.
 
@@ -10,7 +10,7 @@
 POST https://translate.api.cloud.yandex.net/translate/v1/translate
 ```
 
-### Параметры в теле запроса
+### Параметры в теле запроса {#parameters-in-the-request-body}
 
 Для всех параметров обязательно используйте URL-кодирование. Максимальный размер тела POST-запроса 30 КБ.
 
@@ -21,7 +21,7 @@ POST https://translate.api.cloud.yandex.net/translate/v1/translate
 `source` | Язык, на котором написан исходный текст.<br/>Задается в виде двухбуквенного кода языка в соответствии с [ISO-639-1](https://en.wikipedia.org/wiki/ISO_639-1) (например `ru`). Если параметр не задан, сервис пытается определить исходный язык автоматически.
 `target` | Обязательный параметр.<br/>Направление перевода.<br/>Задается в виде двухбуквенного кода языка в соответствии с [ISO-639-1](https://en.wikipedia.org/wiki/ISO_639-1) (например `ru`).
 `format` | Формат текста.<br/>Возможные значения:<br/><ul><li>`plain` — текст без разметки (значение по умолчанию)</li><li>`html` — текст в формате HTML.</li></ul>
-`folderId` | Обязательный параметр.<br/>Идентификатор вашего каталога.<br/>Подробнее о том, как узнать идентификатор каталога читайте в разделе [Авторизация в API](../../concepts/auth.md).
+`folderId` | Обязательный параметр.<br/>Идентификатор вашего каталога.<br/>
 
 
 
@@ -41,7 +41,7 @@ POST https://translate.api.cloud.yandex.net/translate/v1/translate
 
 ## Примеры {#examples}
 
-### Пример запроса
+### Пример запроса {#sample-request}
 
 ```httpget
 export FOLDER_ID=<folder id>
@@ -54,7 +54,7 @@ curl -X POST \
      "https://translate.api.cloud.yandex.net/translate/v1/translate"
 ```
 
-### Пример ответа
+### Пример ответа {#response-example}
 
 Ответ возвращается в формате JSON.
 

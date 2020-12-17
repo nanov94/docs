@@ -1,42 +1,40 @@
-1. Go to the VM page of the [management console](https://console.cloud.yandex.ru). In the **Network** section, find the VM's public IP address.
+1. You can learn the IP address of the VM under **Network** on the VM page in the [management console]({{ link-console-main }}).
 
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
-
-   The recommended authentication method when connecting over SSH is using a key pair.  Don't forget to set up the created key pair: the private key must match the public key sent to the VM.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM over SSH.
 
 1. Grant your user write access to the directory `/var/www/html`:
 
-   ---
-   
-   **[!TAB Ubuntu]**
+   {% list tabs %}
 
-   ```bash
-   $ sudo chown -R "$USER":www-data /var/www/html
-   ```
+   - Ubuntu
 
-   **[!TAB CentOS]**
+     ```bash
+     $ sudo chown -R "$USER":www-data /var/www/html
+     ```
 
-   ```bash
-   $ sudo chown -R "$USER":apache /var/www/html
-   ``` 
-   
-   ---
+   - CentOS
 
-1. Upload the website files to the VM over SCP.
+     ```bash
+     $ sudo chown -R "$USER":apache /var/www/html
+     ```
 
-   ---
+   {% endlist %}
 
-   **[!TAB Linux/macOS]**
+1. Upload the website files to the VM over SCP:
 
-   Use the `scp` command-line utility:
+   {% list tabs %}
 
-   ```bash
-   $ scp -r <path to the file directory> <your user's name>@<VM's IP address>:/var/www/html
-   ```
+   - Linux/macOS
 
-   **[!TAB Windows]**
+     Use the `scp` command-line utility:
 
-   Use the [WinSCP](https://winscp.net/eng/download.php) program to copy the local file directory to the `/var/www/html` directory on the VM.
+     ```bash
+     $ scp -r <path to the file directory> <VM user name>@<VM IP address>:/var/www/html
+     ```
 
-   ---
+   - Windows
+
+     Use the [WinSCP](https://winscp.net/eng/download.php) program to copy the local file directory to the `/var/www/html` directory on the VM.
+
+   {% endlist %}
 

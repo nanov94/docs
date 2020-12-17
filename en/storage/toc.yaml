@@ -1,40 +1,28 @@
-title: "Yandex Object Storage"
+title: Yandex Object Storage
 href: index.yaml
 items:
   - name: Getting started
-    items:
-    - name: Creating a bucket
-      href: quickstart.md
-    - name: Configuring tools
-      items:
-        - name: Supported tools
-          href: instruments/index.md
-        - name: AWS CLI
-          href: instruments/aws-cli.md
-        - name: AWS SDK for Java
-          href: instruments/aws-sdk-java.md
-        - name: boto
-          href: instruments/boto.md
-        - name: CyberDuck
-          href: instruments/cyberduck.md
-        - name: S3cmd
-          href: instruments/s3cmd.md
-        - name: s3fs
-          href: instruments/s3fs.md
+    href: quickstart.md
   - name: Step-by-step instructions
     items:
       - name: All instructions
         href: operations/index.md
       - name: Buckets
         items:
-          - name: Create a bucket
+          - name: Creating a bucket
             href: operations/buckets/create.md
-          - name: Removing a bucket
+          - name: Deleting a bucket
             href: operations/buckets/delete.md
           - name: Limiting the maximum size of a bucket
             href: operations/buckets/limit-max-volume.md
           - name: Allowing public access to a bucket
             href: operations/buckets/bucket-availability.md
+          - name: Managing object lifecycles
+            href: operations/buckets/lifecycles.md
+          - name: Managing CORS configurations
+            href: operations/buckets/cors.md
+          - name: Editing a bucket ACL
+            href: operations/buckets/edit-acl.md
       - name: Objects
         items:
           - name: Uploading an object
@@ -43,46 +31,86 @@ items:
             href: operations/objects/info.md
           - name: Downloading an object
             href: operations/objects/download.md
-          - name: Getting the download link
+          - name: Getting a public link to an object
             href: operations/objects/link-for-download.md
           - name: Deleting an object
             href: operations/objects/delete.md
+          - name: Deleting a partially uploaded object
+            href: operations/objects/deleting-multipart.md
+          - name: Editing an object ACL
+            href: operations/objects/edit-acl.md
+      - name: Static website hosting
+        items:
+          - name: Hosting setup
+            href: operations/hosting/setup.md
+          - name: Support for your own domain
+            href: operations/hosting/own-domain.md
+          - name: Support for multiple domain names
+            href: operations/hosting/multiple-domains.md
+          - name: Configuring HTTPS
+            href: operations/hosting/certificate.md
   - name: Concepts
     items:
       - name: Overview
         href: concepts/index.md
       - name: Bucket
         href: concepts/bucket.md
-      - name: Object
+      - name: Objects
         href: concepts/object.md
+      - name: Object lifecycles
+        href: concepts/lifecycles.md
+      - name: CORS
+        href: concepts/cors.md
+      - name: Static website hosting
+        href: concepts/hosting.md
+      - name: Pre-signed URLs
+        href: concepts/pre-signed-urls.md
       - name: Multipart upload
         href: concepts/multipart.md
+      - name: Access control lists (ACLs)
+        href: concepts/acl.md
+      - name: Upload file via HTML form
+        href: concepts/presigned-post-forms.md
       - name: Storage class
         href: concepts/storage-class.md
+      - name: Backups
+        href: concepts/backup.md
       - name: Quotas and limits
         href: concepts/limits.md
-  - name: Static website hosting
+  - name: Tools
     items:
-      - name: Overview
-        href: hosting/index.md
-      - name: Configuring buckets
-        href: hosting/bucket-configuration.md
-      - name: Hosting setup in the management console
-        href: hosting/setup.md
-      - name: Response codes
-        href: hosting/answer-codes.md
-  - name: CORS
-    items:
-      - name: Overview
-        href: cors/index.md
-      - name: Configuring buckets
-        href: cors/configuration.md
-      - name: Configuring CORS in the management console
-        href: cors/setup.md
-  - name: HTTP API compatible with Amazon S3
+      - name: All tools
+        href: tools/index.md
+      - name: Console clients
+        items:
+          - name: AWS CLI
+            href: tools/aws-cli.md
+          - name: S3cmd
+            href: tools/s3cmd.md
+      - name: File browsers
+        items:
+          - name: CyberDuck
+            href: tools/cyberduck.md
+          - name: WinSCP
+            href: tools/winscp.md
+      - name: SDK
+        items:
+          - name: AWS SDK for Java
+            href: tools/aws-sdk-java.md
+          - name: Python SDK (boto)
+            href: tools/boto.md
+      - name: FUSE
+        items:
+          - name: s3fs
+            href: tools/s3fs.md
+          - name: goofys
+            href: tools/goofys.md
+  - name: Amazon S3-compatible HTTP API
     items:
       - name: How to use the API
         href: s3/index.md
+      - name: Signing requests
+        href: s3/signing-requests.md
       - name: API reference
         items:
           - name: All services and methods
@@ -121,7 +149,7 @@ items:
                 href: s3/api-ref/object/options.md
           - name: Multipart upload
             items:
-              - name: General procedure for multipart upload
+              - name: General multipart upload procedure
                 href: s3/api-ref/multipart.md
               - name: startUpload
                 href: s3/api-ref/multipart/startupload.md
@@ -147,16 +175,46 @@ items:
                 href: s3/api-ref/hosting/get.md
               - name: delete
                 href: s3/api-ref/hosting/delete.md
+              - name: Static website response codes
+                href: s3/api-ref/hosting/answer-codes.md
           - name: CORS
             items:
               - name: All methods
                 href: s3/api-ref/cors.md
+              - name: XML structure of CORS configuration
+                href: s3/api-ref/cors/xml-config.md
               - name: upload
                 href: s3/api-ref/cors/upload.md
               - name: get
                 href: s3/api-ref/cors/get.md
               - name: delete
                 href: s3/api-ref/cors/delete.md
+          - name: Lifecycles
+            items:
+              - name: All methods
+                href: s3/api-ref/lifecycles.md
+              - name: XML structure of lifecycle configuration
+                href: s3/api-ref/lifecycles/xml-config.md
+              - name: upload
+                href: s3/api-ref/lifecycles/upload.md
+              - name: get
+                href: s3/api-ref/lifecycles/get.md
+              - name: delete
+                href: s3/api-ref/lifecycles/delete.md
+          - name: ACL
+            items:
+              - name: All methods
+                href: s3/api-ref/acl.md
+              - name: XML structure of ACL configuration
+                href: s3/api-ref/acl/xml-config.md
+              - name: objectGetAcl
+                href: s3/api-ref/acl/objectget.md
+              - name: objectPutAcl
+                href: s3/api-ref/acl/objectput.md
+              - name: bucketGetAcl
+                href: s3/api-ref/acl/bucketget.md
+              - name: bucketPutAcl
+                href: s3/api-ref/acl/bucketput.md
           - name: Common request headers
             href: s3/api-ref/common-request-headers.md
           - name: Common response headers
@@ -167,11 +225,13 @@ items:
     href: security/index.md
   - name: Pricing policy
     items:
-      - name: Current rules
+      - name: Current pricing policy
         href: pricing.md
       - name: Archive
         items:
-          - name: Policy before January 1, 2019
+          - name: 'Before January 1, 2019'
             href: pricing-archive/pricing-01012019.md
+          - name: 'From January 1 to March 1, 2019'
+            href: pricing-archive/pricing-01032019.md
   - name: Questions and answers
     href: qa.md

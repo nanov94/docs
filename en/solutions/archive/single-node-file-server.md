@@ -10,14 +10,14 @@ To create a single-node file server:
 
 Before creating a VM:
 
-1. Go to the Yandex.Cloud [management console](https://console.cloud.yandex.ru) and select the folder where you want to perform the operations.
-1. Make sure the selected folder has a network with a subnet that the VM can be connected to. To do this, click the **Yandex Virtual Private Cloud** tile on the folder page. If the list contains a network, click on its name to see the list of subnets. If there aren't any networks or subnets, [create them](../../vpc/quickstart.md).
+1. Go to the Yandex.Cloud [management console]({{ link-console-main }}) and select the folder where you want to perform the operations.
+1. Make sure the selected folder has a network with a subnet that the VM can be connected to. To do this, click the **Virtual Private Cloud** tile on the folder page. If the list contains a network, click on its name to see the list of subnets. If there aren't any networks or subnets, [create them](../../vpc/quickstart.md).
 
 ## 1. Create a VM for the file server {#create-vm}
 
 To create a VM:
 
-1. On the folder page of the [management console](https://console.cloud.yandex.ru), click **Create resource** and select **Virtual machine**.
+1. On the folder page of the [management console]({{ link-console-main }}), click **Create resource** and select **Virtual machine**.
 
 1. In the **Name** field, enter the VM name: `fileserver-tutorial`.
 
@@ -26,7 +26,7 @@ To create a VM:
 1. Select the **Ubuntu** or **CentOS** public image.
 
 1. In the **Computing resources** section:
-    - Choose the [type of virtual machine](../../compute/concepts/vm-types.md) (light or standard).
+    - Choose the platform.
     - Specify the required amount of vCPUs and RAM.
 
    Recommended values for the file server:
@@ -37,7 +37,7 @@ To create a VM:
 1. In the **Disks** section, click **Add disk**. In the **Add disk** window, specify the disk settings for data storage:
    * **Name**: `fileserver-tutorial-disk`.
    * **Size**: 100 GB.
-   * **Disk type**: NVMe.
+   * **Disk type**: SSD.
    * **Content**: Empty.
 
    Click **Add**.
@@ -59,33 +59,33 @@ When a VM is created, it is assigned an IP address and hostname (FQDN). This dat
 
 After the `fileserver-tutorial` VM's status changes to `RUNNING`, do the following:
 
-1. Go to the VM page of the [management console](https://console.cloud.yandex.ru). In the **Network** section, find the VM's public IP address.
+1. Go to the VM page of the [management console]({{ link-console-main }}). In the **Network** section, find the VM's public IP address.
 
-1. [Connect](../../compute/operations/vm-control/vm-connect-ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
+1. [Connect](../../compute/operations/vm-connect/ssh.md) to the VM over SSH. You can use the `ssh` tool on Linux and macOS and [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/) for Windows.
 
       The recommended authentication method when connecting over SSH is using a key pair.  Don't forget to set up the created key pair: the private key must match the public key sent to the VM.
 
 1. Download and install Samba:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu]**
+   - Ubuntu
 
-   ```bash
-   $ sudo apt-get update
-   $ sudo apt-get install nfs-kernel-server samba
-   ```
+     ```bash
+     $ sudo apt-get update
+     $ sudo apt-get install nfs-kernel-server samba
+     ```
 
-   **[!TAB CentOS]**
+   - CentOS
 
-   ```bash
-   $ sudo yum check-update
-   $ sudo yum -y install nfs-utils nfs-utils-lib samba nano
-   $ sudo chkconfig smb on
-   $ sudo chkconfig nfs on
-   ```
+     ```bash
+     $ sudo yum check-update
+     $ sudo yum -y install nfs-utils nfs-utils-lib samba nano
+     $ sudo chkconfig smb on
+     $ sudo chkconfig nfs on
+     ```
 
-   ---
+   {% endlist %}
 
 1. Prepare and mount the file system on the data storage disk:
 
@@ -119,161 +119,161 @@ After the `fileserver-tutorial` VM's status changes to `RUNNING`, do the followi
 
    Make the file look like:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu]**
+   - Ubuntu
 
-   ```
-   [global]
-      workgroup = WORKGROUP
-      server string = %h server (Samba)
-      dns proxy = no
-      log file = /var/log/samba/log.%m
-      max log size = 1000
-      syslog = 0
-      panic action = /usr/share/samba/panic-action %d
-      server role = standalone server
-      passdb backend = tdbsam
-      obey pam restrictions = yes
-      unix password sync = yes
-      passwd program = /usr/bin/passwd %u
-      passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
-      pam password change = yes
-      map to guest = bad user
-      usershare allow guests = yes
-   [printers]
-      comment = All Printers
-      browseable = no
-      path = /var/spool/samba
-      printable = yes
-      guest ok = no
-      read only = yes
-      create mask = 0700
-   [print$]
-      comment = Printer Drivers
-      path = /var/lib/samba/printers
-      browseable = yes
-      read only = yes
-      guest ok = no
-   [data]
-      comment = /data
-      path = /data
-      browseable = yes
-      read only = no
-      writable = yes
-      guest ok = yes
-      hosts allow = <IP address> 127.0.0.1
-      hosts deny = 0.0.0.0/0
-   ```
+     ```
+     [global]
+        workgroup = WORKGROUP
+        server string = %h server (Samba)
+        dns proxy = no
+        log file = /var/log/samba/log.%m
+        max log size = 1000
+        syslog = 0
+        panic action = /usr/share/samba/panic-action %d
+        server role = standalone server
+        passdb backend = tdbsam
+        obey pam restrictions = yes
+        unix password sync = yes
+        passwd program = /usr/bin/passwd %u
+        passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .
+        pam password change = yes
+        map to guest = bad user
+        usershare allow guests = yes
+     [printers]
+        comment = All Printers
+        browseable = no
+        path = /var/spool/samba
+        printable = yes
+        guest ok = no
+        read only = yes
+        create mask = 0700
+     [print$]
+        comment = Printer Drivers
+        path = /var/lib/samba/printers
+        browseable = yes
+        read only = yes
+        guest ok = no
+     [data]
+        comment = /data
+        path = /data
+        browseable = yes
+        read only = no
+        writable = yes
+        guest ok = yes
+        hosts allow = <IP address> 127.0.0.1
+        hosts deny = 0.0.0.0/0
+     ```
 
-   **[!TAB CentOS 6]**
+   - CentOS 6
 
-   ```
-   [global]
-      workgroup = MYGROUP
-      server string = Samba Server Version %v
-      log file = /var/log/samba/log.%m
-      max log size = 50
-      security = user
-      passdb backend = tdbsam
-      load printers = yes
-      cups options = raw
-      map to guest = bad user
-   [homes]
-      comment = Home Directories
-      browseable = no
-      writable = yes
-   [printers]
-      comment = All Printers
-      path = /var/spool/samba
-      browseable = no
-      guest ok = no
-      writable = no
-      printable = yes
-   [data]
-      comment = /data
-      path = /data
-      browseable = yes
-      read only = no
-      writable = yes
-      guest ok = yes
-      hosts allow = <IP address> 127.0.0.1
-      hosts deny = 0.0.0.0/0
-   ```
+     ```
+     [global]
+        workgroup = MYGROUP
+        server string = Samba Server Version %v
+        log file = /var/log/samba/log.%m
+        max log size = 50
+        security = user
+        passdb backend = tdbsam
+        load printers = yes
+        cups options = raw
+        map to guest = bad user
+     [homes]
+        comment = Home Directories
+        browseable = no
+        writable = yes
+     [printers]
+        comment = All Printers
+        path = /var/spool/samba
+        browseable = no
+        guest ok = no
+        writable = no
+        printable = yes
+     [data]
+        comment = /data
+        path = /data
+        browseable = yes
+        read only = no
+        writable = yes
+        guest ok = yes
+        hosts allow = <IP address> 127.0.0.1
+        hosts deny = 0.0.0.0/0
+     ```
 
-   **[!TAB CentOS 7]**
+   - CentOS 7
 
-   ```
-   [global]
-           workgroup = SAMBA
-           security = user
+     ```
+     [global]
+             workgroup = SAMBA
+             security = user
 
-           passdb backend = tdbsam
+             passdb backend = tdbsam
 
-           printing = cups
-           printcap name = cups
-           load printers = yes
-           cups options = raw
+             printing = cups
+             printcap name = cups
+             load printers = yes
+             cups options = raw
 
-   [homes]
-           comment = Home Directories
-           valid users = %S, %D%w%S
-           browseable = No
-           read only = No
-           inherit acls = Yes
+     [homes]
+             comment = Home Directories
+             valid users = %S, %D%w%S
+             browseable = No
+             read only = No
+             inherit acls = Yes
 
-   [printers]
-           comment = All Printers
-           path = /var/tmp
-           printable = Yes
-           create mask = 0600
-           browseable = No
+     [printers]
+             comment = All Printers
+             path = /var/tmp
+             printable = Yes
+             create mask = 0600
+             browseable = No
 
-   [print$]
-           comment = Printer Drivers
-           path = /var/lib/samba/drivers
-           write list = @printadmin root
-           force group = @printadmin
-           create mask = 0664
-           directory mask = 0775
-   [data]
-      comment = /data
-      path = /data
-      browseable = yes
-      read only = no
-      writable = yes
-      guest ok = yes
-      hosts allow = <IP address> 127.0.0.1
-      hosts deny = 0.0.0.0/0
-   ```
+     [print$]
+             comment = Printer Drivers
+             path = /var/lib/samba/drivers
+             write list = @printadmin root
+             force group = @printadmin
+             create mask = 0664
+             directory mask = 0775
+     [data]
+        comment = /data
+        path = /data
+        browseable = yes
+        read only = no
+        writable = yes
+        guest ok = yes
+        hosts allow = <IP address> 127.0.0.1
+        hosts deny = 0.0.0.0/0
+     ```
 
-   ---
+   {% endlist %}
 
    In the `[data]` section, instead of `<IP address>`, specify the IP address of the computer to which you are going to connect the network data disk via NFS.
 
 1. Restart NFS and Samba; for CentOS 6 and 7, first allow reading files in the `/data` directory:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Ubuntu]**
+   - Ubuntu
 
-   ```bash
-   $ sudo service nfs-kernel-server restart
-   $ sudo service smbd restart
-   ```
+     ```bash
+     $ sudo service nfs-kernel-server restart
+     $ sudo service smbd restart
+     ```
 
-   **[!TAB CentOS]**
+   - CentOS
 
-   ```bash
-   $ sudo chcon -t samba_share_t /data
-   $ sudo semanage fcontext -a -t samba_share_t "/data(/.*)?"
-   $ sudo restorecon -R -v /data
-   $ sudo service rpcbind restart
-   $ sudo service nfs restart
-   $ sudo service smb restart
-   ```
+     ```bash
+     $ sudo chcon -t samba_share_t /data
+     $ sudo semanage fcontext -a -t samba_share_t "/data(/.*)?"
+     $ sudo restorecon -R -v /data
+     $ sudo service rpcbind restart
+     $ sudo service nfs restart
+     $ sudo service smb restart
+     ```
 
-   ---
+   {% endlist %}
 
 1. This step should only be performed on a VM running CentOS 6.
 
@@ -299,23 +299,23 @@ After the `fileserver-tutorial` VM's status changes to `RUNNING`, do the followi
 
 1. Connect the network disk to your computer via NFS and check if the test file is available:
 
-   ---
+   {% list tabs %}
 
-   **[!TAB Linux/macOS]**
+   - Linux/macOS
 
-   Run the command `mount -t nfs <external IP>:/data /<mount point>`.
+     Run the command `mount -t nfs <external IP>:/data /<mount point>`.
 
-   The test directory and its file must be available at the specified mount point.
+     The test directory and its file must be available at the specified mount point.
 
-   **[!TAB Windows]**
-   1. Run the **cmd.exe** utility. To do this, use the keyboard shortcut **Windows**+**R** and run the command `cmd`.
-   1. From the command line, run:
+   - Windows
+     1. Run the **cmd.exe** utility. To do this, use the keyboard shortcut **Windows**+**R** and run the command `cmd`.
+     1. From the command line, run:
 
-       ```
-       net use x: \\<VM's public IP address>\data
-       ```
+         ```
+         net use x: \\<VM's public IP address>\data
+         ```
 
-   The test directory and its file must be available on disk X.
+     The test directory and its file must be available on disk X.
 
-   ---
+   {% endlist %}
 

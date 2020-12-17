@@ -1,99 +1,18 @@
 # Начало работы с интерфейсом командной строки
 
-_Интерфейс командной строки Яндекс.Облака (CLI)_ — скачиваемое программное обеспечение для управления вашими облачными ресурсами через командную строку.
+
+_Интерфейс командной строки {{ yandex-cloud }} (CLI)_ — скачиваемое программное обеспечение для управления вашими облачными ресурсами через командную строку.
+
 
 ## Установка {#install}
 
+{% include [install-cli](../_includes/cli/install-cli.md) %}
 
----
-
-**[!TAB Linux]**
-
-1. Выполните в командной строке:
-   ```
-   $ curl https://[!KEYREF s3-storage-host][!KEYREF yc-install-path] | bash
-   ```
-   Скрипт установит CLI и добавит путь до исполняемого файла в переменную окружения `PATH`.
-
-   > [!NOTE]
-   >
-   > Скрипт дополнит переменную `PATH` только, если его запустить в командных оболочках `bash` или `zsh`.
-   >
-   > Если вы запустили скрипт в другой оболочке, добавьте путь до CLI в переменную `PATH` самостоятельно.
-
-1. После завершения установки перезапустите командную оболочку.
+## Создание профиля {#initialize}
 
 
 
-**[!TAB macOS]**
-
-1. Выполните в командной строке:
-    ```
-    $ curl https://[!KEYREF s3-storage-host][!KEYREF yc-install-path] | bash
-    ```
-    Скрипт установит CLI и добавит путь до исполняемого файла в переменную окружения `PATH`.
-1. Перезапустите командную оболочку, чтобы перезагрузить переменные окружения.
-
-CLI поддерживает автодополнение команд в командной оболочке `bash`. Чтобы автодополнение заработало:
-
-1. Установите менеджер пакетов [Homebrew](https://brew.sh).
-1. Установите пакет `bash-completion`:
-   ```
-   $ brew install bash-completion
-   ```
-1. После завершения установки добавьте в файл ` ~/.bash_profile` строки:
-   ```
-   if [ -f $(brew --prefix)/etc/bash_completion ]; then
-   . $(brew --prefix)/etc/bash_completion
-   fi
-   ```
-1. Перезапустите командную оболочку.
-
-
-**[!TAB Windows]**
-
-Для Windows CLI можно установить с помощью PowerShell и `cmd`:
-
-- Для установки с помощью PowerShell: 
-    
-    1. Выполните команду:
-    
-        ```
-        iex (New-Object System.Net.WebClient).DownloadString('https://[!KEYREF s3-storage-host][!KEYREF yc-windows-path]')
-        ```
-	
-    1. Скрипт установки спросит, нужно ли добавить путь до `yc` в переменную PATH:
-        
-        ```
-        Add yc installation dir to your PATH? [Y/n]
-        ```
-        
-    1. Введите `Y`. После этого CLI Яндекс.Облака можно пользоваться, командную оболочку перезапускать не нужно.
-
-- Для установки с помощью `cmd`:
-    
-    1. Выполните команду:
-        
-        ```
-        @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://[!KEYREF s3-storage-host][!KEYREF yc-windows-path]'))" && SET "PATH=%PATH%;%USERPROFILE%\yandex-cloud\bin"
-        ```
-    
-    1. Скрипт установки спросит, нужно ли добавить путь до `yc` в переменную PATH:
-    
-        ```
-        Add yc installation dir to your PATH? [Y/n]
-        ```
-    
-    1. Введите `Y`.
-
-    1. Перезапустите командную оболочку, чтобы перезагрузить переменные окружения.
-
----
-
-
-## Инициализация {#initialize}
-
-  1. Получите OAuth-токен в сервисе Яндекс.OAuth. Для этого перейдите по [ссылке](https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb) и нажмите **Разрешить**.
+  1. Получите OAuth-токен в сервисе Яндекс.OAuth. Для этого перейдите по [ссылке]({{ link-cloud-oauth }}) и нажмите **Разрешить**.
   1. Запустите команду `yc init`, чтобы выполнить настройку вашего профиля CLI.
   1. По запросу команды введите свой OAuth токен.
      ```
@@ -109,6 +28,8 @@ CLI поддерживает автодополнение команд в ком
       [2] cloud2 (id = dcvatao4faoe2bmrg22b)
      Please enter your numeric choice: 2
      ```
+
+     Если вам доступно только одно облако, оно будет выбрано автоматически.
   1. Выберите каталог по умолчанию:
      ```
      Please choose a folder to use:
@@ -117,9 +38,9 @@ CLI поддерживает автодополнение команд в ком
       [3] Create a new folder
      Please enter your numeric choice: 1
      ```
-  1. Выберите зону доступности по умолчанию для сервиса [!KEYREF compute-full-name]:
+  1. Выберите зону доступности по умолчанию для сервиса {{ compute-full-name }}:
      ```
-     Do you want to configure a default [!KEYREF compute-full-name] availability zone? [Y/n] Y
+     Do you want to configure a default Yandex Compute Cloud availability zone? [Y/n] Y
      Which zone do you want to use as a profile default?
       [1] ru-central1-a
       [2] ru-central1-b

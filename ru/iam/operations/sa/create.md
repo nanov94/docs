@@ -1,81 +1,73 @@
-# Создать сервисный аккаунт
+# Создание сервисного аккаунта
 
 Создайте [сервисный аккаунт](../../concepts/users/service-accounts.md), чтобы управлять ресурсами от имени другой учетной записи.
 
-## Как создать сервисный аккаунт
+## Создать сервисный аккаунт {#create-sa}
 
----
+{% list tabs %}
 
-**[!TAB Консоль управления]**
+- Консоль управления
 
-1. Выберите каталог.
-2. Выберите вкладку **Сервисные аккаунты**.
-3. Нажмите кнопку **Создать сервисный аккаунт**.
-4. Введите имя сервисного аккаунта.
-5. Вы можете сразу назначить сервисному аккаунту [роль](../../concepts/access-control/roles.md) на каталог, в котором он будет создан.
-    Для этого нажмите **Добавить роль** и выберите роль.
+  {% include [create-sa-via-console](../../../_includes/iam/create-sa-via-console.md) %}
 
-    Чтобы назначить роль на другой ресурс, воспользуйтесь CLI или API по инструкции [[!TITLE]](assign-role-for-sa.md).
-6. Нажмите кнопку **Добавить**.
+- CLI
 
-**[!TAB CLI]**
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+  1. Посмотрите описание команды создания сервисного аккаунта:
 
-1. Посмотрите описание команды создания сервисного аккаунта:
+      ```
+      $ yc iam service-account create --help
+      ```
 
-    ```
-    $ yc iam service-account create --help
-    ```
+  2. Создайте сервисный аккаунт с именем `my-robot`:
 
-2. Создайте сервисный аккаунт с именем `my-robot`:
+      ```
+      $ yc iam service-account create --name my-robot
+      ```
 
-    ```
-    $ yc iam service-account create --name my-robot
-    ```
+      {% include [name-format](../../../_includes/name-format.md) %}
 
-    [!INCLUDE [name-format](../../../_includes/name-format.md)]
+- API
 
-**[!TAB API]**
+  Чтобы создать сервисный аккаунт, воспользуйтесь методом [create](../../api-ref/ServiceAccount/create.md) для ресурса [ServiceAccount](../../api-ref/ServiceAccount/index.md).
 
-Чтобы создать сервисный аккаунт, воспользуйтесь методом [create](../../api-ref/ServiceAccount/create.md) для ресурса [ServiceAccount](../../api-ref/ServiceAccount/index.md).
-
----
+{% endlist %}
 
 
-## Примеры
+## Примеры {#examples}
 
-### Добавить описание при создании
+### Добавить описание при создании {#add-description}
 
 Создайте сервисный аккаунт с именем и описанием:
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-```bash
-$ yc iam service-account create --name my-robot \
-    --description "this is my favorite service account"
-```
+  ```bash
+  $ yc iam service-account create --name my-robot \
+      --description "this is my favorite service account"
+  ```
 
-**[!TAB API]**
+- API
 
-```bash
-curl -X POST \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer <IAM-TOKEN>" \
-    -d '{
-        "folderId": "b1gd129pp9ha0vnao5g7",
-        "name": "my-robot",
-        "description": "this is my favorite service account"
-    }' \
-    https://iam.api.cloud.yandex.net/iam/v1/serviceAccounts
-```
+  ```bash
+  curl -X POST \
+      -H 'Content-Type: application/json' \
+      -H "Authorization: Bearer <IAM-TOKEN>" \
+      -d '{
+          "folderId": "b1gvmob95yysaplct532",
+          "name": "my-robot",
+          "description": "this is my favorite service account"
+      }' \
+      https://iam.api.cloud.yandex.net/iam/v1/serviceAccounts
+  ```
 
----
+{% endlist %}
 
-#### Что дальше
+#### Что дальше {#what-is-next}
 
-- [[!TITLE]](assign-role-for-sa.md)
-- [[!TITLE]](create-access-key.md)
-- [[!TITLE]](set-access-bindings.md)
+- [{#T}](assign-role-for-sa.md)
+- [{#T}](create-access-key.md)
+- [{#T}](set-access-bindings.md)

@@ -1,6 +1,6 @@
 # List of supported languages
 
-[!INCLUDE [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md)]
+{% include [speechkit-v1-disclaimer.md](../../../_includes/speechkit-v1-disclaimer.md) %}
 
 Get a list of translation directions supported by the service.
 
@@ -10,13 +10,13 @@ Get a list of translation directions supported by the service.
 POST https://translate.api.cloud.yandex.net/translate/v1/languages
 ```
 
-### Parameters in the request body
+### Parameters in the request body {#parameters-in-the-request-body}
 
 The maximum size of the POST request body is 30 KB.
 
 | Parameter | Description |
 | ----- | ----- |
-| `folderId` | Required parameter.<br/>ID of your folder.<br/>For more information about how to find out the folder ID, see the section [Authorization in the API](../../concepts/auth.md). |
+| `folderId` | Required parameter.<br/>The ID of your folder.<br/> |
 
 ## Response {#response}
 
@@ -34,7 +34,7 @@ The response is returned in JSON format.
 
 ## Examples {#examples}
 
-### Sample request
+### Sample request {#sample-request}
 
 ```httpget
 export FOLDER_ID=<folder id>
@@ -45,7 +45,7 @@ curl -X POST \
      "https://translate.api.cloud.yandex.net/translate/v1/languages"
 ```
 
-### Response example
+### Response example {#response-example}
 
 The response is returned in JSON format.
 

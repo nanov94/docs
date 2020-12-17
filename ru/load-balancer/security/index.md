@@ -1,49 +1,66 @@
 # Управление доступом
 
-Пользователь Яндекс.Облака может выполнять только те операции над ресурсами, которые разрешены назначенными ему ролями. Пока у пользователя нет никаких ролей все операции ему запрещены. 
+В этом разделе вы узнаете:
+* [на какие ресурсы можно назначить роль](#resources);
+* [какие роли действуют в сервисе](#roles-list);
+* [какие роли необходимы](#choosing-roles) для того или иного действия.
 
-Чтобы разрешить доступ к ресурсам сервиса [!KEYREF load-balancer-full-name], назначьте пользователю нужные роли из приведенного ниже списка. На данный момент роль может быть назначена только на родительский ресурс (каталог или облако), роли которого наследуются вложенными ресурсами. 
+{% include [about-access-management](../../_includes/iam/about-access-management.md) %}
 
-> [!NOTE]
->
-> Подробнее о наследовании ролей читайте в разделе [Наследование прав доступа](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance) документации сервиса [!KEYREF resmgr-name].
->
+## На какие ресурсы можно назначить роль {#resources}
 
-## Назначение ролей
+{% include [basic-resources](../../_includes/iam/basic-resources-for-access-control.md) %}
 
-Для управления балансировщиками пользователь должен иметь соответствующие полномочия в облаке и каталогах, в которых будут выполняться операции.
+## Какие роли действуют в сервисе {#roles-list}
 
-Чтобы дать пользователю полномочия: 
+На диаграмме показано, какие роли есть в сервисе и как они наследуют разрешения друг друга. Например, в `editor` входят все разрешения `viewer`. После диаграммы дано описание каждой роли.
 
-[!INCLUDE [grant-role-console](../../_includes/grant-role-console.md)]
+![image](service-roles-hierarchy.png)
 
-## Роли
+Роли, действующие в сервисе:
 
-Ниже перечислены все роли, которые учитываются при проверке прав доступа в сервисе [!KEYREF service-name].
+* Сервисные роли:
+    * {% include [resource-manager.clouds.owner](../../_includes/iam/roles/short-descriptions/resource-manager.clouds.owner.md) %}
+    * {% include [resource-manager.clouds.member](../../_includes/iam/roles/short-descriptions/resource-manager.clouds.member.md) %}
+    * {% include [load-balancer.viewer](../../_includes/iam/roles/short-descriptions/load-balancer.viewer.md) %}
+    * {% include [load-balancer.privateAdmin](../../_includes/iam/roles/short-descriptions/load-balancer.privateAdmin.md) %}
+    * {% include [load-balancer.admin](../../_includes/iam/roles/short-descriptions/load-balancer.admin.md) %}
+* Примитивные роли:
+    * {% include [viewer](../../_includes/iam/roles/short-descriptions/viewer.md) %}
+    * {% include [editor](../../_includes/iam/roles/short-descriptions/editor.md) %}
+    * {% include [admin](../../_includes/iam/roles/short-descriptions/admin.md) %}
 
-### Сервисные роли
+## Какие роли мне необходимы {#choosing-roles}
 
-Сервисные роли — роли, дающие доступ к ресурсам определенного сервиса. При проверке прав доступа к ресурсам [!KEYREF service-name] учитываются сервисные роли [!KEYREF resmgr-name].
+В таблице ниже перечислено, какие роли нужны для выполнения указанного действия. Вы всегда можете назначить роль, которая дает более широкие разрешения, нежели указанная. Например, назначить `editor` вместо `viewer`.
 
-[!INCLUDE [cloud-roles](../../_includes/cloud-roles.md)]
+Для любых операций с балансировщиком, имеющим публичный IP-адрес, необходима роль `load-balancer.admin`. В сетях, где расположены целевые группы, допускается иметь вместо нее роль `vpc.publicAdmin`. Для операций над внутренним балансировщиком необходима роль `load-balancer.privateAdmin`, а для операций над его целевыми группами — `load-balancer.privateAdmin` или `compute.admin`.
 
-### Примитивные роли
+Для операций над целевыми группами, расположенных в подсетях, где указанные административные роли отсутствуют, потребуется роль `vpc.user` на эти подсети.
 
-Примитивные роли можно назначать на любой ресурс в любом сервисе.
+Действие | Методы | Необходимые роли
+----- | ----- | -----
+**Просмотр информации** | |
+Просмотр информации о любом ресурсе | `get`, `list`, `listOperations` | `viewer` на этот ресурс
+**Управление балансировщиками** | |
+[Создание](../operations/load-balancer-create.md) и изменение балансировщиков в каталоге | `create` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на каталог и (в случае публичного балансировщика) сети, в которых расположены целевые группы
+[Удаление балансировщиков](../operations/load-balancer-delete.md) | `update`, `delete` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на балансировщик
+[Присоединение целевых групп](../operations/target-group-attach.md) | `attachTargetGroup`| `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на каталог и (в случае публичного балансировщика) сети, в которых расположены целевые группы
+[Отсоединение целевых групп](../operations/target-group-detach.md) | `detachTargetGroup` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на балансировщик
+[Получение состояний целевых групп](../operations/check-resource-health.md) | `getTargetStates` | `load-balancer.viewer` или `viewer` на балансировщик и на указанные целевые группы
+[Добавление](../operations/listener-add.md), [удаление](../operations/listener-remove.md) обработчиков | `addListener`, `removeListener` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на балансировщик
+[Остановка](../operations/load-balancer-stop.md) и [запуск](../operations/load-balancer-start.md) балансировщика | `stop`, `start` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на балансировщик
+**Управление целевыми группами** | |
+[Создание](../operations/target-group-create.md) и изменений целевых групп в каталоге | `create` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на каталог и на подсети, в которых расположены целевые группы
+[Удаление целевых групп](../operations/target-group-delete.md) | `update`, `delete` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на целевую группу и балансировщик
+Добавление ресурсов в целевой группе | `addTargets` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на целевую группу, балансировщик и на подсети, в которых расположены целевые группы
+Удаление ресурсов в целевой группе | `removeTargets` | `load-balancer.privateAdmin` / `load-balancer.admin` или `editor` на целевую группу
+**Управление доступом к ресурсам** | |
+[Назначение роли](../../iam/operations/roles/grant.md), [отзыв роли](../../iam/operations/roles/revoke.md) и просмотр назначенных ролей на ресурс | `setAccessBindings`, `updateAccessBindings`, `listAccessBindings` | `admin` на этот ресурс
 
-#### [!KEYREF roles-viewer]
-Пользователь с ролью `[!KEYREF roles-viewer]` может смотреть списки балансировщиков и целевых групп.
+#### Что дальше {what-is-next}
 
-#### [!KEYREF roles-editor]
-Пользователь с ролью `[!KEYREF roles-editor]` может выполнять любые операции с балансировщиками и целевыми группами: создавать, удалять и изменять их.
-
-Помимо этого роль `[!KEYREF roles-editor]` включает в себя все разрешения роли `[!KEYREF roles-viewer]`.
-
-#### [!KEYREF roles-admin]
-Пользователь с ролью `[!KEYREF roles-admin]` управлять правами доступа к ресурсам, например, разрешить другим пользователям создавать балансировщики и целевые группы или просматривать информацию о них.
-
-Помимо этого роль `[!KEYREF roles-admin]` включает в себя все разрешения роли `[!KEYREF roles-editor]`.
-
-## См. также
-
-[Структура ресурсов Яндекс.Облака](../../resource-manager/concepts/resources-hierarchy.md)
+* [Как назначить роль](../../iam/operations/roles/grant.md).
+* [Как отозвать роль](../../iam/operations/roles/revoke.md).
+* [Подробнее об управлении доступом в {{ yandex-cloud }}](../../iam/concepts/access-control/index.md).
+* [Подробнее о наследовании ролей](../../resource-manager/concepts/resources-hierarchy.md#access-rights-inheritance).

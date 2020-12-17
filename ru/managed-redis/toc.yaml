@@ -1,39 +1,141 @@
-title: "Yandex Managed Service for Redis"
+title: Yandex Managed Service for Redis
 href: index.yaml
-stage: alpha
 items:
   - name: Начало работы
     href: quickstart.md
+  - name: Пошаговые инструкции
+    items:
+      - name: Все инструкции
+        href: operations/index.md
+      - name: Информация об имеющихся кластерах
+        href: operations/cluster-list.md
+      - name: Создание кластера
+        href: operations/cluster-create.md
+      - name: Изменение настроек кластера и базы данных
+        href: operations/update.md
+      - name: Подключение к базе данных
+        href: operations/connect.md
+      - name: Остановка и запуск кластера
+        href: operations/cluster-stop.md
+      - name: Управление хостами кластера
+        href: operations/hosts.md
+      - name: Управление шардами
+        href: operations/shards.md
+      - name: Управление резервными копиями
+        href: operations/cluster-backups.md
+      - name: Сменить мастер
+        href: operations/failover.md
+      - name: Удаление кластера
+        href: operations/cluster-delete.md
   - name: Концепции
     items:
-    - name: Обзор
-      href: concepts/index.md
-    - name: Классы хостов
-      href: concepts/instance-types.md
-    - name: Сеть в Managed Service for Redis
-      href: concepts/network.md
-    - name: Квоты и лимиты сервиса
-      href: concepts/limits.md
-    - name: Резервные копии
-      href: concepts/backup.md
-    - name: Репликация и отказоустойчивость
-      href: concepts/replication.md
-    - name: Поддерживаемые клиенты
-      href: concepts/supported-clients.md
-    - name: Ограничения Managed Service for Redis
-      href: concepts/supported-features.md
+      - name: Обзор
+        href: concepts/index.md
+      - name: Классы хостов
+        href: concepts/instance-types.md
+      - name: Сеть в Managed Service for Redis
+        href: concepts/network.md
+      - name: Шардирование
+        href: concepts/sharding.md
+      - name: Резервные копии
+        href: concepts/backup.md
+      - name: Репликация и отказоустойчивость
+        href: concepts/replication.md
+      - name: Поддерживаемые клиенты
+        href: concepts/supported-clients.md
+      - name: Ограничения Managed Service for Redis
+        href: concepts/supported-features.md
+      - name: Квоты и лимиты сервиса
+        href: concepts/limits.md
   - name: Управление доступом
     href: security/index.md
   - name: Правила тарификации
-    href: pricing.md
+    items:
+      - name: Действующие правила
+        href: pricing.md
+      - name: Архив
+        items:
+          - name: До 1 февраля 2020 года
+            href: pricing-archive/pricing-01022020.md
   - name: Справочник API
     items:
       - name: Аутентификация в API
         href: api-ref/authentication.md
-    include:
-      repo: docs-api
-      path: ru/managed-redis/toc.yaml
+      - name: gRPC
+        items:
+          - name: Обзор
+            href: grpc/index.md
+          - name: BackupService
+            href: grpc/backup_service.md
+          - name: ClusterService
+            href: grpc/cluster_service.md
+          - name: ResourcePresetService
+            href: grpc/resource_preset_service.md
+          - name: OperationService
+            href: grpc/operation_service.md
+      - name: REST
+        items:
+          - name: Обзор
+            href: api-ref/index.md
+          - name: Backup
+            items:
+              - name: Обзор
+                href: api-ref/Backup/index.md
+              - name: get
+                href: api-ref/Backup/get.md
+              - name: list
+                href: api-ref/Backup/list.md
+          - name: Cluster
+            items:
+              - name: Обзор
+                href: api-ref/Cluster/index.md
+              - name: addHosts
+                href: api-ref/Cluster/addHosts.md
+              - name: backup
+                href: api-ref/Cluster/backup.md
+              - name: create
+                href: api-ref/Cluster/create.md
+              - name: delete
+                href: api-ref/Cluster/delete.md
+              - name: deleteHosts
+                href: api-ref/Cluster/deleteHosts.md
+              - name: get
+                href: api-ref/Cluster/get.md
+              - name: list
+                href: api-ref/Cluster/list.md
+              - name: listBackups
+                href: api-ref/Cluster/listBackups.md
+              - name: listHosts
+                href: api-ref/Cluster/listHosts.md
+              - name: listLogs
+                href: api-ref/Cluster/listLogs.md
+              - name: listOperations
+                href: api-ref/Cluster/listOperations.md
+              - name: restore
+                href: api-ref/Cluster/restore.md
+              - name: start
+                href: api-ref/Cluster/start.md
+              - name: startFailover
+                href: api-ref/Cluster/startFailover.md
+              - name: stop
+                href: api-ref/Cluster/stop.md
+              - name: update
+                href: api-ref/Cluster/update.md
+          - name: ResourcePreset
+            items:
+              - name: Обзор
+                href: api-ref/ResourcePreset/index.md
+              - name: get
+                href: api-ref/ResourcePreset/get.md
+              - name: list
+                href: api-ref/ResourcePreset/list.md
+          - name: Operation
+            items:
+              - name: Обзор
+                href: api-ref/Operation/index.md
+              - name: get
+                href: api-ref/Operation/get.md
   - name: Вопросы и ответы
     items:
-    - name: Общие вопросы
-      href: qa/general.md
+      - name: Общие вопросы
+        href: qa/general.md

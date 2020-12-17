@@ -11,7 +11,7 @@
      "serviceAccounts": [
       {
        "id": "ajebqtreob2dpblin8pe",
-       "folderId": "b1gd129pp9ha0vnvf5g7",
+       "folderId": "b1gvmob95yysaplct532",
        "createdAt": "2018-10-18T13:42:40Z",
        "name": "my-robot",
        "description": "my description"
@@ -37,4 +37,4 @@
         ]
     }
     ```
-1. [!INCLUDE [grant-role-folder-via-curl-step](grant-role-folder-via-curl-step.md)]
+1. {% include [grant-role-folder-via-curl-step](grant-role-folder-via-curl-step.md) %}

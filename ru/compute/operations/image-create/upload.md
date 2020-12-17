@@ -1,84 +1,162 @@
-# Загрузить свой образ диска в Яндекс.Облако
+# Загрузить свой образ диска в {{ yandex-cloud }}
 
-Эта инструкция описывает, как загрузить файл с образом диска в Яндекс.Облако и создать из него [образ](../../concepts/images.md) в сервисе [!KEYREF compute-name]. Поддерживаемые форматы образов: Qcow2, VMDK, VHD. На данный момент нельзя загрузить свой образ с операционной системой Windows.
+Эта инструкция описывает, как подготовить образ диска, а также загрузить файл с образом в {{ objstorage-full-name }} и создать из него [образ](../../concepts/image.md) в сервисе {{ compute-name }}.
 
->[!NOTE]
->
->Создавать образы из внешних источников разрешено только по ссылкам на публичные бакеты в [!KEYREF objstorage-name].
+{% note warning %}
 
-## 1. Загрузите файл образа в Яндекс.Облако
+В {{ compute-name }} создать образ по ссылке можно только из файла, загруженного в {{ objstorage-name }}.
 
-Загрузите файл с образом в сервис [!KEYREF objstorage-full-name] и получите ссылку на загруженный образ:
+{% endnote %}
 
-1. Если у вас еще нет бакета в [!KEYREF objstorage-name], [создайте](../../../storage/operations/buckets/create.md) ее.
-1. [Сделайте бакет публичным](../../../storage/operations/buckets/bucket-availability.md).
-1. [Загрузите образ](../../../storage/operations/objects/upload.md) в ваш бакет. В терминах [!KEYREF objstorage-name] загружаемый файл образа будет называться _объектом_.
-1. [Получите ссылку](../../../storage/operations/objects/link-for-download.md) на загруженный образ. Используйте эту ссылку при создании образа в [!KEYREF compute-name].
+## Подготовьте файл с образом {#prepare-file}
 
-## 2. Создайте образ в [!KEYREF compute-name]
+Поддерживаемые форматы образов: Qcow2, VMDK и VHD.
 
-Создайте новый образ по ссылке, полученной в [!KEYREF objstorage-name]:
+Для образов загрузочного диска должны выполняться следующие требования:
+* ОС на базе Linux.
+* Установлены последние обновления ОС.
+* Диск смонтирован по UUID, а не по имени.
+* Ядро Linux запущено с параметром `console=ttyS0`.
+* SSH-сервер запускается автоматически при запуске ВМ.
+* Сетевой интерфейс получает IP-адрес по DHCP.
+* Установлен пакет `cloud-init`, а также драйверы `virtio-net` и `virtio-blk`.
 
----
+Рекомендации:
 
-**[!TAB Консоль управления]**
+* Образы рекомендуется оптимизировать перед загрузкой с помощью утилиты `qemu-img`, чтобы ускорить импорт:
 
-1. В консоли управления выберите каталог, в котором нужно создать образ.
-1. Нажмите плитку **Yandex Compute Cloud**.
-1. На странице **Виртуальные машины** перейдите на вкладку **Образы**.
-1. Нажмите кнопку **Загрузить образ**.
-1. Введите имя образа.
+  ```
+  qemu-img convert -p -O qcow2 -o cluster_size=2M <имя вашего файла образа> <имя нового файла образа>
+  ```
 
-    [!INCLUDE [name-format](../../../_includes/name-format.md)]
+* Чтобы образ был совместим с [GPU](../../concepts/gpus.md), при подготовке файла [установите драйверы NVIDIA](../vm-operate/install-nvidia-drivers.md).
 
-1. Если требуется, добавьте произвольное описание образа.
-1. Вставьте ссылку на образ, полученную в [!KEYREF objstorage-name].
-1. Нажмите кнопку **Загрузить**.
+{% note info %}
 
-**[!TAB CLI]**
+Не используйте программы для сжатия или архивирования при подготовке файла с образом.
 
-Чтобы создать новый образ по ссылке, воспользуйтесь флагом `--source-uri`.
+{% endnote %}
 
-```
-$ yc compute image create --name <IMAGE-NAME> --source-uri <IMAGE-URL>
-```
+## Загрузите файл образа в {{ objstorage-name }} {#upload-file}
 
-где:
+Загрузите файл с образом в сервис {{ objstorage-full-name }} и получите ссылку на загруженный образ:
 
-- `<IMAGE-NAME>` — имя, которое будет присвоено образу.
-- `<IMAGE-URL>` — ссылка на образ, полученная в [!KEYREF objstorage-name].
+1. Если у вас еще нет бакета в {{ objstorage-name }}, [создайте](../../../storage/operations/buckets/create.md) его.
+1. [Загрузите образ](../../../storage/operations/objects/upload.md) в ваш бакет. В терминах {{ objstorage-name }} загружаемый файл образа будет называться _объектом_.
+1. [Получите ссылку](../../../storage/operations/objects/link-for-download.md) на загруженный образ. Используйте эту ссылку при создании образа в {{ compute-name }}.
 
-Если необходимо, добавьте описание и укажите [семейство](../../concepts/images.md#family), к которому относится этот образ:
+## Создайте образ в {{ compute-name }} {#create-image}
 
-```
-$ yc compute image create  \
-    --name ubuntu-cosmic \
-    --description "Ubuntu Server 18.10 (Cosmic Cuttlefish)" \
-    --family ubuntu \
-    --source-uri "https://storage.yandexcloud.net/mybucket/cosmic-server-cloudimg-amd64.vmdk"
-```
+Создайте новый образ по ссылке, полученной в {{ objstorage-name }}:
 
-Если вы знаете минимальные требования к размеру диска, который будет создан из этого образа, укажите размер в гигабайтах:
+{% list tabs %}
 
-```
-$ yc compute image create  \
-    --name big-image \
-    --min-disk-size 20 \
-    --source-uri "https://storage.yandexcloud.net/mybucket/cosmic-server-cloudimg-amd64.vmdk"
-```
+- Консоль управления
 
-[!INCLUDE [min-disk-size](../../_includes_service/min-disk-size.md)]
+  1. В консоли управления выберите каталог, в котором нужно создать образ.
+  1. Выберите сервис **{{ compute-name }}**.
+  1. На странице **Виртуальные машины** перейдите на вкладку **Образы**.
+  1. Нажмите кнопку **Загрузить образ**.
+  1. Введите имя образа.
 
-**[!TAB API]**
+      {% include [name-format](../../../_includes/name-format.md) %}
 
-Чтобы создать новый образ по ссылке, воспользуйтесь методом [Create](../../api-ref/Image/create.md) для ресурса `Image`. Ссылку на образ передайте в элементе `uri`.
+  1. Если требуется, добавьте произвольное описание образа.
+  1. Вставьте ссылку на образ, полученную в {{ objstorage-name }}.
+  1. Нажмите кнопку **Загрузить**.
 
----
+- CLI
+
+  Чтобы создать новый образ по ссылке, воспользуйтесь флагом `--source-uri`.
+
+  ```
+  yc compute image create --name <IMAGE-NAME> --source-uri <IMAGE-URL>
+  ```
+
+  где:
+
+  - `<IMAGE-NAME>` — имя, которое будет присвоено образу.
+  - `<IMAGE-URL>` — ссылка на образ, полученная в {{ objstorage-name }}.
+
+  Если необходимо, добавьте описание и укажите [семейство](../../concepts/image.md#family), к которому относится этот образ:
+
+  ```
+  yc compute image create  \
+      --name ubuntu-cosmic \
+      --description "Ubuntu Server 18.10 (Cosmic Cuttlefish)" \
+      --family ubuntu \
+      --source-uri "https://storage.yandexcloud.net/mybucket/cosmic-server-cloudimg-amd64.vmdk"
+  ```
+
+  Если вы знаете минимальные требования к размеру диска, который будет создан из этого образа, укажите размер в гигабайтах:
+
+  ```
+  yc compute image create  \
+      --name big-image \
+      --min-disk-size 20 \
+      --source-uri "https://storage.yandexcloud.net/mybucket/cosmic-server-cloudimg-amd64.vmdk"
+  ```
+
+  {% include [min-disk-size](../../_includes_service/min-disk-size.md) %}
+
+- API
+
+  Чтобы создать новый образ по ссылке, воспользуйтесь методом [Create](../../api-ref/Image/create.md) для ресурса `Image`. Ссылку на образ передайте в элементе `uri`.
+
+- Terraform
+
+  Если у вас ещё нет Terraform, [установите его и настройте провайдер {{ yandex-cloud }}](../../../solutions/infrastructure-management/terraform-quickstart.md#install-terraform).  
+
+  Чтобы создать образ:
+
+  1. Опишите в конфигурационном файле параметры ресурса `yandex_compute_image`.
+
+     Пример структуры конфигурационного файла:
+     
+     ```
+     resource "yandex_compute_image" "image-1" {
+
+       name       = "ubuntu-cosmic"
+       os_type    = "LINUX"
+       source_url = "<ссылка на образ в Object Storage>"
+     }
+     ```
+
+     Более подробную информацию о ресурсах, которые вы можете создать с помощью Terraform, см. в [документации провайдера](https://www.terraform.io/docs/providers/yandex/index.html).
+
+  1. Проверьте корректность конфигурационных файлов.
+
+     1. В командной строке перейдите в папку, где вы создали конфигурационный файл.
+     1. Выполните проверку с помощью команды:
+
+        ```
+        terraform plan
+        ```
+
+     Если конфигурация описана верно, в терминале отобразится список создаваемых ресурсов и их параметров. Если в конфигурации есть ошибки, Terraform на них укажет. 
+
+  1. Разверните облачные ресурсы.
+
+     1. Если в конфигурации нет ошибок, выполните команду:
+
+        ```
+        terraform apply
+        ```
+
+     1. Подтвердите создание ресурсов.
+
+     После этого в указанном каталоге будут созданы все требуемые ресурсы. Проверить появление ресурсов и их настройки можно в [консоли управления]({{ link-console-main }}).
+
+{% endlist %}
 
 После создания образ перейдет в статус `CREATING`. Дождитесь, когда образ перейдет в статус `READY`, прежде чем его использовать.
 
-## 3. Удалите образ из [!KEYREF objstorage-name]
+## Удалите образ из {{ objstorage-name }} {#delete-image}
 
-Если образ был успешно создан, вы можете [удалить файл образа](../../../storage/operations/objects/delete.md) из сервиса [!KEYREF objstorage-name]. Также можно [удалить бакет](../../../storage/operations/buckets/delete.md), если в нем не осталось объектов.
+Если образ был успешно создан, вы можете [удалить файл образа](../../../storage/operations/objects/delete.md) из сервиса {{ objstorage-name }}. Также можно [удалить бакет](../../../storage/operations/buckets/delete.md), если в нем не осталось объектов.
 
-О стоимости использования [!KEYREF objstorage-name] читайте в разделе [[!TITLE]](../../../storage/pricing.md).
+## Создайте виртуальную машину из подготовленного образа {#create-vm-from-user-image}
+
+{% include notitle [Как создать ВМ из своего образа](../../operations/vm-create/create-from-user-image.md#create-vm-from-image) %}
+
+О стоимости использования {{ objstorage-name }} читайте в разделе [{#T}](../../../storage/pricing.md).

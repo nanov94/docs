@@ -1,6 +1,6 @@
-# Backup to [!KEYREF objstorage-full-name] via Duplicati
+# Backup to {{ objstorage-full-name }} via Duplicati
 
-To set up backups in [!KEYREF objstorage-name] via Duplicati:
+To set up backups in {{ objstorage-name }} via Duplicati:
 
 1. [Create a bucket](#create-bucket)
 1. [Create a service account](#create-service-account)
@@ -15,7 +15,7 @@ The free version of Duplicati allows you to create a maximum of 200 GB of backup
 
 To create a bucket for backups:
 
-[!INCLUDE [create-bucket](../_solutions_includes/create-public-bucket.md)]
+{% include [create-bucket](../_solutions_includes/create-public-bucket.md) %}
 
 ## 2. Create a service account {#create-service-account}
 
@@ -27,23 +27,23 @@ Create static access keys. Save the ID and private key right away. You won't be 
 
 ## 4. Install Duplicati {#install-duplicati}
 
----
+{% list tabs %}
 
-**[!TAB Windows/Linux]**
+- Windows/Linux
 
-[Download](https://www.duplicati.com/download) and install Duplicati.
+  [Download](https://www.duplicati.com/download) and install Duplicati.
 
-**[!TAB macOS]**
+- macOS
 
-To use Duplicati on macOS, you need the [Mono framework](https://www.mono-project.com/download/stable/#download-mac).
+  To use Duplicati on macOS, you need the [Mono framework](https://www.mono-project.com/download/stable/#download-mac).
 
-Once you have installed the Mono framework, [download](https://www.duplicati.com/download) and install Duplicati.
+  Once you have installed the Mono framework, [download](https://www.duplicati.com/download) and install Duplicati.
 
----
+{% endlist %}
 
 ## 5. Configure Duplicati {#configure-duplicati}
 
-To configure Duplicati to work with [!KEYREF objstorage-name]:
+To configure Duplicati to work with {{ objstorage-name }}:
 
 1. Run Duplicati. If required, set a password for your account.
 1. Select the **Add backup** menu item.
@@ -67,7 +67,7 @@ To test a backup:
 
 1. Open the **Home** menu item.
 1. In the list of backup plans next to the `Yandex Cloud` plan, click **Run now**.
-1. Open the [management console](https://console.cloud.yandex.ru).
+1. Open the [management console]({{ link-console-main }}).
 1. Go to the folder containing the bucket where your backups are stored.
 1. Open the **Object Storage** service.
 1. Open the `backup` bucket and check whether all the necessary files have been copied.

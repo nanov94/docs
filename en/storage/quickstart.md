@@ -1,41 +1,62 @@
-# Getting started with [!KEYREF objstorage-full-name]
+# Getting started with {{ objstorage-full-name }}
 
-## Before you start {#preparations}
+{{ objstorage-full-name }} is a universal scalable solution for data storage. It is the perfect choice both for high-load services that require reliable and fast access to data, and for projects with minimal requirements for storage infrastructure.
 
-1. Sign up for Yandex.Cloud.
+In {{ objstorage-name }} terms, files and folders are called [objects](concepts/object.md). All objects are stored in [buckets](concepts/bucket.md). The service has a flat storage structure for bucket objects, but GUI-based tools let you use Object Storage as a hierarchical file system.
 
-   For more information, see the section [Getting started](../billing/quickstart/index.md) in the documentation on Billing.
+The Object Storage API is partially compatible with the AWS S3 API, so you can use [tools](tools/index.md) designed to work with S3.
 
-1. Get the roles required to work with [!KEYREF objstorage-name]. Select one of the options:
-    * The `resource-manager.cloud.owner` role for the cloud.
-    * A pair of roles: `resource-manager.cloud.member` for the cloud and `admin` for the cloud or folder.
-    * A pair of roles: `resource-manager.cloud.member` for the cloud and `editor` for the cloud or folder.
+In this section, you'll learn how to:
 
-1. To assign roles:
+1. [Create buckets](#the-first-bucket) for storing data.
+1. [Upload files to buckets](#upload-files).
+1. [Get links to download files](#get-link).
 
-    [!INCLUDE [grant-role-console](../_includes/grant-role-console.md)]
+## Before you start {#before-you-begin}
 
-1. Select the folder where you want to perform the operations. If there is no such folder, create one:
-
-    [!INCLUDE [create-folder](../_includes/create-folder.md)]
-
-1. Click on the **Yandex Object Storage** tile to get to the bucket management page.
+1. Go to the [management console]({{ link-console-main }}). Then log in to {{ yandex-cloud }} or sign up if you don't have an account yet.
+1. On the [Billing]({{ link-console-billing }}), make sure that a [billing account](../billing/concepts/billing-account.md) is linked and that its status is `ACTIVE` or `TRIAL_ACTIVE`. If you don't have a billing account, [create one](../billing/quickstart/index.md#create_billing_account).
+1. On the [Access management]({{ link-console-access-management }}) page, make sure you have the `editor` role or higher. The role must be assigned for the folder where you'll work or the cloud that the folder belongs to.
 
 ## Creating the first bucket {#the-first-bucket}
 
-To create your first bucket in [!KEYREF objstorage-name]:
+To create your first bucket in {{ objstorage-name }}:
 
-1. Click **Create bucket**.
+1. In the [management console]({{ link-console-main }}), select the folder where you want to create a bucket.
+
+1. Click **Create resource** and select **Bucket**.
 
 1. Enter the name of the bucket.
 
-   The name must meet the following requirements:
+    The bucket name must be unique across {{ objstorage-name }}. It's used as part of the data access URL and is visible to your data users.
 
-   [!INCLUDE [bucket-name-reqs](../_includes/bucket-name-reqs.md)]
+1. If necessary, limit the maximum bucket size.
 
-1. Click **Create bucket**.
+    {% include [storage-no-max-limit](_includes_service/storage-no-max-limit.md) %}
 
-1. In the bucket, click **Upload objects**.
+1. To make sure that uploaded files are always available from outside {{ yandex-cloud }}, select the public [access type](concepts/bucket.md#bucket-access). Otherwise, you'll need to create a temporary link to provide access to such files.
 
-To perform operations with buckets and objects, you can use [alternative tools](instruments/index.md) in addition to the Yandex.Cloud management console.
+1. Choose the default [storage class](concepts/storage-class.md) to be used when uploading objects:
+    * _Standard storage_ is designed for storing frequently used objects.
+    * _Cold storage_ is designed for long-term storage of objects that are rarely read.
 
+1. Click **Create bucket** to complete the operation.
+
+## Uploading files to a bucket {#upload-files}
+
+To upload an object to a bucket:
+
+1. In the [management console]({{ link-console-main }}), select a folder.
+1. Select **Object Storage**.
+1. Click the name of the desired bucket.
+1. To upload files to the bucket, drag them to the bucket screen or click **Upload**.
+
+## Getting a file download link {#get-link}
+
+To get a link to an uploaded object:
+
+{% include [storage-get-link-for-download](_includes_service/storage-get-link-for-download.md) %}
+
+You can share the received link or use it in your service to access the file.
+
+To perform operations with buckets and objects, you can use [other tools](tools/index.md) in addition to the {{ yandex-cloud }} management console.

@@ -4,150 +4,183 @@
 
 * [Изменить класс хостов](#change-resource-preset).
 
-* [Увеличить размер хранилища](#change-disk-size) (доступно только для сетевого хранилища, `network-hdd` и `network-nvme`).
+* [Увеличить размер хранилища](#change-disk-size) (доступно только для сетевого хранилища, `network-hdd` и `network-ssd`).
 
-* [Настраивать серверы](#change-postgresql-config) [!KEYREF MY] согласно [документации [!KEYREF MY]](https://www.postgresql.org/docs/10/runtime-config.html).
+* [Настроить серверы](#change-mysql-config) {{ MY }}.
 
+* [Изменить дополнительные настройки кластера](#change-additional-settings).
 
 ## Изменить класс хостов {#change-resource-preset}
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-Чтобы изменить [класс хостов](../concepts/instance-types.md) для кластера:
+  Чтобы изменить [класс хостов](../concepts/instance-types.md) для кластера:
 
-1. Посмотрите описание команды CLI для изменения кластера:
+  1. Посмотрите описание команды CLI для изменения кластера:
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster update --help
-    ```
+      ```
+      $ yc managed-mysql cluster update --help
+      ```
 
-2. Запросите список доступных классов хостов (в колонке `ZONES` указаны зоны доступности, в которых можно выбрать соответствующий класс):
+  1. Запросите список доступных классов хостов (в колонке `ZONES` указаны зоны доступности, в которых можно выбрать соответствующий класс):
 
-    ```
-    $ [!KEYREF yc-mdb-my] resource-preset list
+     
+     ```
+     $ yc managed-mysql resource-preset list
+
+     +-----------+--------------------------------+-------+----------+
+     |    ID     |            ZONE IDS            | CORES |  MEMORY  |
+     +-----------+--------------------------------+-------+----------+
+     | s1.micro  | ru-central1-a, ru-central1-b,  |     2 | 8.0 GB   |
+     |           | ru-central1-c                  |       |          |
+     | ...                                                           |
+     +-----------+--------------------------------+-------+----------+
+     ```
+
     
-    +-----------+--------------------------------+-------+----------+
-    |    ID     |            ZONE IDS            | CORES |  MEMORY  |
-    +-----------+--------------------------------+-------+----------+
-    | s1.nano   | ru-central1-a, ru-central1-b,  |     1 | 4.0 GB   |
-    |           | ru-central1-c                  |       |          |
-    | s1.micro  | ru-central1-a, ru-central1-b,  |     2 | 8.0 GB   |
-    |           | ru-central1-c                  |       |          |
-    | ...                                                           |
-    +-----------+--------------------------------+-------+----------+
-    ```
 
-3. Укажите нужный класс в команде изменения кластера:
+  1. Укажите нужный класс в команде изменения кластера:
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster update <имя кластера>
-         --resource-preset <ID класса>
-    ```
+      ```
+      $ yc managed-mysql cluster update <имя кластера>
+           --resource-preset <ID класса>
+      ```
 
-    [!KEYREF mmy-short-name] запустит операцию изменения класса хостов для кластера.
+      {{ mmy-short-name }} запустит операцию изменения класса хостов для кластера.
 
-**[!TAB API]**
 
-Изменить [класс хостов](../concepts/instance-types.md) кластера можно с помощью метода API [update](../api-ref/Cluster/update.md): передайте в запросе нужное значение в параметре `configSpec.clickhouse.resources.resourcePresetId`.
+- API
 
-Список поддерживаемых значений запрашивайте методом [list](../api-ref/ResourcePreset/list.md) для ресурсов `ResourcePreset`.
+  Изменить [класс хостов](../concepts/instance-types.md) кластера можно с помощью метода API [update](../api-ref/Cluster/update.md): передайте в запросе нужное значение в параметре `configSpec.resources.resourcePresetId`.
 
----
+  Список поддерживаемых значений запрашивайте методом [list](../api-ref/ResourcePreset/list.md) для ресурсов `ResourcePreset`.
+
+{% endlist %}
+
 
 ## Увеличить размер хранилища {#change-disk-size}
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-Чтобы увеличить размер хранилища для кластера:
+  Чтобы увеличить размер хранилища для кластера:
 
-1. Посмотрите описание команды CLI для изменения кластера:
+  1. Посмотрите описание команды CLI для изменения кластера:
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster update --help
-    ```
+      ```
+      $ yc managed-mysql cluster update --help
+      ```
 
-2. Проверьте, что в облаке хватает квоты на увеличение хранилища: откройте страницу [Квоты](https://console.cloud.yandex.ru/?section=quotas) для вашего облака и проверьте, что в секции [!KEYREF mmy-full-name] не исчерпано место в строке **space**.
+  1. Проверьте, что в облаке хватает квоты на увеличение хранилища: откройте страницу [Квоты]({{ link-console-quotas }}) для вашего облака и проверьте, что в секции {{ mmy-full-name }} не исчерпано место в строке **space**.
 
-3. Проверьте, что нужный кластер использует именно сетевое хранилище (увеличить размер локального хранилища пока невозможно). Для этого запросите информацию о кластере и найдите поле `disk_type_id` — его значение должно быть `network-hdd` или `network-nvme`:
+  1. Проверьте, что нужный кластер использует именно сетевое хранилище (увеличить размер локального хранилища пока невозможно). Для этого запросите информацию о кластере и найдите поле `disk_type_id` — его значение должно быть `network-hdd` или `network-ssd`:
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster get <имя кластера>
-    
-    id: c7qkvr3u78qiopj3u4k2
-    folder_id: b1g0ftj57rrjk9thribv
-    ...
-    config:
+      ```
+      $ yc managed-mysql cluster get <имя кластера>
+
+      id: c7qkvr3u78qiopj3u4k2
+      folder_id: b1g0ftj57rrjk9thribv
       ...
-      resources:
-        resource_preset_id: s1.nano
-        disk_size: "10737418240"
-        disk_type_id: network-nvme
-    ...
-    ```
+      config:
+        ...
+        resources:
+          resource_preset_id: s1.micro
+          disk_size: "10737418240"
+          disk_type_id: network-ssd
+      ...
+      ```
 
-4. Укажите нужный объем хранилища в команде изменения кластера (должен быть не меньше, чем значение `disk_size` в свойствах кластера):
+  1. Укажите нужный объем хранилища в команде изменения кластера (должен быть не меньше, чем значение `disk_size` в свойствах кластера):
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster update <имя кластера>
-         --disk-size <размер хранилища в ГБ>
-    ```
+      ```
+      $ yc managed-mysql cluster update <имя кластера>
+           --disk-size <размер хранилища в ГБ>
+      ```
 
-    Если все условия выполнены, [!KEYREF mmy-short-name] запустит операцию по увеличению объема хранилища.
+      Если все условия выполнены, {{ mmy-short-name }} запустит операцию по увеличению объема хранилища.
 
-**[!TAB API]**
 
-Изменить размер хранилища для кластера можно с помощью метода API [update](../api-ref/Cluster/update.md): передайте в запросе нужные значения в параметре `configSpec.resources.diskSize`.
+- API
 
-Проверьте, что в облаке хватает квоты на увеличение хранилища: откройте страницу [Квоты](https://console.cloud.yandex.ru/?section=quotas) для вашего облака и проверьте, что в секции [!KEYREF mmy-full-name] не исчерпано место в строке **space**.
+  Изменить размер хранилища для кластера можно с помощью метода API [update](../api-ref/Cluster/update.md): передайте в запросе нужные значения в параметре `configSpec.resources.diskSize`.
 
----
+  Проверьте, что в облаке хватает квоты на увеличение хранилища: откройте страницу [Квоты]({{ link-console-quotas }}) для вашего облака и проверьте, что в секции {{ mmy-full-name }} не исчерпано место в строке **space**.
 
-## Изменить настройки [!KEYREF MY] {#change-postgresql-config}
+{% endlist %}
 
-Вы можете изменить настройки СУБД для хостов вашего кластера. Все поддерживаемые настройки описаны [в справочнике API](../api-ref/Cluster/update.md).
 
----
+## Изменить настройки {{ MY }} {#change-mysql-config}
 
-**[!TAB CLI]**
+{% list tabs %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+- Консоль управления
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  1. Перейдите на страницу каталога и выберите сервис **{{ mmy-name }}**.
+  1. Выберите кластер и нажмите кнопку **Изменить кластер** на панели сверху.
+  1. Измените настройки {{ MY }}, нажав на кнопку **Настроить** в блоке **Настройки СУБД**:
+  
+     {% include [mmy-dbms-settings](../../_includes/mdb/mmy-dbms-settings.md) %}
+  
+  1. Нажмите кнопку **Сохранить**.
+  1. Нажмите кнопку **Сохранить изменения**.
 
-Чтобы изменить настройки сервера [!KEYREF MY]:
+- CLI
 
-1. Посмотрите описание команды CLI для изменения конфигурации кластера:
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster update-config --help
-    ```
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-2. Установите нужные значения параметров.
+  Чтобы изменить настройки сервера {{ MY }}:
 
-    Все поддерживаемые параметры перечислены в [формате запроса для метода update](../api-ref/Cluster/update.md), в поле `mysql_config_5_7`. Чтобы указать имя параметра в вызове CLI, преобразуйте его имя из вида <q>lowerCamelCase</q> в <q>snake_case</q>, например, параметр `logMinDurationStatement` из запроса к API преобразуется в `log_min_duration_statement` для команды CLI:
+  1. Посмотрите описание команды CLI для изменения конфигурации кластера:
 
-    ```
-    $ [!KEYREF yc-mdb-my] cluster update-config <имя кластера>
-         --set log_min_duration_statement=100,<имя параметра>=<значение>,...
-    ```
+      ```
+      $ yc managed-mysql cluster update-config --help
+      ```
 
-    [!KEYREF mmy-short-name] запустит операцию по изменению настроек кластера.
+  1. Установите нужные значения параметров.
 
-**[!TAB API]**
+     Все поддерживаемые параметры перечислены в [формате запроса для метода update](../api-ref/Cluster/update.md), в поле `mysql_config_5_7`. Чтобы указать имя параметра в вызове CLI, преобразуйте его имя из вида <q>lowerCamelCase</q> в <q>snake_case</q>, например, параметр `logMinDurationStatement` из запроса к API преобразуется в `log_min_duration_statement` для команды CLI:
 
-Изменить настройки СУБД для кластера можно с помощью метода API [update](../api-ref/Cluster/update.md): передайте в запросе нужные значения в параметре `configSpec.postgresqlConfig_10.config`.
+     ```
+     $ yc managed-mysql cluster update-config <имя кластера>
+          --set log_min_duration_statement=100,<имя параметра>=<значение>,...
+     ```
 
----
+     {{ mmy-short-name }} запустит операцию по изменению настроек кластера.
 
+
+- API
+
+  Изменить настройки СУБД для кластера можно с помощью метода API [update](../api-ref/Cluster/update.md): передайте в запросе нужные значения в параметре `configSpec.mysql_config_5_7`.
+
+{% endlist %}
+
+## Изменить дополнительные настройки кластера {#change-additional-settings}
+
+{% list tabs %}
+
+- Консоль управления
+
+  1. Перейдите на страницу каталога и выберите сервис **{{ mmy-name }}**.
+  1. Выберите кластер и нажмите кнопку **Изменить кластер** на панели сверху.
+  1. Измените дополнительные настройки кластера: 
+     
+     {% include [mmy-extra-settings](../../_includes/mdb/mmy-extra-settings-web-console.md) %}
+
+- API
+
+  Воспользуйтесь методом API [update](../api-ref/Cluster/update.md): передайте в запросе нужные значения в параметрах `configSpec.access` и `configSpec.backupWindowStart`.
+
+{% endlist %}

@@ -4,12 +4,12 @@ editable: false
 
 # Ограничения пробного периода
 
-Пробный период предназначен для тестирования и исследования возможностей облачной инфраструктуры. В рамках пробного периода вы можете использовать ресурсы Яндекс.Облака с некоторыми ограничениями.
+Пробный период предназначен для тестирования и исследования возможностей облачной инфраструктуры. В рамках пробного периода вы можете использовать ресурсы {{ yandex-cloud }} с некоторыми ограничениями.
 
 
 ## Соглашение об уровне предоставления услуг (SLA) {#sla}
 
-Соглашение об уровне предоставления услуг (SLA) не распространяется на пробный период. Мы не рекомендуем вам запускать продакшн приложения в Яндекс.Облаке во время пробного периода.
+Соглашение об уровне предоставления услуг (SLA) не распространяется на пробный период. Мы не рекомендуем вам запускать продакшн приложения в {{ yandex-cloud }} во время пробного периода.
 
 
 ## Техническая поддержка {#support}
@@ -19,41 +19,76 @@ editable: false
 
 ## Квоты и лимиты сервисов {#quotes-and-limits}
 
-[!INCLUDE [quotes-limits-def.md](../../_includes/quotes-limits-def.md)]
+{% include [quotes-limits-def.md](../../_includes/quotes-limits-def.md) %}
 
-Квоты и лимиты для сервисов Яндекс.Облака, которые действуют во время пробного периода, приведены ниже.
-
-
-### [!KEYREF resmgr-full-name] {#resource-manager}
-
-[!INCLUDE [resource-manager-limits.md](../../_includes/resource-manager-limits.md)]
+Квоты и лимиты для сервисов {{ yandex-cloud }}, которые действуют во время пробного периода, приведены ниже.
 
 
-### [!KEYREF compute-full-name] {#compute}
+### {{ compute-full-name }} {#compute}
 
-[!INCLUDE [compute-limits.md](../../_includes/compute-limits.md)]
-
-
-### [!KEYREF objstorage-full-name] {#storage}
-
-[!INCLUDE [storage-limits.md](../../_includes/storage-limits.md)]
+{% include [compute-limits.md](../../_includes/compute-limits.md) %}
 
 
-### [!KEYREF vpc-full-name] {#vpc}
+### {{ objstorage-full-name }} {#storage}
 
-[!INCLUDE [vpc-limits.md](../../_includes/vpc-limits.md)]
-
-
-### [!KEYREF mch-full-name] {#mdb}
-
-[!INCLUDE [mch-limits.md](../../_includes/mdb/mch-limits.md)]
+{% include [storage-limits.md](../../_includes/storage-limits.md) %}
 
 
-### [!KEYREF mmg-full-name] {#mdb}
+### {{ vpc-full-name }} {#vpc}
 
-[!INCLUDE [mmg-limits.md](../../_includes/mdb/mmg-limits.md)]
+{% include [vpc-limits.md](../../_includes/vpc-limits.md) %}
 
 
-### [!KEYREF mpg-full-name] {#mdb}
+### {{ resmgr-full-name }} {#resource-manager}
 
-[!INCLUDE [mpg-limits.md](../../_includes/mdb/mpg-limits.md)]
+{% include [resource-manager-limits.md](../../_includes/resource-manager-limits.md) %}
+
+
+### {{ load-balancer-full-name }} {#load-balancer}
+
+{% include [load-balancer-limits.md](../../_includes/load-balancer-limits.md) %}
+
+
+### {{ mch-full-name }} {#mch}
+
+{% include [mch-limits.md](../../_includes/mdb/mch-limits.md) %}
+
+
+### {{ mmg-full-name }} {#mmg}
+
+{% include [mmg-limits.md](../../_includes/mdb/mmg-limits.md) %}
+
+
+### {{ mmy-full-name }} {#mmy}
+
+{% include [mmy-limits.md](../../_includes/mdb/mmy-limits.md) %}
+
+
+### {{ mpg-full-name }} {#mpg}
+
+{% include [mpg-limits.md](../../_includes/mdb/mpg-limits.md) %}
+
+
+### {{ mrd-full-name }} {#mrd}
+
+{% include [mrd-limits.md](../../_includes/mdb/mrd-limits.md) %}
+
+
+### {{ message-queue-full-name }} {#mq}
+
+{% include [ymq-limits.md](../../_includes/message-queue/ymq-limits.md) %}
+
+
+### {{ speechkit-full-name }} {#speechkit}
+
+{% include [speechkit-limits](../../_includes/speechkit-limits.md) %}
+
+
+### {{ translate-full-name }} {#translate}
+
+{% include [translate-limits](../../_includes/translate-limits.md) %}
+
+
+### {{ vision-full-name }} {#vision}
+
+{% include [vision-limits](../../_includes/vision-limits.md) %}

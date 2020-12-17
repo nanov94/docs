@@ -1,89 +1,101 @@
-# Создать статические ключи доступа
+# Создание статических ключей доступа
 
-Создайте [статические ключи доступа](../../concepts/users/service-accounts.md#access-keys) для сервисного аккаунта.
+Это инструкция по созданию  [статических ключей доступа](../../concepts/authorization/access-key.md) для [сервисного аккаунта](../../concepts/users/service-accounts.md).
 
----
+Если у вас еще нет сервисного аккаунта, [создайте его](../sa/create.md) и [назначьте ему роли](../sa/assign-role-for-sa.md).
 
-**[!TAB Консоль управления]**
+Чтобы создать статический ключ доступа:
 
-1. Перейдите в каталог, которому принадлежит сервисный аккаунт.
-1. Выберите вкладку **Сервисные аккаунты**.
-1. Выберите сервисный аккаунт и нажмите на строку с его именем.
-1. Нажмите кнопку **Создать ключ доступа** на верхней панели.
-1. Сохраните идентификатор и секретный ключ. После закрытия диалога значение ключа будет недоступно.
+{% list tabs %}
 
-**[!TAB CLI]**
+- Консоль управления
 
-[!INCLUDE [default-catalogue](../../../_includes/default-catalogue.md)]
+  1. Перейдите в каталог, которому принадлежит сервисный аккаунт.
+  1. Выберите вкладку **Сервисные аккаунты**.
+  1. Выберите сервисный аккаунт и нажмите на строку с его именем.
+  1. Нажмите кнопку **Создать новый ключ** на верхней панели.
+  1. Выберите пункт **Создать ключ доступа**.
+  1. Задайте описание ключа, чтобы потом было проще найти его в консоли управления.
+  1. Сохраните идентификатор и секретный ключ.
 
-1. Посмотрите описание команды создания статического ключа доступа:
+      {% note alert %}
 
-    ```
-    $ yc iam access-key create --help
-    ```
+      После закрытия диалога значение ключа будет недоступно.
 
-1. Выберите сервисный аккаунт, например `my-robot`:
+      {% endnote %}
 
-    ```
-    $ yc iam service-account list
-    +----------------------+------------------+-------------------------------+
-    |          ID          |       NAME       |          DESCRIPTION          |
-    +----------------------+------------------+-------------------------------+
-    | aje6o61dvog2h6g9a33s | my-robot         |                               |
-    | aje9sda1ufvqcmfksd3f | blabla           | bla bla bla is my description |
-    +----------------------+------------------+-------------------------------+
-    ```
-1. Создайте ключ доступа для сервисного аккаунта `my-robot`:
+- CLI
 
-    ```
-    $ yc iam access-key create --service-account-name my-robot
+  {% include [default-catalogue](../../../_includes/default-catalogue.md) %}
 
-    access_key:
-      id: aje6t3vsbj8lp9r4vk2u
-      service_account_id: ajepg0mjt06siuj65usm
-      created_at: "2018-11-22T14:37:51Z"
-      key_id: 0n8X6WY6S24N7OjXQ0YQ
-    secret: JyTRFdqw8t1kh2-OJNz4JX5ZTz9Dj1rI9hxtzMP1
-    ```
-1. Сохраните идентификатор `key_id` и секретный ключ `secret`. Получить значение ключа снова будет невозможно.
+  1. Посмотрите описание команды создания статического ключа доступа:
 
-**[!TAB API]**
+      ```
+      $ yc iam access-key create --help
+      ```
 
-Чтобы создать сервисный аккаунт, воспользуйтесь методом [create](../../api-ref/AccessKey/create.md) для ресурса [ServiceAccount](../../api-ref/AccessKey/index.md).
+  1. Выберите сервисный аккаунт, например `my-robot`:
 
----
+      ```
+      $ yc iam service-account list
+      +----------------------+------------------+-------------------------------+
+      |          ID          |       NAME       |          DESCRIPTION          |
+      +----------------------+------------------+-------------------------------+
+      | aje6o61dvog2h6g9a33s | my-robot         |                               |
+      | aje9sda1ufvqcmfksd3f | blabla           | bla bla bla is my description |
+      +----------------------+------------------+-------------------------------+
+      ```
+  1. Создайте ключ доступа для сервисного аккаунта `my-robot`:
 
-## Примеры
+      ```
+      $ yc iam access-key create --service-account-name my-robot
 
-### Добавить описание при создании
+      access_key:
+        id: aje6t3vsbj8lp9r4vk2u
+        service_account_id: ajepg0mjt06siuj65usm
+        created_at: "2018-11-22T14:37:51Z"
+        key_id: 0n8X6WY6S24N7OjXQ0YQ
+      secret: JyTRFdqw8t1kh2-OJNz4JX5ZTz9Dj1rI9hxtzMP1
+      ```
+  1. Сохраните идентификатор `key_id` и секретный ключ `secret`. Получить значение ключа снова будет невозможно.
+
+- API
+
+  Чтобы создать ключ доступа, воспользуйтесь методом [create](../../api-ref/AccessKey/create.md) для ресурса [AccessKey](../../api-ref/AccessKey/index.md).
+
+{% endlist %}
+
+## Примеры {#examples}
+
+### Добавить описание при создании {#add-description}
 
 Добавьте описание при создании ключа доступа.
 
----
+{% list tabs %}
 
-**[!TAB CLI]**
+- CLI
 
-```
-$ yc iam access-key create --service-account-name my-robot \
-    --description "this key is for my bucket"
-```
+  ```
+  $ yc iam access-key create --service-account-name my-robot \
+      --description "this key is for my bucket"
+  ```
 
-**[!TAB API]**
+- API
 
-```bash
-$ curl -X POST \
-    -H 'Content-Type: application/json' \
-    -H "Authorization: Bearer <IAM-TOKEN>" \
-    -d '{
-        "serviceAccountId": "aje6o61dvog2h6g9a33s",
-        "description": "this key is for my bucket"
-    }' \
-    https://iam.api.cloud.yandex.net/iam/aws-compatibility/v1/accessKeys
-```
+  ```bash
+  $ curl -X POST \
+      -H 'Content-Type: application/json' \
+      -H "Authorization: Bearer <IAM-TOKEN>" \
+      -d '{
+          "serviceAccountId": "aje6o61dvog2h6g9a33s",
+          "description": "this key is for my bucket"
+      }' \
+      https://iam.api.cloud.yandex.net/iam/aws-compatibility/v1/accessKeys
+  ```
 
----
+{% endlist %}
 
-#### Что дальше
+#### Что дальше {#what-is-next}
 
-- [Настроить инструменты для работы с [!KEYREF objstorage-name]](../../../storage/instruments/)
-- [[!TITLE]](assign-role-for-sa.md)
+- [Настроить инструменты для работы с {{ objstorage-name }}](../../../storage/tools/)
+- [{#T}](assign-role-for-sa.md)

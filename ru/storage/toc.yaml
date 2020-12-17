@@ -1,52 +1,56 @@
-title: "Yandex Object Storage"
+title: Yandex Object Storage
 href: index.yaml
 items:
   - name: Начало работы
-    items:
-    - name: Создание бакета
-      href: quickstart.md
-    - name: Настройка инструментов
-      items:
-        - name: Поддерживаемые инструменты
-          href: instruments/index.md
-        - name: AWS CLI
-          href: instruments/aws-cli.md
-        - name: AWS SDK для Java
-          href: instruments/aws-sdk-java.md
-        - name: boto
-          href: instruments/boto.md
-        - name: CyberDuck
-          href: instruments/cyberduck.md
-        - name: S3cmd
-          href: instruments/s3cmd.md
-        - name: s3fs
-          href: instruments/s3fs.md
+    href: quickstart.md
   - name: Пошаговые инструкции
     items:
       - name: Все инструкции
         href: operations/index.md
       - name: Бакеты
         items:
-          - name: Создать бакет
+          - name: Создание бакета
             href: operations/buckets/create.md
-          - name: Удалить бакет
+          - name: Удаление бакета
             href: operations/buckets/delete.md
-          - name: Ограничить максимальный размер бакета
+          - name: Ограничение максимального размера бакета
             href: operations/buckets/limit-max-volume.md
-          - name: Открыть публичный доступ к бакету
+          - name: Открытие публичного доступа к бакету
             href: operations/buckets/bucket-availability.md
+          - name: Шифрование бакета
+            href: operations/buckets/encrypt.md
+          - name: Управление жизненными циклами объектов
+            href: operations/buckets/lifecycles.md
+          - name: Управление конфигурацией CORS
+            href: operations/buckets/cors.md
+          - name: Редактирование ACL бакета
+            href: operations/buckets/edit-acl.md
       - name: Объекты
         items:
-          - name: Загрузить объект
+          - name: Загрузка объекта
             href: operations/objects/upload.md
-          - name: Получить информацию об объекте
+          - name: Получение информации об объекте
             href: operations/objects/info.md
-          - name: Скачать объект
+          - name: Скачивание объекта
             href: operations/objects/download.md
-          - name: Получить ссылку на скачивание
+          - name: Получение публичной ссылки на объект
             href: operations/objects/link-for-download.md
-          - name: Удалить объект
+          - name: Удаление объекта
             href: operations/objects/delete.md
+          - name: Удаление частично загруженного объекта
+            href: operations/objects/deleting-multipart.md
+          - name: Редактирование ACL объекта
+            href: operations/objects/edit-acl.md
+      - name: Хостинг статических сайтов
+        items:
+          - name: Настройка хостинга
+            href: operations/hosting/setup.md
+          - name: Поддержка собственного домена
+            href: operations/hosting/own-domain.md
+          - name: Поддержка нескольких доменных имен
+            href: operations/hosting/multiple-domains.md
+          - name: Настройка HTTPS
+            href: operations/hosting/certificate.md
   - name: Концепции
     items:
       - name: Обзор
@@ -55,34 +59,66 @@ items:
         href: concepts/bucket.md
       - name: Объект
         href: concepts/object.md
+      - name: Версионирование бакета
+        href: concepts/versioning.md
+      - name: Жизненные циклы объектов
+        href: concepts/lifecycles.md
+      - name: CORS
+        href: concepts/cors.md
+      - name: Хостинг статических сайтов
+        href: concepts/hosting.md
+      - name: Подписанные (pre-signed) URL
+        href: concepts/pre-signed-urls.md
       - name: Составная (multipart) загрузка
         href: concepts/multipart.md
+      - name: Список управления доступом (ACL)
+        href: concepts/acl.md
+      - name: Политика доступа (Bucket Policy)
+        href: concepts/policy.md
+      - name: Загрузка файла через HTML форму
+        href: concepts/presigned-post-forms.md
       - name: Класс хранилища
         href: concepts/storage-class.md
+      - name: Резервное копирование
+        href: concepts/backup.md
+      - name: Протокол TLS
+        href: concepts/tls.md
       - name: Квоты и лимиты
         href: concepts/limits.md
-  - name: Хостинг статических сайтов
+  - name: Инструменты
     items:
-      - name: Обзор
-        href: hosting/index.md
-      - name: Конфигурирование бакетов
-        href: hosting/bucket-configuration.md
-      - name: Настройка хостинга в консоли управления
-        href: hosting/setup.md
-      - name: Коды ответов
-        href: hosting/answer-codes.md
-  - name: CORS
-    items:
-      - name: Обзор
-        href: cors/index.md
-      - name: Конфигурирование бакетов
-        href: cors/configuration.md
-      - name: Настройка CORS в консоли управления
-        href: cors/setup.md
-  - name: HTTP API, совместимый с Amazon S3
+      - name: Все инструменты
+        href: tools/index.md
+      - name: Консольные клиенты
+        items:
+          - name: AWS CLI
+            href: tools/aws-cli.md
+          - name: S3cmd
+            href: tools/s3cmd.md
+      - name: Файловые браузеры
+        items:
+          - name: CyberDuck
+            href: tools/cyberduck.md
+          - name: WinSCP
+            href: tools/winscp.md
+      - name: SDK
+        items:
+          - name: AWS SDK для Java
+            href: tools/aws-sdk-java.md
+          - name: Python SDK (boto)
+            href: tools/boto.md
+      - name: FUSE
+        items:
+          - name: s3fs
+            href: tools/s3fs.md
+          - name: goofys
+            href: tools/goofys.md
+  - name: 'HTTP API, совместимый с Amazon S3'
     items:
       - name: Как пользоваться API
         href: s3/index.md
+      - name: Подписывание запросов
+        href: s3/signing-requests.md
       - name: Справочник API
         items:
           - name: Все сервисы и методы
@@ -93,6 +129,8 @@ items:
                 href: s3/api-ref/bucket.md
               - name: create
                 href: s3/api-ref/bucket/create.md
+              - name: getBucketEncryption
+                href: s3/api-ref/bucket/getbucketencryption.md
               - name: getMeta
                 href: s3/api-ref/bucket/getmeta.md
               - name: listObjects
@@ -101,6 +139,16 @@ items:
                 href: s3/api-ref/bucket/list.md
               - name: deleteBucket
                 href: s3/api-ref/bucket/delete.md
+              - name: deleteBucketEncryption
+                href: s3/api-ref/bucket/deletebucketencryption.md
+              - name: putBucketEncryption
+                href: s3/api-ref/bucket/putbucketencryption.md
+              - name: putBucketVersioning
+                href: s3/api-ref/bucket/putBucketVersioning.md
+              - name: getBucketVersioning
+                href: s3/api-ref/bucket/getBucketVersioning.md
+              - name: listObjectVersions
+                href: s3/api-ref/bucket/listObjectVersions.md
           - name: Object
             items:
               - name: Все методы
@@ -147,16 +195,62 @@ items:
                 href: s3/api-ref/hosting/get.md
               - name: delete
                 href: s3/api-ref/hosting/delete.md
+              - name: Коды ответов статического сайта
+                href: s3/api-ref/hosting/answer-codes.md
           - name: CORS
             items:
               - name: Все методы
                 href: s3/api-ref/cors.md
+              - name: XML-структура конфигурации CORS
+                href: s3/api-ref/cors/xml-config.md
               - name: upload
                 href: s3/api-ref/cors/upload.md
               - name: get
                 href: s3/api-ref/cors/get.md
               - name: delete
                 href: s3/api-ref/cors/delete.md
+          - name: Lifecycles
+            items:
+              - name: Все методы
+                href: s3/api-ref/lifecycles.md
+              - name: XML-структура конфигурации жизненных циклов
+                href: s3/api-ref/lifecycles/xml-config.md
+              - name: upload
+                href: s3/api-ref/lifecycles/upload.md
+              - name: get
+                href: s3/api-ref/lifecycles/get.md
+              - name: delete
+                href: s3/api-ref/lifecycles/delete.md
+          - name: ACL
+            items:
+              - name: Все методы
+                href: s3/api-ref/acl.md
+              - name: XML-структура конфигурации ACL
+                href: s3/api-ref/acl/xml-config.md
+              - name: objectGetAcl
+                href: s3/api-ref/acl/objectget.md
+              - name: objectPutAcl
+                href: s3/api-ref/acl/objectput.md
+              - name: bucketGetAcl
+                href: s3/api-ref/acl/bucketget.md
+              - name: bucketPutAcl
+                href: s3/api-ref/acl/bucketput.md
+          - name: Bucket Policy
+            items:
+              - name: Все методы
+                href: s3/api-ref/policy.md
+              - name: GetBucketPolicy
+                href: s3/api-ref/policy/get.md
+              - name: PutBucketPolicy
+                href: s3/api-ref/policy/put.md
+              - name: DeleteBucketPolicy
+                href: s3/api-ref/policy/delete.md
+              - name: Схема данных
+                href: s3/api-ref/policy/scheme.md
+              - name: Действия
+                href: s3/api-ref/policy/actions.md
+              - name: Условия
+                href: s3/api-ref/policy/conditions.md
           - name: Общие заголовки запросов
             href: s3/api-ref/common-request-headers.md
           - name: Общие заголовки ответов

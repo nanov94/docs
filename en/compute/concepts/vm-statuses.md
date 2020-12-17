@@ -1,6 +1,6 @@
 # VM statuses
 
-## List of statuses
+## List of statuses {#list-of-statuses}
 
 A VM can have one of the following statuses:
 
@@ -15,7 +15,7 @@ A VM can have one of the following statuses:
 - `ERROR`: a fatal error has occurred and the VM cannot be recovered.
 - `DELETING`: the VM is being deleted.
 
-## Operations on a VM
+## Operations on a VM {#operations-on-VM}
 
 The diagram below shows only transitions between statuses under normal operation during the following actions:
 
@@ -55,11 +55,11 @@ You can update the parameters of a VM, such as change its name, regardless of th
 
 If you update the [metadata](vm-metadata.md), it will be available from inside the VM immediately after the update. You do not need to stop or restart the VM.
 
-### Deletion {#delete}
+### Delete {#delete}
 
 When you [delete](../operations/vm-control/vm-delete.md) a VM, all the ongoing operations are first aborted and then the VM switches to the `DELETING` status.
 
-When the deletion is complete, the VM disappears from the list of available resources.
+When the deletion is complete, the instance disappears from the list of available resources.
 
 ## Errors {#error}
 

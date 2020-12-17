@@ -1,0 +1,3 @@
+default:
+  api: show
+  ui: noshow

@@ -2,108 +2,113 @@
 
 You can add and remove databases, as well as view information about them.
 
-## Getting a list of databases in a cluster {#list-db}
+## Getting a list of cluster databases {#list-db}
 
----
+{% list tabs %}
 
-**[!TAB Management console]**
+- Management console
+  1. Go to the folder page and select **{{ mmg-name }}**.
+  1. Click on the name of the cluster you need and select the **Databases** tab.
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need and select the **Databases** tab.
+- CLI
 
-**[!TAB CLI]**
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  To get a list of databases in a cluster, run the command:
 
-To get a list of cluster databases, run the command:
+  ```
+  $ yc managed-mongodb database list
+       --cluster-name <cluster name>
+  ```
 
-```
-$ [!KEYREF yc-mdb-mg] database list
-     --cluster-name=<cluster name>
-```
+  The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+- API
 
-**[!TAB API]**
+  To get a list of cluster databases, use the [list](../api-ref/Database/list.md) method.
 
-To get a list of cluster databases, use the [list](../api-ref/Database/list.md) method.
-
----
+{% endlist %}
 
 ## Creating a database {#add-db}
 
 The number of databases in a cluster is unlimited.
 
-> [!NOTE]
->
-> Created databases are not available to cluster users by default. To allow a user to connect to a new database, don't forget to grant them the necessary permission.
+{% note info %}
 
----
+Created databases are not available to cluster users by default. To allow a user to connect to a new database, don't forget to grant them the necessary permission.
 
-**[!TAB Management console]**
+{% endnote %}
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need.
-1. Select the **Databases** tab.
-1. Click **Add**.
-1. Enter the DB name and click **Add**.
-1. Make sure you [grant permission](cluster-users.md#updateuser) to access the created DB to the appropriate cluster user (currently available only via the CLI and API).
+{% list tabs %}
 
-**[!TAB CLI]**
+- Management console
+  1. Go to the folder page and select **{{ mmg-name }}**.
+  1. Click on the name of the cluster you need.
+  1. Select the **Databases** tab.
+  1. Click **Add**.
+  1. Enter a name for the database and click **Add**.
+  1. Make sure you [granted permission](cluster-users.md#updateuser) to the appropriate cluster user (currently only available via the CLI and API) to access the created DB.
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+- CLI
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-Run the create database command and set the name of the new database:
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-```
-$ [!KEYREF yc-mdb-mg] database create <DB name>
-    --cluster-name <cluster name>
-```
+  Run the create database command and set the name of the new database:
 
-[!KEYREF mmg-short-name] runs the create database operation.
+  ```
+  $ yc managed-mongodb database create <database name>
+      --cluster-name <cluster name>
+  ```
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+  {{ mmg-short-name }} runs the create database operation.
 
-Make sure you [grant permission](cluster-users.md#updateuser) to access the created database to the appropriate cluster user.
+  The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
 
-**[!TAB API]**
+  Make sure you [granted permission](cluster-users.md#updateuser) to access the created database to the appropriate cluster user.
 
-You can create a new database in a cluster using the [create](../api-ref/Database/create.md) method. You can allow access to the created database using the [update](../api-ref/User/update.md) method.
+- API
 
----
+  You can create a new database in a cluster using the [create](../api-ref/Database/create.md) method. You can allow access to the created database using the [update](../api-ref/User/update.md) method.
 
-## Removing a database {#remove-db}
+{% endlist %}
 
----
+## Deleting a database {#remove-db}
 
-**[!TAB Management console]**
+{% list tabs %}
 
-1. Go to the folder page and click **[!KEYREF mmg-name]**.
-1. Click on the name of the cluster you need and select the **Databases** tab.
-1. Click ![image](../../_assets/vertical-ellipsis.svg) in the line of the necessary DB and select **Delete**.
+- Management console
+  1. Go to the folder page and select **{{ mmg-name }}**.
+  1. Click on the name of the cluster you need and select the **Databases** tab.
+  1. Click ![image](../../_assets/vertical-ellipsis.svg) in the line of the necessary DB and select **Delete**.
 
-**[!TAB CLI]**
+- CLI
 
-[!INCLUDE [cli-install](../../_includes/cli-install.md)]
+  {% include [cli-install](../../_includes/cli-install.md) %}
 
-[!INCLUDE [default-catalogue](../../_includes/default-catalogue.md)]
+  {% include [default-catalogue](../../_includes/default-catalogue.md) %}
 
-To remove a database, run the command:
+  To delete a database, run the command:
 
-```
-$ [!KEYREF yc-mdb-mg] database delete <DB name>
-     --cluster-name=<cluster name>
-```
+  ```
+  $ yc managed-mongodb database delete <database name>
+       --cluster-name <cluster name>
+  ```
 
-The cluster name can be requested with a [list of folder clusters](#list-clusters).
+  The cluster name can be requested with a [list of folder clusters](cluster-list.md#list-clusters).
 
-**[!TAB API]**
+- API
 
-You can delete a database using the [delete](../api-ref/Database/delete.md) method.
+  You can delete a database using the [delete](../api-ref/Database/delete.md) method.
 
----
+{% endlist %}
+
+{% note warning %}
+
+Before creating a new database with the same name, wait for the delete operation to complete, otherwise the database being deleted is restored. Operation status can be obtained with a [list of cluster operations](cluster-list.md#list-operations).
+
+{% endnote %}
 

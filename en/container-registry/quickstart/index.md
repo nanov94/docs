@@ -1,18 +1,18 @@
-# Getting started with [!KEYREF container-registry-short-name]
+# Getting started with {{ container-registry-short-name }}
 
 Using these instructions, you will create your first [registry](../concepts/registry.md) and try managing [Docker images](../concepts/docker-image.md).
 
-## Before you start
+## Before you start {#before-you-begin}
 
-To create a registry, you will need a folder in Yandex.Cloud. If you don't have any folders yet, create a new folder before creating a registry:
+To create a registry, you'll need a folder in {{ yandex-cloud }}. If you don't have any folders yet, create a new folder before creating a registry:
 
-[!INCLUDE [create-folder](../../_includes/create-folder.md)]
+{% include [create-folder](../../_includes/create-folder.md) %}
 
-You will also need the [Yandex CLI](../../cli/quickstart.md) and [Docker](https://docs.docker.com/install/).
+You'll also need the [Yandex CLI](../../cli/quickstart.md) and [Docker](https://docs.docker.com/install/).
 
-## Creating a registry and performing basic operations on Docker images
+## Creating a registry and performing basic operations on Docker images {#registry-create}
 
-1. Create a registry in [!KEYREF container-registry-short-name]:
+1. Create a registry in {{ container-registry-short-name }}:
 
     ```
     $ yc container registry create --name my-first-registry
@@ -26,14 +26,24 @@ You will also need the [Yandex CLI](../../cli/quickstart.md) and [Docker](https:
 
     You will need the received `id` to access the created registry.
 
-1. Log in to [!KEYREF container-registry-short-name] by running the `docker login` command with an OAuth token. You can get a token at this [link](https://oauth.yandex.ru/authorize?response_type=token&client_id=1a6990aa636648e9b2ef855fa7bec2fb).
+1. Authenticate in {{ container-registry-short-name }} using a [Docker Credential helper](../operations/authentication.md#cred-helper):
 
-    ```
-    $ docker login \ 
-    --username oauth \ # type of token used
-    --password <OAuth token> \
-    container-registry.cloud.yandex.net
-    ```
+    1. Configure Docker to use `docker-credential-yc`:
+
+        ```
+        $ yc container registry configure-docker
+        Credential helper is configured in '/home/<user>/.docker/config.json'
+        ```
+
+        During setup, information about the current user profile is saved.
+
+    1. Make sure that Docker is configured.
+
+        The `/home/<user>/.docker/config.json` file must contain the following line:
+
+        ```
+        "cr.yandex": "yc"
+        ```
 
 1. Pull a Docker image from the [Docker Hub](https://hub.docker.com) repository:
 
@@ -44,30 +54,29 @@ You will also need the [Yandex CLI](../../cli/quickstart.md) and [Docker](https:
 1. Assign a tag to the Docker image:
 
     ```
-    $ docker tag <image ID> \
-    container-registry.cloud.yandex.net/crpc9qeoft236r8tfalm/ubuntu:hello
+    $ docker tag <Docker image ID> \
+    cr.yandex/crpc9qeoft236r8tfalm/ubuntu:hello
     ```
 
 1. Push the Docker image to the repository:
 
     ```
     $ docker push \
-    container-registry.cloud.yandex.net/crpc9qeoft236r8tfalm/ubuntu:hello
+    cr.yandex/crpc9qeoft236r8tfalm/ubuntu:hello
     ```
 
 1. Run the Docker image:
 
     ```
     $ docker run \
-    container-registry.cloud.yandex.net/crpc9qeoft236r8tfalm/ubuntu:hello
+    cr.yandex/crpc9qeoft236r8tfalm/ubuntu:hello
     ```
 
-#### See also
+#### See also {#see-also}
 
 * [Creating a registry](../operations/registry/registry-create.md)
-* [Authentication in [!KEYREF container-registry-short-name]](../operations/authentication.md)
+* [Authentication in {{ container-registry-short-name }}](../operations/authentication.md)
 * [Creating a Docker image](../operations/docker-image/docker-image-create.md)
 * [Pushing a Docker image](../operations/docker-image/docker-image-push.md)
-* [Pulling a Docker image](../operations/docker-image/docker-image-pull.md)
-* [Running a Docker image on a VM](../scenario/index.md)
-
+* [Pull a Docker image](../operations/docker-image/docker-image-pull.md)
+* [Running a Docker image on a VM](../solutions/index.md)
