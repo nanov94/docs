@@ -1,7 +1,7 @@
 # Документация Яндекс.Облака
 qwqwadfv
 xc
-Добро пожаловать в репозиторий [документации](https://cloud.yandex.ru/docs) Яндекс.Облака.
+Добро пожаловать sdcв репозиторий [документации](https://cloud.yandex.ru/docs) Яндекс.Облака.
 
 
 ## Про документацию
@@ -20,3 +20,4 @@ xc
 
 © YANDEX LLC, 2018. Licensed under Creative Commons Attribution 4.0 International Public License. See [LICENSE](LICENSE) file for more details.
 erf
+sx
