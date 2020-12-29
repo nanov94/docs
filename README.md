@@ -1,12 +1,11 @@
 # Документация Яндекс.Облака
-qwqwadfv
-xc
+
 Добро пожаловать в репозиторий [документации](https://cloud.yandex.ru/docs) Яндекс.Облака.
 
 
 ## Про документацию
 
-Документация разработана с использованием [GitHub Flavored Markdown](https://github.github.com/gfm/) с некоторыми расширениями. [Подробнее про синтаксис](markdown-and-extensions.md).
+Документация разработана с использованием [GitHub Flavored Markdown](https://github.github.com/gfm/) с некоторыми расширениями. [Подробнее про синтаксис](https://github.com/yandex-cloud/yfm-transform/blob/master/DOCS.ru.md).
 
 
 ## Как предложить правки
@@ -19,4 +18,3 @@ xc
 ## Лицензии
 
 © YANDEX LLC, 2018. Licensed under Creative Commons Attribution 4.0 International Public License. See [LICENSE](LICENSE) file for more details.
-erf
