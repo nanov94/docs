@@ -1,19 +1,7 @@
 title: Billing
 href: index.yaml
 editable: false
-items:
-  - name: Getting started
-    href: quickstart/index.md
-  - name: Trial period
-    href: trial/activation.md
-  - name: Step-by-step instructions
-    items:
-      - name: All instructions
-        href: operations/index.md
-      - name: Activate the paid version
-        href: operations/activate-commercial.md
-      - name: Purchase a committed volume of services (CVoS)
-        href: operations/purchase-cvos.md
+
       - name: Activate a promo code
         href: operations/activate-promocode.md
       - name: View usage details
