@@ -4,7 +4,7 @@ editable: false
 
 # COUNTD_APPROX
 
-_Агрегатные функции_
+
 
 #### Синтаксис {#syntax}
 
@@ -31,4 +31,4 @@ COUNTD_APPROX([ClienID])
 
 #### Поддержка источников данных {#data-source-support}
 
-`Материализованный датасет`, `ClickHouse 1.1`.
+`Материализованный датасет`, `ClickHouse 1.1`, `Oracle Database 12c (12.1)`.

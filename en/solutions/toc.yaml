@@ -1,9 +1,9 @@
-title: Solutions
+title: Use cases
 href: index.yaml
 items:
   - name: Web service
     items:
-      - name: All tutorials
+      - name: All use cases
         href: web/index.md
       - name: Static website in Object Storage
         href: web/static.md
@@ -23,7 +23,7 @@ items:
         href: web/bitrix-website.md
   - name: Online stores
     items:
-      - name: All tutorials
+      - name: All use cases
         href: internet-store/index.md
       - name: 1C-Bitrix online store
         href: internet-store/bitrix-shop.md
@@ -31,7 +31,7 @@ items:
         href: internet-store/opencart.md
   - name: Data archive
     items:
-      - name: All tutorials
+      - name: All use cases
         href: archive/index.md
       - name: Single-node file server
         href: archive/single-node-file-server.md
@@ -49,7 +49,7 @@ items:
         href: archive/archive-from-vision-to-object-storage.md
   - name: Test environment
     items:
-      - name: All tutorials
+      - name: All use cases
         href: testing/index.md
       - name: Testing applications with GitLab
         href: testing/gitlab.md
@@ -57,13 +57,13 @@ items:
         href: testing/ci-for-snapshots.md
       - name: High-performance computing on preemptible VMs
         href: testing/hpc-on-preemptible.md
-  - name: Performing infrastructure management
+  - name: Infrastructure management
     items:
-      - name: All tutorials
+      - name: All use cases
         href: infrastructure-management/index.md
       - name: Getting started with Terraform
         href: infrastructure-management/terraform-quickstart.md
-      - name: Storing Terraform states in Object Storage
+      - name: Uploading Terraform states to Object Storage
         href: infrastructure-management/terraform-state-storage.md
       - name: Getting started with Packer
         href: infrastructure-management/packer-quickstart.md
@@ -79,11 +79,13 @@ items:
         href: infrastructure-management/1c-mssql-windows.md
       - name: Migrating to Yandex.Cloud using Hystax Acura
         href: infrastructure-management/hystax-migration.md
-      - name: Emergency recovery to Yandex.Cloud using Hystax Acura
+      - name: Emergency recovery in Yandex.Cloud using Hystax Acura
         href: infrastructure-management/hystax-disaster-recovery.md
+      - name: Configuring a fault-tolerant architecture in Yandex.Cloud
+        href: infrastructure-management/fault-tolerance.md
   - name: Windows in Yandex.Cloud
     items:
-      - name: All tutorials
+      - name: All use cases
         href: windows/index.md
       - name: Deploying Active Directory
         href: windows/active-directory.md
@@ -94,12 +96,12 @@ items:
       - name: Deploying an Always On availability group
         href: windows/mssql-alwayson.md
       - name: >-
-          Deploying an Always On availability group with an internal network
-          load balancer
+          Deploying an Always On availability group with an internal load
+          balancer
         href: windows/mssql-alwayson-lb.md
   - name: Network routing
     items:
-      - name: All tutorials
+      - name: All use cases
         href: routing/index.md
       - name: Routing through a NAT instance
         href: routing/nat-instance.md
@@ -111,9 +113,9 @@ items:
         href: routing/mikrotik.md
       - name: Creating a VPN connection using OpenVPN
         href: routing/openvpn.md
-  - name: DataLens
+  - name: Data visualization and analytics
     items:
-      - name: All tutorials
+      - name: All use cases
         href: datalens/index.md
       - name: Visualizing data from a CSV file
         href: datalens/data-from-csv-visualization.md
@@ -129,3 +131,11 @@ items:
         href: datalens/data-from-appmetrica-visualization.md
       - name: Visualizing geodata from a CSV file
         href: datalens/data-from-csv-geo-visualization.md
+  - name: Internet of things
+    items:
+      - name: Use cases for the internet of things
+        href: iot/index.md
+      - name: Status monitoring of geographically distributed devices
+        href: iot/datalens.md
+      - name: Monitoring sensor readings and event notifications
+        href: iot/monitoring.md

@@ -2,15 +2,15 @@
 editable: false
 ---
 
-# RCOUNT
+# RCOUNT (window)
 
-_Window functions_
+
 
 #### Syntax {#syntax}
 
 
 ```
-RCOUNT( value [ , direction ] [ TOTAL | WITHIN [ dim1, ... ] | AMONG [ dim1, ... ] ] [ ORDER BY ... ] )
+RCOUNT( value [ , direction ] [ TOTAL | WITHIN ... | AMONG ... ] [ ORDER BY ... ] [ BEFORE FILTER BY ... ] )
 ```
 
 #### Description {#description}
@@ -74,4 +74,4 @@ RCOUNT([Profit] AMONG [Date])
 
 #### Data source support {#data-source-support}
 
-`Materialized Dataset`, `ClickHouse 1.1`, `Microsoft SQL Server 2017 (14.0)`, `MySQL 5.6`, `PostgreSQL 9.3`.
+`Materialized Dataset`, `ClickHouse 1.1`, `Microsoft SQL Server 2017 (14.0)`, `MySQL 5.6`, `Oracle Database 12c (12.1)`, `PostgreSQL 9.3`.

@@ -4,7 +4,7 @@ editable: false
 
 # COUNTD_APPROX
 
-_Aggregate functions_
+
 
 #### Syntax {#syntax}
 
@@ -31,4 +31,4 @@ COUNTD_APPROX([ClienID])
 
 #### Data source support {#data-source-support}
 
-`Materialized Dataset`, `ClickHouse 1.1`.
+`Materialized Dataset`, `ClickHouse 1.1`, `Oracle Database 12c (12.1)`.

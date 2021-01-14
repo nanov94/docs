@@ -23,6 +23,27 @@
 
 Для описания правил политик используется JSON-подобный язык.
 
+Чтобы по политике не запретить доступ к бакету через консоль управления {{ yandex-cloud }}, можно добавить следующее правило в секцию `Statement`:
+
+```json
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "CanonicalUser": "ajeyourusernameid"
+      },
+      "Action": "*",
+      "Resource": [
+        "arn:aws:s3:::your-bucket-name/*",
+        "arn:aws:s3:::your-bucket-name"
+      ],
+      "Condition": {
+        "StringLike": {
+           "aws:referer": "https://console.cloud.yandex.*/folders/*/storage/bucket/your-bucket-name*"
+        }
+      }
+    }
+```
+
 ## Примеры конфигурации
 
 - Следующая политика дает доступ анонимному пользователю на чтение объектов бакета `samplebucket` при условии шифрованного подключения.
@@ -48,7 +69,29 @@
 }
 ```
 
+- Политика, которая разрешает скачивать объекты только из указанного диапазона IP-адресов:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::samplebucket/*",
+      "Condition": {
+        "IpAddress": {
+          "aws:SourceIp": "100.101.102.128/30"
+        }
+      }
+    }
+  ]
+}
+```
+
 - Политика, которая запрещает скачивать объекты с указанного IP-адреса:
+
 ```json
 {
   "Version": "2012-10-17",

@@ -9,9 +9,11 @@
 
 ## Зачем нужны квоты {#quotas}
 
-Квоты служат мягким ограничением для запроса ресурсов, и позволяют {{ yandex-cloud }} гарантировать стабильность работы сервиса: новые пользователи не могут занять слишком много ресурсов в тестовых целях. Если вы готовы использовать большее количество ресурсов, обратитесь в [техническую поддержку](https://console.cloud.yandex.ru/support) и расскажите, какие именно квоты нужно увеличить, и каким образом.
+Квоты служат мягким ограничением для запроса ресурсов, и позволяют {{ yandex-cloud }} гарантировать стабильность работы сервиса: новые пользователи не могут занять слишком много ресурсов в тестовых целях. Если вы готовы использовать большее количество ресурсов, вы можете увеличить их следующими способами:
 
-Техническая поддержка принимает решение увеличивать или не увеличивать квоты в индивидуальном порядке.
+* [сформируйте запрос на увеличение]({{ link-console-quotas }});
+* обратитесь в [техническую поддержку]({{ link-console-support }}) и расскажите, какие потребляемые квоты нужно увеличить и на сколько.
+
 
 ## Квоты и лимиты по умолчанию для сервисов {{ yandex-cloud }} 
 
@@ -108,7 +110,6 @@
 {% include [ymq-limits.md](../../_includes/message-queue/ymq-limits.md) %}
 
 
-
 ### {{ sf-full-name }} {#sf}
 
 {% include [functions-limits.md](../../_includes/functions-limits.md) %}
@@ -134,12 +135,41 @@
 {% include [ml-platform-limits.md](../../_includes/datasphere-limits.md) %}
 
 
-
 ### {{ datalens-full-name }} {#datalens}
 
 {% include [compute-limits.md](../../_includes/datalens/datalens-limits.md) %}
 
 
-### {{  iot-full-name }} {#iot}
+### {{ iot-full-name }} {#iot}
 
 {% include [iot-limits.md](../../_includes/iot-limits.md) %}
+
+
+### {{ interconnect-full-name }} {#interconnect}
+
+{% include [interconnect-limits.md](../../_includes/interconnect-limits.md) %}
+
+
+### {{ ydb-full-name }} {#ydb}
+
+{% include [ydb-limits.md](../../ydb/_includes/ydb-limits.md) %}
+
+
+### {{ mms-full-name }} {#mms}
+
+{% include [mms-limits.md](../../_includes/mdb/mms-limits.md) %}
+
+
+### {{ mkf-full-name }} {#mkf}
+
+{% include [mkf-limits.md](../../_includes/mdb/mkf-limits.md) %}
+
+
+### {{ mes-full-name }} {#mes}
+
+{% include [mes-limits.md](../../_includes/mdb/mes-limits.md) %}
+
+
+### {{ api-gw-full-name }} {#api-gw}
+
+{% include [api-gateway-limits.md](../../_includes/api-gateway/api-gateway-limits.md) %}

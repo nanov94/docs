@@ -36,6 +36,7 @@ default:
   certificate-manager-full-name: Yandex Certificate Manager
   data-transfer-full-name: Yandex Data Transfer
   api-gw-full-name: Yandex API Gateway
+  tracker-full-name: Yandex Tracker
   iam-name: Identity and Access Management
   ig-name: Instance Groups
   resmgr-name: Resource Manager
@@ -74,6 +75,7 @@ default:
   marketplace-name: Cloud Marketplace
   data-transfer-name: Data Transfer
   api-gw-name: API Gateway
+  tracker-name: Tracker
   iam-short-name: IAM
   resmgr-short-name: Resource Manager
   compute-short-name: Compute Cloud
@@ -109,6 +111,7 @@ default:
   certificate-manager-short-name: Certificate Manager
   data-transfer-short-name: Data Transfer
   api-gw-short-name: API Gateway
+  tracker-short-name: Tracker
   price-per-hour-count-per-second: Prices are shown for 1 hour of use. Billing occurs per second.
   roles-cr-admin: container-registry.admin
   roles-cr-puller: container-registry.images.puller
@@ -159,6 +162,7 @@ default:
   disk-type-example: network-ssd
   PG: PostgreSQL
   CH: ClickHouse
+  mch-hs-version: 20.1
   MG: MongoDB
   mmg-backup-retention: 7
   mmg-backup-retention-min: 7
@@ -248,4 +252,5 @@ default:
   link-cloud-partners: 'https://partners.cloud.yandex.ru/'
   link-app-android: 'https://play.google.com/store/apps/details?id=ru.yandex.cloud'
   link-app-ios: 'https://apps.apple.com/ru/app/yandex-cloud/id1515465314'
+  tf-cloud-id: b1gq90dgh25bebiu75o
   yandex-cloud: Yandex.Cloud

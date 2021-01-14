@@ -4,7 +4,7 @@ editable: false
 
 # REGEXP_EXTRACT
 
-_String functions_
+
 
 #### Syntax {#syntax}
 
@@ -48,4 +48,4 @@ REGEXP_EXTRACT("RU 912873", "[A-Z]+\s+(\d+)") = "912873"
 
 #### Data source support {#data-source-support}
 
-`Materialized Dataset`, `ClickHouse 1.1`, `MySQL 8.0.12`, `PostgreSQL 9.3`.
+`Materialized Dataset`, `ClickHouse 1.1`, `MySQL 8.0.12`, `Oracle Database 12c (12.1)`, `PostgreSQL 9.3`.

@@ -2,15 +2,15 @@
 editable: false
 ---
 
-# RANK_UNIQUE
+# RANK_UNIQUE (window)
 
-_Window functions_
+
 
 #### Syntax {#syntax}
 
 
 ```
-RANK_UNIQUE( value [ , direction ] [ TOTAL | WITHIN [ dim1, ... ] | AMONG [ dim1, ... ] ] )
+RANK_UNIQUE( value [ , direction ] [ TOTAL | WITHIN ... | AMONG ... ] [ BEFORE FILTER BY ... ] )
 ```
 
 #### Description {#description}
@@ -55,4 +55,4 @@ RANK_UNIQUE([Profit], "asc" AMONG [Date])
 
 #### Data source support {#data-source-support}
 
-`Materialized Dataset`, `ClickHouse 1.1`, `Microsoft SQL Server 2017 (14.0)`, `MySQL 5.6`, `PostgreSQL 9.3`.
+`Materialized Dataset`, `ClickHouse 1.1`, `Microsoft SQL Server 2017 (14.0)`, `MySQL 5.6`, `Oracle Database 12c (12.1)`, `PostgreSQL 9.3`.
