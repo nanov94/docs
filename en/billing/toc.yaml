@@ -1,9 +1,9 @@
 title: Billing
-href: index.yaml
+href: index1.yaml
 editable: false
 items:
   - name: Getting started
-    href: quickstart/index.md
+    href: quickstart/index1.md
   - name: Trial period
     href: trial/activation.md
   - name: Step-by-step instructions
