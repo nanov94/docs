@@ -1,3 +1,5 @@
+SQUASH TEST
+
 ssssxsx
 NANOV($@YANDEX_TEAM
 NNN@YYY.com
