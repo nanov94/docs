@@ -1,4 +1,6 @@
-ssssxsxNANOV($@YANDEX_TEAM
+ssssxsx
+NANOV($@YANDEX_TEAM
+NNN@YYY.com
 # Документация Яндекс.Облака
 dcddcc
 121212
